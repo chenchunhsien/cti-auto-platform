@@ -509,14 +509,10 @@ def select_edl_candidates(
     base_iocs.json 供查詢，但不進入 EDL 阻斷清單。
 
     同時把判定結果以 record["edl_tier"] = "A" / "B" / None 寫回每筆
-    base 紀錄（直接修改傳入的 dict），讓前端（docs/index.html）能直接讀取
+    base 紀錄（直接修改傳入的 dict），讓前端（docs/edl.html）能直接讀取
     「當初是依哪個條件被收錄」，不必自行以瀏覽器當下時間重新計算
     ——否則使用者晚點才打開頁面，72 小時 / 7 天的時間窗會跟著「現在」
     往後漂移，可能誤判成不符合任何條件。
-
-    同時把具體判定依據寫成一句可讀文字 record["edl_reason"]（命中的
-    關鍵字、實際分數、距今多久活躍），供前端「判定說明」欄位直接顯示，
-    不必讓使用者自己回頭查規則。
     """
     window_a = now - timedelta(hours=72)
     window_b = now - timedelta(days=7)
@@ -525,19 +521,15 @@ def select_edl_candidates(
 
     for ip, record in base.items():
         labels_lower = [str(l).lower() for l in record.get("labels", []) or []]
-        matched_keywords = [
-            keyword for keyword in HIGH_RISK_LABEL_KEYWORDS
-            if any(keyword in label for label in labels_lower)
-        ]
+        has_high_risk_label = any(
+            keyword in label for label in labels_lower for keyword in HIGH_RISK_LABEL_KEYWORDS
+        )
         threat_score = to_number(record.get("threat_score")) or 0
         seen_count = int(record.get("seen_count", 1) or 1)
         last_seen_dt = parse_iso(record.get("last_seen"))
-        hours_ago = (
-            (now - last_seen_dt).total_seconds() / 3600 if last_seen_dt is not None else None
-        )
 
         condition_a = (
-            bool(matched_keywords)
+            has_high_risk_label
             and threat_score >= 95
             and last_seen_dt is not None
             and last_seen_dt >= window_a
@@ -553,24 +545,13 @@ def select_edl_candidates(
             stats["condition_a"] += 1
             selected.append(ip)
             record["edl_tier"] = "A"
-            record["edl_reason"] = (
-                f"命中高危標籤「{'、'.join(matched_keywords)}」、"
-                f"威脅分數 {threat_score:.0f}（≥95）、"
-                f"{hours_ago:.0f} 小時內活躍（≤72 小時）"
-            )
         elif condition_b:
             stats["condition_b"] += 1
             selected.append(ip)
             record["edl_tier"] = "B"
-            record["edl_reason"] = (
-                f"累計出現 {seen_count} 次（≥2）、"
-                f"威脅分數 {threat_score:.0f}（≥90）、"
-                f"{hours_ago / 24:.1f} 天內活躍（≤7 天）"
-            )
         else:
             stats["excluded"] += 1
             record["edl_tier"] = None
-            record["edl_reason"] = None
 
     selected.sort(key=lambda s: tuple(int(x) for x in s.split("/")[0].split(".")))
     return selected, stats

@@ -114,7 +114,7 @@
 
   function load() {
     $("tableBody").innerHTML =
-      '<tr><td colspan="10" class="text-center py-5 muted">載入中 …</td></tr>';
+      '<tr><td colspan="9" class="text-center py-5 muted">載入中 …</td></tr>';
 
     var allPromise = fetchFirstAvailable(IOC_CANDIDATES, true).then(function (result) {
       state.raw.all = normalize(result.data);
@@ -141,7 +141,7 @@
       })
       .catch(function (err) {
         $("tableBody").innerHTML =
-          '<tr><td colspan="10" class="text-center py-5 text-danger">' +
+          '<tr><td colspan="9" class="text-center py-5 text-danger">' +
           "無法載入 base_iocs.json：" + esc(err.message) +
           '<br><span class="muted small">請先執行 pipeline.py 產生資料，或確認 GitHub Pages 發佈路徑。</span>' +
           "</td></tr>";
@@ -315,7 +315,6 @@
       '<td><span class="' + scoreClass(r.threat_score) + '">' + r.threat_score + "</span></td>" +
       "<td>" + r.confidence + "</td>" +
       "<td>" + (labels || '<span class="muted">—</span>') + "</td>" +
-      '<td class="edl-reason">' + (r.edl_reason ? esc(r.edl_reason) : '<span class="muted">—</span>') + "</td>" +
       '<td class="muted small">' + esc(r.asn || "—") + "</td>" +
       '<td class="domain-list">' + (domains || "—") + "</td>" +
       '<td class="muted small">' + fmtDate(r.first_seen) + "</td>" +
@@ -329,7 +328,7 @@
 
     if (!state.view.length) {
       $("tableBody").innerHTML =
-        '<tr><td colspan="10" class="text-center py-5 muted">沒有符合條件的情資</td></tr>';
+        '<tr><td colspan="9" class="text-center py-5 muted">沒有符合條件的情資</td></tr>';
       $("rowInfo").textContent = "0 筆";
       $("btnMore").classList.add("d-none");
       return;
