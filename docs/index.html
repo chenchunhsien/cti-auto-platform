@@ -129,6 +129,13 @@
     }
     .label-filter-empty { padding: .75rem; color: var(--cti-muted); font-size: .85rem; text-align: center; }
 
+    /* EDL 階梯式判定篩選（僅 EDL 阻斷清單頁籤顯示） */
+    .tier-filter-check {
+      display: inline-flex; align-items: center; gap: .4rem; cursor: pointer;
+      margin: 0 1rem .25rem 0; font-size: .88rem; user-select: none;
+    }
+    .tier-filter-check input { cursor: pointer; }
+
     /* 頁籤 */
     .cti-tabs { border-bottom: 1px solid var(--cti-border); }
     .cti-tabs .nav-link {
@@ -289,6 +296,19 @@
         <button id="btnReset" class="btn btn-outline-secondary btn-sm w-100 w-lg-auto px-3">清除條件</button>
       </div>
     </div>
+    <div class="row g-2 align-items-center mt-1" id="edlTierFilterRow" hidden>
+      <div class="col-12">
+        <span class="muted small me-2">階梯式判定篩選：</span>
+        <label class="tier-filter-check" for="tierFilterA">
+          <input type="checkbox" id="tierFilterA" checked />
+          <span class="tag tag-tier-a">高危直通 (A)</span>
+        </label>
+        <label class="tier-filter-check" for="tierFilterB">
+          <input type="checkbox" id="tierFilterB" checked />
+          <span class="tag tag-tier-b">頑固威脅 (B)</span>
+        </label>
+      </div>
+    </div>
   </div>
 
   <!-- 結果表 -->
@@ -328,7 +348,7 @@
 
 <!-- GitHub Pages 對靜態資源下 Cache-Control: max-age=600，每次更動 app.js
      都要跟著調整 ?v= 版本號，否則使用者瀏覽器可能在 10 分鐘內吃到舊快取 -->
-<script src="asn_dict.js?v=20261015g"></script>
-<script src="app.js?v=20261015g"></script>
+<script src="asn_dict.js?v=20261015h"></script>
+<script src="app.js?v=20261015h"></script>
 </body>
 </html>

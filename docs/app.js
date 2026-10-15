@@ -6,7 +6,6 @@
   // 兩種情況下 data/ 的相對位置不同，因此依序嘗試。
   var IOC_CANDIDATES = ["../data/base_iocs.json", "./data/base_iocs.json", "/data/base_iocs.json"];
   var DAILY_CANDIDATES = ["../data/daily_iocs.json", "./data/daily_iocs.json", "/data/daily_iocs.json"];
-  var EDL_CANDIDATES = ["../data/blocklist_edl.txt", "./data/blocklist_edl.txt", "/data/blocklist_edl.txt"];
   var ASN_DICT_CANDIDATES = ["../data/asn_dict.json", "./data/asn_dict.json", "/data/asn_dict.json"];
 
   var PAGE_SIZE = 200;
@@ -25,7 +24,8 @@
     sortKey: "threat_score",
     sortDir: -1,
     labelCounts: [],         // [{name, count}]，依總數排序
-    selectedLabels: new Set()  // 目前勾選的標籤（符合其中任一即顯示）
+    selectedLabels: new Set(),  // 目前勾選的標籤（符合其中任一即顯示）
+    edlTierFilter: { A: true, B: true }  // EDL 頁籤的階梯式判定篩選，預設 A+B 皆勾選
   };
 
   var $ = function (id) { return document.getElementById(id); };
@@ -161,17 +161,6 @@
           '<br><span class="muted small">請先執行 pipeline.py 產生資料，或確認 GitHub Pages 發佈路徑。</span>' +
           "</td></tr>";
       });
-
-    // EDL 下載連結指向第一個可用位置
-    fetchFirstAvailable(EDL_CANDIDATES, false)
-      .then(function (result) {
-        var link = $("edlLink");
-        link.href = result.url;
-        link.setAttribute("download", "blocklist_edl.txt");
-      })
-      .catch(function () {
-        $("edlLink").classList.add("disabled");
-      });
   }
 
   function updateTabBadges() {
@@ -199,6 +188,7 @@
     $("tabEdlBtn").classList.toggle("active", tab === "edl");
     $("statTotalLabel").textContent = TAB_LABELS[tab] || TAB_LABELS.all;
     $("edlCriteriaPanel").hidden = (tab !== "edl");
+    $("edlTierFilterRow").hidden = (tab !== "edl");
 
     buildLabelOptions();
     renderStats();
@@ -270,8 +260,12 @@
   function applyFilters() {
     var query = $("searchBox").value.trim().toLowerCase();
     var selected = state.selectedLabels;
+    var isEdlTab = state.activeTab === "edl";
+    var tierFilter = state.edlTierFilter;
 
     state.view = state.all.filter(function (r) {
+      // 階梯式判定（A / B）篩選僅在 EDL 頁籤生效，其餘頁籤的紀錄本來就不一定有 edl_tier
+      if (isEdlTab && !tierFilter[r.edl_tier]) return false;
       if (selected.size && !r.labels.some(function (l) { return selected.has(l); })) return false;
       if (query && r._search.indexOf(query) === -1) return false;
       return true;
@@ -282,8 +276,9 @@
     $("tableBody").innerHTML = "";
     renderMore();
 
+    var tierNarrowed = isEdlTab && !(tierFilter.A && tierFilter.B);
     $("statFiltered").textContent =
-      (query || selected.size)
+      (query || selected.size || tierNarrowed)
         ? "符合條件 " + state.view.length.toLocaleString() + " 筆"
         : " ";
   }
@@ -302,6 +297,38 @@
       }
       return x === y ? 0 : (x > y ? dir : -dir);
     });
+  }
+
+  // ---------------------------------------------------------------- EDL 匯出
+  // 匯出清單依「目前的篩選結果」產生（階梯式判定 A/B、標籤、搜尋關鍵字皆套用），
+  // 而非直接下載 pipeline.py 產生的靜態全量檔，預設 A+B 皆勾選時等同全量。
+  function buildEdlExportText() {
+    var query = $("searchBox").value.trim().toLowerCase();
+    var selected = state.selectedLabels;
+    var tierFilter = state.edlTierFilter;
+
+    var rows = state.raw.edl.list.filter(function (r) {
+      if (!tierFilter[r.edl_tier]) return false;
+      if (selected.size && !r.labels.some(function (l) { return selected.has(l); })) return false;
+      if (query && r._search.indexOf(query) === -1) return false;
+      return true;
+    });
+
+    rows.sort(function (a, b) { return ipKey(a.ip) - ipKey(b.ip); });
+    return rows.map(function (r) { return r.ip; }).join("\n") + (rows.length ? "\n" : "");
+  }
+
+  function downloadEdlExport() {
+    var text = buildEdlExportText();
+    var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "blocklist_edl.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
   }
 
   // ---------------------------------------------------------------- 繪製
@@ -447,7 +474,23 @@
       $("sortSelect").value = "threat_score";
       state.sortKey = "threat_score";
       state.sortDir = -1;
+      state.edlTierFilter = { A: true, B: true };
+      $("tierFilterA").checked = true;
+      $("tierFilterB").checked = true;
       applyFilters();
+    });
+
+    $("tierFilterA").addEventListener("change", function () {
+      state.edlTierFilter.A = this.checked;
+      applyFilters();
+    });
+    $("tierFilterB").addEventListener("change", function () {
+      state.edlTierFilter.B = this.checked;
+      applyFilters();
+    });
+    $("edlLink").addEventListener("click", function (e) {
+      e.preventDefault();
+      downloadEdlExport();
     });
 
     document.querySelectorAll("th[data-sort]").forEach(function (th) {
