@@ -35,10 +35,12 @@ import os
 import re
 import subprocess
 import sys
+import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional, Tuple
+from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
 
+import requests
 from dotenv import load_dotenv
 
 from luminar_client import (
@@ -58,6 +60,7 @@ STATE_FILE = DATA_DIR / "sync_state.json"
 BASE_IOCS_FILE = DATA_DIR / "base_iocs.json"
 DAILY_IOCS_FILE = DATA_DIR / "daily_iocs.json"
 EDL_FILE = DATA_DIR / "blocklist_edl.txt"
+ASN_DICT_FILE = DATA_DIR / "asn_dict.json"
 
 IPV4_PATTERN_RE = re.compile(
     r"ipv4-addr:value\s*=\s*'(?P<ip>\d{1,3}(?:\.\d{1,3}){3}(?:/\d{1,2})?)'",
@@ -557,6 +560,261 @@ def select_edl_candidates(
     return selected, stats
 
 
+# --------------------------------------------------------------------------- #
+# ASN 自動化查詢與動態字典擴充（策略 2）
+# --------------------------------------------------------------------------- #
+# 查詢來源：ARIN RDAP（/registry/autnum/{asn}）。實測發現 ARIN 的 RDAP 會
+# 代理/鏡射其他 RIR（RIPE、APNIC、LACNIC 等）註冊的 ASN 資料，單一端點即可
+# 涵蓋全球絕大多數 ASN，不需要依 RIR 分別查詢不同服務。
+#
+# 重要實測細節：
+#   * Header 必須是 Accept: application/rdap+json——帶 application/json
+#     會間歇性收到 HTTP 406（而非穩定失敗，容易誤判為暫時性錯誤）。
+#   * 回應中的 vcardArray 結構化地址欄位（adr 的 value 陣列）在所有實測
+#     案例中都是空字串，真正的地址只存在人類可讀的 "label" 自由格式文字
+#     裡，且該文字最後一行通常是國家全名（如 "ITALY"）或已經是兩碼代號
+#     （LACNIC 來源常見，如 "AR"）。沒有結構化欄位可直接取用。
+#   * 單次查詢只給一個 holder/name，不含我們需要的分類（VPS/雲端/
+#     防彈主機…），因此 type 由 classify_asn_type() 以關鍵字猜測。
+#
+# 真實資料顯示目前有 877 個不重複 ASN 不在字典裡，若一次全部查完單次
+# 執行要花數分鐘、且可能被免費服務限流，因此設計成「每次執行最多新增
+# N 筆」，靠多次排程執行逐步補齊（與高水位線增量追趕的精神一致）。
+RDAP_HEADERS = {"Accept": "application/rdap+json"}
+ASN_LOOKUP_TIMEOUT = 3
+ASN_LOOKUP_DEFAULT_MAX_PER_RUN = 100
+ASN_LOOKUP_DELAY_SECONDS = 0.15
+
+# 常見國名/地區別名 -> ISO 兩碼代號，用來解析 RDAP label 自由格式文字。
+# 覆蓋不到的國家會以 "--" 表示未知，不勉強塞入錯誤資料。
+COUNTRY_NAME_TO_CODE = {
+    "UNITED STATES": "US", "UNITED STATES OF AMERICA": "US", "USA": "US",
+    "UNITED KINGDOM": "GB", "ENGLAND": "GB", "SCOTLAND": "GB", "WALES": "GB",
+    "NORTHERN IRELAND": "GB", "GREAT BRITAIN": "GB",
+    "MOLDOVA": "MD", "REPUBLIC OF MOLDOVA": "MD",
+    "ITALY": "IT", "GERMANY": "DE", "FRANCE": "FR",
+    "NETHERLANDS": "NL", "THE NETHERLANDS": "NL",
+    "CHINA": "CN", "HONG KONG": "HK", "SINGAPORE": "SG", "JAPAN": "JP",
+    "SOUTH KOREA": "KR", "KOREA, REPUBLIC OF": "KR", "REPUBLIC OF KOREA": "KR",
+    "INDIA": "IN", "UKRAINE": "UA", "ROMANIA": "RO", "POLAND": "PL",
+    "CZECH REPUBLIC": "CZ", "CZECHIA": "CZ", "BULGARIA": "BG",
+    "SEYCHELLES": "SC", "PANAMA": "PA", "BRITISH VIRGIN ISLANDS": "VG",
+    "CYPRUS": "CY", "BELIZE": "BZ", "CANADA": "CA", "AUSTRALIA": "AU",
+    "BRAZIL": "BR", "SWITZERLAND": "CH", "SWEDEN": "SE", "FINLAND": "FI",
+    "NORWAY": "NO", "DENMARK": "DK", "AUSTRIA": "AT", "BELGIUM": "BE",
+    "SPAIN": "ES", "PORTUGAL": "PT", "IRELAND": "IE", "LUXEMBOURG": "LU",
+    "LATVIA": "LV", "LITHUANIA": "LT", "ESTONIA": "EE", "HUNGARY": "HU",
+    "SLOVAKIA": "SK", "SLOVENIA": "SI", "CROATIA": "HR", "GREECE": "GR",
+    "TURKEY": "TR", "ISRAEL": "IL", "UNITED ARAB EMIRATES": "AE",
+    "VIETNAM": "VN", "INDONESIA": "ID", "MALAYSIA": "MY", "THAILAND": "TH",
+    "PHILIPPINES": "PH", "TAIWAN": "TW", "MEXICO": "MX", "ARGENTINA": "AR",
+    "CHILE": "CL", "SOUTH AFRICA": "ZA", "EGYPT": "EG", "ICELAND": "IS",
+    "KAZAKHSTAN": "KZ", "RUSSIAN FEDERATION": "RU", "RUSSIA": "RU",
+}
+
+
+def classify_asn_type(name: str) -> str:
+    """
+    依名稱關鍵字粗分類：
+      bulletproof/alexhost -> 高危防彈主機
+      cloud/vps            -> 雲端/VPS
+      其餘                  -> 網路託管/ISP（預設）
+    """
+    lower = (name or "").lower()
+    if "bulletproof" in lower or "alexhost" in lower:
+        return "高危防彈主機"
+    if "cloud" in lower or "vps" in lower:
+        return "雲端/VPS"
+    return "網路託管/ISP"
+
+
+def resolve_country_code(candidate_lines: Iterable[str]) -> Optional[str]:
+    """從多個候選文字行中找出可辨識的國家代碼，找不到回傳 None。"""
+    for raw in candidate_lines:
+        if not raw:
+            continue
+        text = str(raw).strip()
+        if not text:
+            continue
+        if re.fullmatch(r"[A-Za-z]{2}", text):
+            return text.upper()
+        upper_text = text.upper()
+        code = COUNTRY_NAME_TO_CODE.get(upper_text)
+        if code:
+            return code
+        for name, mapped in COUNTRY_NAME_TO_CODE.items():
+            if name in upper_text:
+                return mapped
+    return None
+
+
+def _extract_rdap_address_labels(obj: Any) -> List[str]:
+    """遞迴找出 RDAP 回應中所有 vcardArray 的地址 label 自由格式文字。"""
+    labels: List[str] = []
+    if isinstance(obj, dict):
+        for key, value in obj.items():
+            if key == "vcardArray":
+                try:
+                    for prop in value[1]:
+                        if (
+                            isinstance(prop, list)
+                            and prop[0] == "adr"
+                            and isinstance(prop[1], dict)
+                            and prop[1].get("label")
+                        ):
+                            labels.append(prop[1]["label"])
+                except (IndexError, TypeError):
+                    continue
+            else:
+                labels.extend(_extract_rdap_address_labels(value))
+    elif isinstance(obj, list):
+        for item in obj:
+            labels.extend(_extract_rdap_address_labels(item))
+    return labels
+
+
+def lookup_asn_via_rdap(
+    asn: str, session: requests.Session
+) -> Optional[Tuple[str, Optional[str]]]:
+    """查 ARIN RDAP，回傳 (name, country_or_None)；查詢失敗回傳 None。"""
+    url = f"https://rdap.arin.net/registry/autnum/{asn}"
+    try:
+        resp = session.get(url, headers=RDAP_HEADERS, timeout=ASN_LOOKUP_TIMEOUT)
+    except requests.RequestException:
+        return None
+    if resp.status_code != 200:
+        return None
+    try:
+        data = resp.json()
+    except ValueError:
+        return None
+
+    name = data.get("name")
+    if not name or name.strip() == asn:
+        name = f"AS{asn}"
+
+    labels = _extract_rdap_address_labels(data)
+    candidate_lines: List[str] = []
+    for label in labels:
+        lines = [ln.strip() for ln in str(label).split("\n") if ln.strip()]
+        if lines:
+            candidate_lines.append(lines[-1])
+    country = resolve_country_code(candidate_lines)
+    return name, country
+
+
+def lookup_asn_via_ripestat(
+    asn: str, session: requests.Session
+) -> Optional[Tuple[str, Optional[str]]]:
+    """RDAP 失敗時的備援：RIPEstat as-overview，只拿得到名稱，無國別。"""
+    url = f"https://stat.ripe.net/data/as-overview/data.json?resource=AS{asn}"
+    try:
+        resp = session.get(url, timeout=ASN_LOOKUP_TIMEOUT)
+    except requests.RequestException:
+        return None
+    if resp.status_code != 200:
+        return None
+    try:
+        holder = resp.json().get("data", {}).get("holder")
+    except ValueError:
+        return None
+    if not holder:
+        return None
+    return holder, None
+
+
+def load_asn_dict() -> Dict[str, Dict[str, Any]]:
+    raw = read_json(ASN_DICT_FILE, {})
+    return raw if isinstance(raw, dict) else {}
+
+
+def extract_asn_numbers(base: Dict[str, Dict[str, Any]]) -> Set[str]:
+    """從全量庫每筆紀錄的 asn 欄位萃取純數字編號（與前端 extractAsnNumber 同邏輯）。"""
+    numbers: Set[str] = set()
+    for record in base.values():
+        raw = record.get("asn")
+        if raw is None:
+            continue
+        text = str(raw).strip()
+        if not text:
+            continue
+        text = re.sub(r"^as\s*", "", text, flags=re.IGNORECASE)
+        match = re.match(r"^(\d+)", text)
+        if match:
+            numbers.add(match.group(1))
+    return numbers
+
+
+def update_asn_dictionary(
+    base: Dict[str, Dict[str, Any]], max_per_run: int
+) -> Dict[str, int]:
+    """
+    找出全量庫中尚未收錄的 ASN，透過 RDAP（失敗則 RIPEstat 備援）查詢
+    組織名稱與國別，寫回 data/asn_dict.json。
+
+    為避免單次執行查詢上百個 ASN 導致管線跑太久或被免費服務限流，
+    每次執行最多新增 max_per_run 筆，其餘留到下次排程執行繼續補齊。
+    網路失敗的 ASN 不寫入字典（允許下次重試）；查詢成功但解析不出
+    國別時，仍寫入並以 "--" 標示未知，避免每次都重查同一筆。
+    """
+    asn_dict = load_asn_dict()
+    all_asns = extract_asn_numbers(base)
+    unknown = sorted(all_asns - set(asn_dict.keys()), key=int)
+
+    stats = {
+        "total_distinct": len(all_asns),
+        "already_known": len(all_asns) - len(unknown),
+        "unknown_total": len(unknown),
+        "queried": 0,
+        "resolved": 0,
+        "failed": 0,
+        "deferred": max(0, len(unknown) - max_per_run),
+    }
+
+    if not unknown:
+        log.info("ASN 字典：全部 %d 個不重複 ASN 皆已收錄，無需查詢", len(all_asns))
+        return stats
+
+    to_query = unknown[:max_per_run]
+    log.info(
+        "ASN 字典：發現 %d 個未收錄 ASN，本次處理 %d 筆（剩餘 %d 筆留待下次執行）",
+        len(unknown), len(to_query), stats["deferred"],
+    )
+
+    changed = False
+    with requests.Session() as session:
+        for asn in to_query:
+            stats["queried"] += 1
+            result = lookup_asn_via_rdap(asn, session)
+            if result is None:
+                result = lookup_asn_via_ripestat(asn, session)
+
+            if result is None:
+                stats["failed"] += 1
+                log.debug("ASN 字典：AS%s 查詢失敗，留待下次重試", asn)
+                time.sleep(ASN_LOOKUP_DELAY_SECONDS)
+                continue
+
+            name, country = result
+            asn_dict[asn] = {
+                "name": name,
+                "type": classify_asn_type(name),
+                "country": country or "--",
+            }
+            changed = True
+            stats["resolved"] += 1
+            time.sleep(ASN_LOOKUP_DELAY_SECONDS)
+
+    if changed:
+        write_json(ASN_DICT_FILE, asn_dict)
+
+    log.info(
+        "ASN 字典：本次查詢 %d 筆，成功 %d 筆、失敗 %d 筆（留待重試），字典總計 %d 筆",
+        stats["queried"], stats["resolved"], stats["failed"], len(asn_dict),
+    )
+    return stats
+
+
 def write_outputs(
     base: Dict[str, Dict[str, Any]],
     edl_ips: List[str],
@@ -689,6 +947,11 @@ def parse_args() -> argparse.Namespace:
         help="資料來源 feed（預設 ioc）",
     )
     p.add_argument("--verbose", "-v", action="store_true")
+    p.add_argument(
+        "--no-asn-lookup",
+        action="store_true",
+        help="跳過 ASN 自動化查詢（離線測試/快速執行用）",
+    )
     return p.parse_args()
 
 
@@ -798,6 +1061,15 @@ def main() -> int:
 
     # ---- 3.5 EDL 階梯式判定 ----
     edl_ips, edl_stats = select_edl_candidates(base, datetime.now(timezone.utc))
+
+    # ---- 3.6 ASN 字典自動化查詢與擴充（策略 2） ----
+    if args.no_asn_lookup:
+        log.info("ASN 字典：已指定 --no-asn-lookup，跳過查詢")
+    else:
+        asn_max_per_run = env_int("ASN_LOOKUP_MAX_PER_RUN", ASN_LOOKUP_DEFAULT_MAX_PER_RUN)
+        asn_stats = update_asn_dictionary(base, asn_max_per_run)
+        stats["asn_dict"] = asn_stats
+
     write_outputs(base, edl_ips, edl_stats, stats)
 
     # ---- 4. 回寫高水位線 ----

@@ -106,7 +106,26 @@
     return parts.join(" ").toLowerCase();
   }
 
+  // 把後端（pipeline.py）自動查詢並持久化在 data/asn_dict.json 的動態字典
+  // 併入這份前端內建的基礎字典。後端查到的新資料優先（覆蓋同一 ASN 編號
+  // 的靜態條目），確保「其他/未收錄組織」隨著 data/asn_dict.json 增長
+  // 逐漸變成實際組織名稱，不需要重新部署前端程式碼。
+  function mergeAsnDict(dynamicDict) {
+    if (!dynamicDict || typeof dynamicDict !== "object") return;
+    Object.keys(dynamicDict).forEach(function (asnNumber) {
+      var item = dynamicDict[asnNumber];
+      if (item && typeof item === "object" && item.name) {
+        ASN_MAP[asnNumber] = {
+          name: item.name,
+          type: item.type || "網路託管/ISP",
+          country: item.country || "--"
+        };
+      }
+    });
+  }
+
   global.ASN_MAP = ASN_MAP;
   global.formatASN = formatASN;
   global.asnSearchText = asnSearchText;
+  global.mergeAsnDict = mergeAsnDict;
 })(window);

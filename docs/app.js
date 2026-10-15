@@ -7,6 +7,7 @@
   var IOC_CANDIDATES = ["../data/base_iocs.json", "./data/base_iocs.json", "/data/base_iocs.json"];
   var DAILY_CANDIDATES = ["../data/daily_iocs.json", "./data/daily_iocs.json", "/data/daily_iocs.json"];
   var EDL_CANDIDATES = ["../data/blocklist_edl.txt", "./data/blocklist_edl.txt", "/data/blocklist_edl.txt"];
+  var ASN_DICT_CANDIDATES = ["../data/asn_dict.json", "./data/asn_dict.json", "/data/asn_dict.json"];
 
   var PAGE_SIZE = 200;
 
@@ -116,17 +117,31 @@
     $("tableBody").innerHTML =
       '<tr><td colspan="9" class="text-center py-5 muted">載入中 …</td></tr>';
 
-    var allPromise = fetchFirstAvailable(IOC_CANDIDATES, true).then(function (result) {
-      state.raw.all = normalize(result.data);
+    // pipeline.py 自動查詢擴充的 ASN 字典；尚未產生或載入失敗時
+    // 容錯跳過，沿用 asn_dict.js 內建的靜態基礎字典即可。
+    // 刻意讓字典先載入完成才處理 IOC 清單：normalize() 會在載入當下
+    // 就算出 _search 比對字串，若字典晚到，動態解析出的組織名稱將
+    // 無法被搜尋比對到。字典檔遠小於 base_iocs.json，先後載入對整體
+    // 載入時間影響可忽略。
+    var asnDictPromise = fetchFirstAvailable(ASN_DICT_CANDIDATES, true)
+      .then(function (result) { mergeAsnDict(result.data); })
+      .catch(function () { /* 沒有動態字典也不影響其餘功能 */ });
+
+    var allPromise = asnDictPromise.then(function () {
+      return fetchFirstAvailable(IOC_CANDIDATES, true).then(function (result) {
+        state.raw.all = normalize(result.data);
+      });
     });
 
     // daily_iocs.json 在尚未產生任何新資料前可能不存在，容錯回傳空集合
-    var dailyPromise = fetchFirstAvailable(DAILY_CANDIDATES, true)
-      .then(function (result) { return normalize(result.data); })
-      .catch(function () { return { meta: {}, list: [] }; })
-      .then(function (normalized) { state.raw.daily = normalized; });
+    var dailyPromise = asnDictPromise.then(function () {
+      return fetchFirstAvailable(DAILY_CANDIDATES, true)
+        .then(function (result) { return normalize(result.data); })
+        .catch(function () { return { meta: {}, list: [] }; })
+        .then(function (normalized) { state.raw.daily = normalized; });
+    });
 
-    Promise.all([allPromise, dailyPromise])
+    Promise.all([allPromise, dailyPromise, asnDictPromise])
       .then(function () {
         // EDL 頁籤不另外抓檔，直接從全量庫篩出 edl_tier 已標記的紀錄
         // （edl_tier 由 pipeline.py 的階梯式判定邏輯於同步當下寫入，

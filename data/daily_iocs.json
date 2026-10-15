@@ -1,21 +1,21 @@
 {
   "meta": {
-    "generated_at": "2026-10-15T06:31:21Z",
+    "generated_at": "2026-10-15T08:01:04Z",
     "date_taipei": "2026-10-15",
     "count": 455,
-    "new_this_run": 455,
+    "new_this_run": 0,
     "run_stats": {
-      "total_objects": 38366,
-      "indicators": 35638,
-      "ipv4_indicators": 8742,
-      "rejected_confidence": 7314,
-      "rejected_score": 812,
-      "passed": 616,
-      "unique_ips": 616,
+      "total_objects": 0,
+      "indicators": 0,
+      "ipv4_indicators": 0,
+      "rejected_confidence": 0,
+      "rejected_score": 0,
+      "passed": 0,
+      "unique_ips": 0,
       "min_confidence": 90,
       "min_threat_score": 90,
-      "new": 455,
-      "updated": 161
+      "new": 0,
+      "updated": 0
     }
   },
   "iocs": {

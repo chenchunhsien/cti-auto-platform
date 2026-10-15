@@ -1,19 +1,28 @@
 {
-  "last_successful_timestamp": 1792045649476,
-  "last_successful_timestamp_utc": "2026-10-15T06:27:29Z",
-  "last_run_utc": "2026-10-15T06:31:21Z",
+  "last_successful_timestamp": 1792051332809,
+  "last_successful_timestamp_utc": "2026-10-15T08:02:12Z",
+  "last_run_utc": "2026-10-15T08:02:12Z",
   "last_run_status": "success",
   "last_run_stats": {
-    "total_objects": 38366,
-    "indicators": 35638,
-    "ipv4_indicators": 8742,
-    "rejected_confidence": 7314,
-    "rejected_score": 812,
-    "passed": 616,
-    "unique_ips": 616,
+    "total_objects": 0,
+    "indicators": 0,
+    "ipv4_indicators": 0,
+    "rejected_confidence": 0,
+    "rejected_score": 0,
+    "passed": 0,
+    "unique_ips": 0,
     "min_confidence": 90,
     "min_threat_score": 90,
-    "new": 455,
-    "updated": 161
+    "new": 0,
+    "updated": 0,
+    "asn_dict": {
+      "total_distinct": 887,
+      "already_known": 17,
+      "unknown_total": 870,
+      "queried": 100,
+      "resolved": 100,
+      "failed": 0,
+      "deferred": 770
+    }
   }
 }

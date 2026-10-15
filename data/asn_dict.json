@@ -1,0 +1,657 @@
+{
+  "14061": {
+    "name": "DigitalOcean",
+    "type": "VPS主機",
+    "country": "US"
+  },
+  "16276": {
+    "name": "OVHcloud",
+    "type": "主機託管",
+    "country": "FR"
+  },
+  "20473": {
+    "name": "Vultr (Constant)",
+    "type": "VPS主機",
+    "country": "US"
+  },
+  "63949": {
+    "name": "Linode (Akamai)",
+    "type": "雲端主機",
+    "country": "US"
+  },
+  "24940": {
+    "name": "Hetzner Online",
+    "type": "伺服器託管",
+    "country": "DE"
+  },
+  "51167": {
+    "name": "Contabo GmbH",
+    "type": "VPS主機",
+    "country": "DE"
+  },
+  "16509": {
+    "name": "Amazon AWS",
+    "type": "公有雲",
+    "country": "US"
+  },
+  "14618": {
+    "name": "Amazon AWS",
+    "type": "公有雲",
+    "country": "US"
+  },
+  "15169": {
+    "name": "Google Cloud",
+    "type": "公有雲",
+    "country": "US"
+  },
+  "8075": {
+    "name": "Microsoft Azure",
+    "type": "公有雲",
+    "country": "US"
+  },
+  "31898": {
+    "name": "Oracle Cloud",
+    "type": "公有雲",
+    "country": "US"
+  },
+  "45102": {
+    "name": "Alibaba Cloud (阿里雲)",
+    "type": "公有雲",
+    "country": "CN"
+  },
+  "132203": {
+    "name": "Tencent Cloud (騰訊雲)",
+    "type": "公有雲",
+    "country": "CN"
+  },
+  "13335": {
+    "name": "Cloudflare",
+    "type": "CDN/Proxy",
+    "country": "US"
+  },
+  "20940": {
+    "name": "Akamai",
+    "type": "CDN加速",
+    "country": "US"
+  },
+  "3462": {
+    "name": "中華電信 HiNet",
+    "type": "台灣/ISP",
+    "country": "TW"
+  },
+  "4780": {
+    "name": "遠傳電信 NCIC",
+    "type": "台灣/ISP",
+    "country": "TW"
+  },
+  "9924": {
+    "name": "台灣大哥大 TWM",
+    "type": "台灣/ISP",
+    "country": "TW"
+  },
+  "18049": {
+    "name": "凱擘大寬頻 kbro",
+    "type": "台灣/有線電視",
+    "country": "TW"
+  },
+  "18182": {
+    "name": "中嘉寬頻 Homeplus",
+    "type": "台灣/有線電視",
+    "country": "TW"
+  },
+  "4134": {
+    "name": "中國電信 ChinaNet",
+    "type": "電信骨幹",
+    "country": "CN"
+  },
+  "4837": {
+    "name": "中國聯通 China Unicom",
+    "type": "電信骨幹",
+    "country": "CN"
+  },
+  "9808": {
+    "name": "中國移動 China Mobile",
+    "type": "電信骨幹",
+    "country": "CN"
+  },
+  "4766": {
+    "name": "Korea Telecom (KT)",
+    "type": "韓國/ISP",
+    "country": "KR"
+  },
+  "200019": {
+    "name": "AlexHost",
+    "type": "高危防彈主機",
+    "country": "MD"
+  },
+  "60087": {
+    "name": "ASSUPERNOVA",
+    "type": "網路託管/ISP",
+    "country": "IT"
+  },
+  "210976": {
+    "name": "TWC-EU",
+    "type": "網路託管/ISP",
+    "country": "KZ"
+  },
+  "9123": {
+    "name": "TimeWeb-AS",
+    "type": "網路託管/ISP",
+    "country": "RU"
+  },
+  "209693": {
+    "name": "OC-NETWORK",
+    "type": "網路託管/ISP",
+    "country": "GB"
+  },
+  "399629": {
+    "name": "BLNWX",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "11664": {
+    "name": "11664",
+    "type": "網路託管/ISP",
+    "country": "AR"
+  },
+  "1": {
+    "name": "LVLT-1",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "39": {
+    "name": "DNIC-AS-00039",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "157": {
+    "name": "HPE-15",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "163": {
+    "name": "IBM-RESEARCH-AS",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "174": {
+    "name": "COGENT-174",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "193": {
+    "name": "FORD-ASN",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "203": {
+    "name": "CENTURYLINK-LEGACY-LVLT-203",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "209": {
+    "name": "CENTURYLINK-US-LEGACY-QWEST",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "224": {
+    "name": "UNINETT",
+    "type": "網路託管/ISP",
+    "country": "NO"
+  },
+  "367": {
+    "name": "DNIC-ASBLK-00306-00371",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "577": {
+    "name": "BACOM",
+    "type": "網路託管/ISP",
+    "country": "CA"
+  },
+  "600": {
+    "name": "OARNET-AS",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "680": {
+    "name": "DFN",
+    "type": "網路託管/ISP",
+    "country": "DE"
+  },
+  "701": {
+    "name": "UUNET",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "852": {
+    "name": "ASN852",
+    "type": "網路託管/ISP",
+    "country": "CA"
+  },
+  "931": {
+    "name": "HYONIX",
+    "type": "網路託管/ISP",
+    "country": "SG"
+  },
+  "979": {
+    "name": "NETLAB-SDN",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "1221": {
+    "name": "ASN-TELSTRA",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "1241": {
+    "name": "FORTHNET-GR",
+    "type": "網路託管/ISP",
+    "country": "GR"
+  },
+  "1257": {
+    "name": "SWIPNET",
+    "type": "網路託管/ISP",
+    "country": "SE"
+  },
+  "1267": {
+    "name": "ASN-WINDTRE",
+    "type": "網路託管/ISP",
+    "country": "IT"
+  },
+  "1659": {
+    "name": "ERX-TANET-ASN1",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "1680": {
+    "name": "NV-ASN",
+    "type": "網路託管/ISP",
+    "country": "IL"
+  },
+  "2118": {
+    "name": "RELCOM-AS",
+    "type": "網路託管/ISP",
+    "country": "CZ"
+  },
+  "2125": {
+    "name": "UUNET-WIN",
+    "type": "網路託管/ISP",
+    "country": "DE"
+  },
+  "2497": {
+    "name": "IIJ",
+    "type": "網路託管/ISP",
+    "country": "JP"
+  },
+  "2500": {
+    "name": "WIDE-BB",
+    "type": "網路託管/ISP",
+    "country": "JP"
+  },
+  "2587": {
+    "name": "FREE-NET-AS2587",
+    "type": "網路託管/ISP",
+    "country": "RU"
+  },
+  "2830": {
+    "name": "Verizon-dual-homed-customers",
+    "type": "網路託管/ISP",
+    "country": "DE"
+  },
+  "2860": {
+    "name": "NOS_COMUNICACOES",
+    "type": "網路託管/ISP",
+    "country": "PT"
+  },
+  "2900": {
+    "name": "WN-AZ-AS",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "2914": {
+    "name": "NTT-DATA-2914",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "3064": {
+    "name": "AFFINITY-FTL",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "3143": {
+    "name": "VANET",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "3215": {
+    "name": "AS3215",
+    "type": "網路託管/ISP",
+    "country": "FR"
+  },
+  "3223": {
+    "name": "VOXILITY",
+    "type": "網路託管/ISP",
+    "country": "GB"
+  },
+  "3257": {
+    "name": "GTT-BACKBONE",
+    "type": "網路託管/ISP",
+    "country": "DE"
+  },
+  "3258": {
+    "name": "XTOM-JAPAN",
+    "type": "網路託管/ISP",
+    "country": "JP"
+  },
+  "3269": {
+    "name": "ASN-IBSNAZ",
+    "type": "網路託管/ISP",
+    "country": "IT"
+  },
+  "3301": {
+    "name": "TELIANET-SWEDEN",
+    "type": "網路託管/ISP",
+    "country": "SE"
+  },
+  "3320": {
+    "name": "DTAG",
+    "type": "網路託管/ISP",
+    "country": "DE"
+  },
+  "3352": {
+    "name": "Telefonica_de_EspaNa",
+    "type": "網路託管/ISP",
+    "country": "ES"
+  },
+  "3356": {
+    "name": "LEVEL3",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "3456": {
+    "name": "TWC-3456-IT",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "3549": {
+    "name": "LVLT-3549",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "3561": {
+    "name": "CENTURYLINK-LEGACY-SAVVIS",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "3758": {
+    "name": "SINGNET",
+    "type": "網路託管/ISP",
+    "country": "SG"
+  },
+  "3786": {
+    "name": "LGDACOM-KR",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "3816": {
+    "name": "AS3816",
+    "type": "網路託管/ISP",
+    "country": "CO"
+  },
+  "4230": {
+    "name": "ASN4230",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "4637": {
+    "name": "ASN-TELSTRA-GLOBAL",
+    "type": "網路託管/ISP",
+    "country": "HK"
+  },
+  "4758": {
+    "name": "NICNET-VSNL-BOARDER-AP - National Informatics Centre",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "4760": {
+    "name": "HKTIMS-AP",
+    "type": "網路託管/ISP",
+    "country": "HK"
+  },
+  "4808": {
+    "name": "CHINA169-BJ",
+    "type": "網路託管/ISP",
+    "country": "CN"
+  },
+  "4811": {
+    "name": "CHINANET-SHANGHAI-MAN",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "4812": {
+    "name": "CHINANET-SH-AP",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "4835": {
+    "name": "CHINANET-IDC-SN",
+    "type": "網路託管/ISP",
+    "country": "CN"
+  },
+  "5056": {
+    "name": "AUREON-5056",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "5384": {
+    "name": "EMIRATES-INTERNET",
+    "type": "網路託管/ISP",
+    "country": "AE"
+  },
+  "5432": {
+    "name": "PROXIMUS-ISP-AS",
+    "type": "網路託管/ISP",
+    "country": "BE"
+  },
+  "5483": {
+    "name": "MAGYAR-TELEKOM-MAIN-AS",
+    "type": "網路託管/ISP",
+    "country": "HU"
+  },
+  "5606": {
+    "name": "GTS-BACKBONE",
+    "type": "網路託管/ISP",
+    "country": "RO"
+  },
+  "5607": {
+    "name": "BSKYB-BROADBAND-AS",
+    "type": "網路託管/ISP",
+    "country": "UK"
+  },
+  "5610": {
+    "name": "O2-CZECH-REPUBLIC",
+    "type": "網路託管/ISP",
+    "country": "CZ"
+  },
+  "6079": {
+    "name": "RCN-AS",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "6134": {
+    "name": "XNNET",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "6147": {
+    "name": "AS6147",
+    "type": "網路託管/ISP",
+    "country": "PE"
+  },
+  "6253": {
+    "name": "PRUASN",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "6461": {
+    "name": "ZAYO-6461",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "6568": {
+    "name": "AS6568",
+    "type": "網路託管/ISP",
+    "country": "BO"
+  },
+  "6614": {
+    "name": "USCC-ASN",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "6619": {
+    "name": "SAMSUNGSDS-AS-KR-KR",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "6698": {
+    "name": "virtualsystems",
+    "type": "網路託管/ISP",
+    "country": "UA"
+  },
+  "6700": {
+    "name": "BEOTEL-AS",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "6724": {
+    "name": "STRATO",
+    "type": "網路託管/ISP",
+    "country": "DE"
+  },
+  "6729": {
+    "name": "DEMENIN-AS",
+    "type": "網路託管/ISP",
+    "country": "NL"
+  },
+  "6730": {
+    "name": "SUNRISE",
+    "type": "網路託管/ISP",
+    "country": "CH"
+  },
+  "6731": {
+    "name": "COMSTAR-AS",
+    "type": "網路託管/ISP",
+    "country": "RU"
+  },
+  "6799": {
+    "name": "OTENET-GR",
+    "type": "網路託管/ISP",
+    "country": "GR"
+  },
+  "6830": {
+    "name": "LibertyGlobal",
+    "type": "網路託管/ISP",
+    "country": "NL"
+  },
+  "6878": {
+    "name": "AS6878",
+    "type": "網路託管/ISP",
+    "country": "DE"
+  },
+  "6939": {
+    "name": "HURRICANE",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "7018": {
+    "name": "ATT-INTERNET4",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "7020": {
+    "name": "ORG-IHL1-AFRINIC",
+    "type": "網路託管/ISP",
+    "country": "ZA"
+  },
+  "7029": {
+    "name": "WINDSTREAM",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "7303": {
+    "name": "AS7303",
+    "type": "網路託管/ISP",
+    "country": "AR"
+  },
+  "7488": {
+    "name": "CNSERVER-AP-AS",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "7539": {
+    "name": "TWAREN-TW",
+    "type": "網路託管/ISP",
+    "country": "TW"
+  },
+  "7552": {
+    "name": "VIETEL-AS-AP",
+    "type": "網路託管/ISP",
+    "country": "VN"
+  },
+  "7602": {
+    "name": "SPT-AS-VN",
+    "type": "網路託管/ISP",
+    "country": "VN"
+  },
+  "7713": {
+    "name": "telkomnet-as-ap",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "7859": {
+    "name": "PAIR-NETWORKS",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "7862": {
+    "name": "CHEVRON",
+    "type": "網路託管/ISP",
+    "country": "GB"
+  },
+  "7922": {
+    "name": "COMCAST-7922",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "8048": {
+    "name": "AS8048",
+    "type": "網路託管/ISP",
+    "country": "VE"
+  },
+  "8151": {
+    "name": "AS8151",
+    "type": "網路託管/ISP",
+    "country": "MX"
+  },
+  "8193": {
+    "name": "BRM-AS",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "8285": {
+    "name": "UNSPECIFIED",
+    "type": "網路託管/ISP",
+    "country": "LV"
+  },
+  "8359": {
+    "name": "MTS",
+    "type": "網路託管/ISP",
+    "country": "RU"
+  },
+  "8369": {
+    "name": "INTERSVYAZ-AS",
+    "type": "網路託管/ISP",
+    "country": "RU"
+  }
+}
