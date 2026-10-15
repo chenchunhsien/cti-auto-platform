@@ -103,7 +103,7 @@
       r.seen_count = Number(r.seen_count) || 1;
       r._search = [
         r.ip,
-        r.asn,
+        asnSearchText(r.asn),  // 涵蓋原始 ASN 代號與字典組織名稱/類型/國別
         r.labels.join(" "),
         r.resolving_domains.join(" ")
       ].join(" ").toLowerCase();
@@ -316,7 +316,7 @@
       '<td><span class="' + scoreClass(r.threat_score) + '">' + r.threat_score + "</span></td>" +
       "<td>" + r.confidence + "</td>" +
       "<td>" + (labels || '<span class="muted">—</span>') + "</td>" +
-      '<td class="muted small">' + esc(r.asn || "—") + "</td>" +
+      '<td class="muted small">' + formatASN(r.asn) + "</td>" +
       '<td class="domain-list">' + (domains || "—") + "</td>" +
       '<td class="muted small">' + fmtDate(r.first_seen) + "</td>" +
       '<td class="muted small">' + fmtDate(r.last_seen) + "</td>" +
