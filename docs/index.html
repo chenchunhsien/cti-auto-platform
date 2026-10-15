@@ -219,6 +219,38 @@
     </div>
   </div>
 
+  <!-- EDL 判定條件說明（僅 EDL 阻斷清單頁籤顯示）-->
+  <div class="panel p-3 mb-3" id="edlCriteriaPanel" hidden>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="d-flex align-items-center gap-2 mb-1">
+          <span class="tag tag-tier-a">高危直通</span>
+          <span class="fw-bold small">條件 A</span>
+        </div>
+        <div class="muted small">
+          標籤命中高危關鍵字（c2 / ransomware / apt / cobaltstrike / webshell / trojan / botnet）
+          <span class="text-light">且</span> 威脅分數 ≥ 95
+          <span class="text-light">且</span> 最後活躍時間在 72 小時內
+          （即使僅出現 1 次也收錄）
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="d-flex align-items-center gap-2 mb-1">
+          <span class="tag tag-tier-b">頑固威脅</span>
+          <span class="fw-bold small">條件 B</span>
+        </div>
+        <div class="muted small">
+          累計出現次數 ≥ 2 次
+          <span class="text-light">且</span> 威脅分數 ≥ 90
+          <span class="text-light">且</span> 最後活躍時間在 7 天內
+        </div>
+      </div>
+    </div>
+    <div class="muted small mt-2 pt-2" style="border-top: 1px solid var(--cti-border);">
+      符合任一條件即收錄進 EDL 阻斷清單；其餘情資保留在「全部情資庫」供查詢，不列入阻斷。
+    </div>
+  </div>
+
   <!-- 查詢列 -->
   <div class="panel p-3 mb-3">
     <div class="row g-2 align-items-center">
@@ -296,6 +328,6 @@
 
 <!-- GitHub Pages 對靜態資源下 Cache-Control: max-age=600，每次更動 app.js
      都要跟著調整 ?v= 版本號，否則使用者瀏覽器可能在 10 分鐘內吃到舊快取 -->
-<script src="app.js?v=20261015c"></script>
+<script src="app.js?v=20261015e"></script>
 </body>
 </html>

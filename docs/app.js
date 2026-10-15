@@ -183,6 +183,7 @@
     $("tabDailyBtn").classList.toggle("active", tab === "daily");
     $("tabEdlBtn").classList.toggle("active", tab === "edl");
     $("statTotalLabel").textContent = TAB_LABELS[tab] || TAB_LABELS.all;
+    $("edlCriteriaPanel").hidden = (tab !== "edl");
 
     buildLabelOptions();
     renderStats();
