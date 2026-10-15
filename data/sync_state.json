@@ -1,7 +1,7 @@
 {
-  "last_successful_timestamp": 1792051332809,
-  "last_successful_timestamp_utc": "2026-10-15T08:02:12Z",
-  "last_run_utc": "2026-10-15T08:02:12Z",
+  "last_successful_timestamp": 1792053427531,
+  "last_successful_timestamp_utc": "2026-10-15T08:37:07Z",
+  "last_run_utc": "2026-10-15T08:37:07Z",
   "last_run_status": "success",
   "last_run_stats": {
     "total_objects": 0,
@@ -17,12 +17,12 @@
     "updated": 0,
     "asn_dict": {
       "total_distinct": 887,
-      "already_known": 17,
-      "unknown_total": 870,
+      "already_known": 117,
+      "unknown_total": 770,
       "queried": 100,
       "resolved": 100,
       "failed": 0,
-      "deferred": 770
+      "deferred": 670
     }
   }
 }
