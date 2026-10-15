@@ -1,12 +1,12 @@
 {
   "meta": {
-    "generated_at": "2026-10-15T03:12:20Z",
+    "generated_at": "2026-10-15T03:42:45Z",
     "count": 0,
     "run_stats": {
-      "total_objects": 0,
-      "indicators": 0,
-      "ipv4_indicators": 0,
-      "rejected_confidence": 0,
+      "total_objects": 7016,
+      "indicators": 200,
+      "ipv4_indicators": 19,
+      "rejected_confidence": 19,
       "rejected_score": 0,
       "passed": 0,
       "unique_ips": 0,

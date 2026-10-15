@@ -1,0 +1,19 @@
+{
+  "last_successful_timestamp": 1792035739203,
+  "last_successful_timestamp_utc": "2026-10-15T03:42:19Z",
+  "last_run_utc": "2026-10-15T03:42:45Z",
+  "last_run_status": "success",
+  "last_run_stats": {
+    "total_objects": 7016,
+    "indicators": 200,
+    "ipv4_indicators": 19,
+    "rejected_confidence": 19,
+    "rejected_score": 0,
+    "passed": 0,
+    "unique_ips": 0,
+    "min_confidence": 90,
+    "min_threat_score": 90,
+    "new": 0,
+    "updated": 0
+  }
+}
