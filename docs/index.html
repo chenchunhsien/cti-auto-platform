@@ -87,6 +87,7 @@
     .score-crit { background: rgba(239,68,68,.16); color: #fca5a5; border: 1px solid rgba(239,68,68,.35); }
     .score-high { background: rgba(249,115,22,.16); color: #fdba74; border: 1px solid rgba(249,115,22,.35); }
     .domain-list { font-size: .78rem; color: var(--cti-muted); word-break: break-all; }
+    .edl-reason { font-size: .78rem; color: var(--cti-muted); max-width: 220px; white-space: normal; }
     .muted { color: var(--cti-muted); }
     .btn-edl {
       background: var(--cti-accent); border: none; color: #04202a; font-weight: 600;
@@ -269,6 +270,7 @@
             <th data-sort="threat_score">威脅分數</th>
             <th data-sort="confidence">信心值</th>
             <th>標籤 (labels)</th>
+            <th>EDL 判定說明</th>
             <th data-sort="asn">ASN</th>
             <th>解析網域</th>
             <th data-sort="first_seen">首次出現</th>
@@ -277,7 +279,7 @@
           </tr>
         </thead>
         <tbody id="tableBody">
-          <tr><td colspan="9" class="text-center py-5 muted">載入中 …</td></tr>
+          <tr><td colspan="10" class="text-center py-5 muted">載入中 …</td></tr>
         </tbody>
       </table>
     </div>
@@ -296,6 +298,6 @@
 
 <!-- GitHub Pages 對靜態資源下 Cache-Control: max-age=600，每次更動 app.js
      都要跟著調整 ?v= 版本號，否則使用者瀏覽器可能在 10 分鐘內吃到舊快取 -->
-<script src="app.js?v=20261015c"></script>
+<script src="app.js?v=20261015d"></script>
 </body>
 </html>
