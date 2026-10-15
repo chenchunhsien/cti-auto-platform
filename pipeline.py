@@ -507,6 +507,12 @@ def select_edl_candidates(
 
     其餘 IP（單次出現、無高危標籤、或已超過 7 天無活動）保留在
     base_iocs.json 供查詢，但不進入 EDL 阻斷清單。
+
+    同時把判定結果以 record["edl_tier"] = "A" / "B" / None 寫回每筆
+    base 紀錄（直接修改傳入的 dict），讓前端（docs/edl.html）能直接讀取
+    「當初是依哪個條件被收錄」，不必自行以瀏覽器當下時間重新計算
+    ——否則使用者晚點才打開頁面，72 小時 / 7 天的時間窗會跟著「現在」
+    往後漂移，可能誤判成不符合任何條件。
     """
     window_a = now - timedelta(hours=72)
     window_b = now - timedelta(days=7)
@@ -538,11 +544,14 @@ def select_edl_candidates(
         if condition_a:
             stats["condition_a"] += 1
             selected.append(ip)
+            record["edl_tier"] = "A"
         elif condition_b:
             stats["condition_b"] += 1
             selected.append(ip)
+            record["edl_tier"] = "B"
         else:
             stats["excluded"] += 1
+            record["edl_tier"] = None
 
     selected.sort(key=lambda s: tuple(int(x) for x in s.split("/")[0].split(".")))
     return selected, stats

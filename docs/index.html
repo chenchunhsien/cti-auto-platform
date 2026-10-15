@@ -9,135 +9,7 @@
     rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
     crossorigin="anonymous" />
-  <style>
-    :root {
-      --cti-bg: #0b0f16;
-      --cti-panel: #131a26;
-      --cti-border: #1f2b3d;
-      --cti-accent: #22d3ee;
-      --cti-muted: #7c8da6;
-    }
-    body {
-      background:
-        radial-gradient(1200px 600px at 15% -10%, #16243a 0%, transparent 60%),
-        var(--cti-bg);
-      color: #dbe5f0;
-      font-family: "Segoe UI", "Noto Sans TC", system-ui, sans-serif;
-      min-height: 100vh;
-    }
-    .navbar-cti {
-      background: rgba(11, 15, 22, .88);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--cti-border);
-    }
-    .brand-dot {
-      width: 10px; height: 10px; border-radius: 50%;
-      background: var(--cti-accent);
-      box-shadow: 0 0 12px var(--cti-accent);
-      display: inline-block;
-    }
-    .stat-card {
-      background: linear-gradient(160deg, var(--cti-panel), #0e141f);
-      border: 1px solid var(--cti-border);
-      border-radius: .9rem;
-      padding: 1.1rem 1.25rem;
-      height: 100%;
-    }
-    .stat-label {
-      font-size: .78rem; letter-spacing: .08em; text-transform: uppercase;
-      color: var(--cti-muted);
-    }
-    .stat-value { font-size: 1.85rem; font-weight: 700; line-height: 1.2; }
-    .panel {
-      background: var(--cti-panel);
-      border: 1px solid var(--cti-border);
-      border-radius: .9rem;
-    }
-    .form-control, .form-select {
-      background-color: #0e141f; border-color: var(--cti-border); color: #dbe5f0;
-    }
-    .form-control:focus, .form-select:focus {
-      background-color: #0e141f; color: #fff;
-      border-color: var(--cti-accent);
-      box-shadow: 0 0 0 .2rem rgba(34, 211, 238, .15);
-    }
-    table.cti-table { --bs-table-bg: transparent; margin-bottom: 0; }
-    table.cti-table thead th {
-      position: sticky; top: 0; z-index: 2;
-      background: #0e141f; color: var(--cti-muted);
-      font-size: .76rem; letter-spacing: .07em; text-transform: uppercase;
-      border-bottom: 1px solid var(--cti-border); white-space: nowrap;
-      cursor: pointer; user-select: none;
-    }
-    table.cti-table tbody td {
-      border-color: #192334; vertical-align: middle; font-size: .9rem;
-    }
-    .ip-cell { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-weight: 600; }
-    .table-wrap { max-height: 62vh; overflow: auto; }
-    .tag {
-      display: inline-block; font-size: .72rem; padding: .12rem .45rem;
-      border-radius: .35rem; margin: .1rem .15rem .1rem 0;
-      background: #16283a; color: #8fd8ea; border: 1px solid #1f3b52;
-    }
-    .score-pill {
-      font-weight: 700; font-size: .82rem; padding: .18rem .5rem; border-radius: .4rem;
-    }
-    .score-crit { background: rgba(239,68,68,.16); color: #fca5a5; border: 1px solid rgba(239,68,68,.35); }
-    .score-high { background: rgba(249,115,22,.16); color: #fdba74; border: 1px solid rgba(249,115,22,.35); }
-    .domain-list { font-size: .78rem; color: var(--cti-muted); word-break: break-all; }
-    .muted { color: var(--cti-muted); }
-    .btn-edl {
-      background: var(--cti-accent); border: none; color: #04202a; font-weight: 600;
-    }
-    .btn-edl:hover { background: #67e8f9; color: #04202a; }
-    kbd { background: #1b2635; border: 1px solid var(--cti-border); }
-
-    /* 標籤多選下拉 */
-    .label-filter { position: relative; }
-    .label-filter-btn {
-      background-color: #0e141f; border: 1px solid var(--cti-border); color: #dbe5f0;
-      font-size: .95rem; text-align: left;
-    }
-    .label-filter-btn:hover, .label-filter-btn:focus {
-      background-color: #0e141f; color: #fff; border-color: var(--cti-accent);
-    }
-    .label-filter-btn-text {
-      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    }
-    .label-filter-caret { color: var(--cti-muted); font-size: .7rem; margin-left: .5rem; }
-    .label-filter-menu {
-      position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 30;
-      background: var(--cti-panel); border: 1px solid var(--cti-border); border-radius: .6rem;
-      box-shadow: 0 12px 28px rgba(0, 0, 0, .45);
-      display: flex; flex-direction: column; max-height: 360px;
-    }
-    .label-filter-search-wrap { padding: .5rem; border-bottom: 1px solid var(--cti-border); }
-    .label-filter-list { overflow-y: auto; padding: .35rem .25rem; flex: 1 1 auto; }
-    .label-filter-item {
-      display: flex; align-items: center; gap: .5rem; padding: .32rem .5rem;
-      border-radius: .4rem; cursor: pointer; font-size: .88rem; margin: 0;
-    }
-    .label-filter-item:hover { background: #16283a; }
-    .label-filter-item input { cursor: pointer; flex: 0 0 auto; }
-    .label-filter-item span.name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .label-filter-item span.count { margin-left: auto; color: var(--cti-muted); font-size: .76rem; flex: 0 0 auto; }
-    .label-filter-footer {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: .5rem .6rem; border-top: 1px solid var(--cti-border);
-    }
-    .label-filter-empty { padding: .75rem; color: var(--cti-muted); font-size: .85rem; text-align: center; }
-
-    /* 頁籤 */
-    .cti-tabs { border-bottom: 1px solid var(--cti-border); }
-    .cti-tabs .nav-link {
-      color: var(--cti-muted); border: none; border-bottom: 2px solid transparent;
-      background: transparent; padding: .6rem 1rem; font-size: .95rem; border-radius: 0;
-    }
-    .cti-tabs .nav-link:hover { color: #dbe5f0; }
-    .cti-tabs .nav-link.active {
-      color: #fff; border-bottom-color: var(--cti-accent); background: transparent;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
@@ -148,11 +20,17 @@
       <span class="fw-bold">CTI 威脅情資查詢平台</span>
       <span class="badge text-bg-secondary ms-1">Luminar STIX 2.1</span>
     </span>
-    <div class="d-flex gap-2">
-      <a id="edlLink" class="btn btn-edl btn-sm px-3" href="#" download>
-        ⬇ 下載 Firewall EDL 清單
-      </a>
-      <button id="btnRefresh" class="btn btn-outline-light btn-sm px-3">重新載入</button>
+    <div class="d-flex align-items-center gap-3">
+      <div class="d-flex gap-1">
+        <a href="index.html" class="nav-page-link active">情資總覽</a>
+        <a href="edl.html" class="nav-page-link">EDL 阻斷清單</a>
+      </div>
+      <div class="d-flex gap-2">
+        <a id="edlLink" class="btn btn-edl btn-sm px-3" href="#" download>
+          ⬇ 下載 Firewall EDL 清單
+        </a>
+        <button id="btnRefresh" class="btn btn-outline-light btn-sm px-3">重新載入</button>
+      </div>
     </div>
   </div>
 </nav>
