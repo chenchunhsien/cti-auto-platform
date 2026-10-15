@@ -1,0 +1,25 @@
+# ---- Secrets ----
+.env
+.env.local
+*.pem
+*.key
+
+# ---- Python ----
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# ---- Logs ----
+*.log
+logs/
+
+# ---- OS / Editor ----
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/
