@@ -7,9 +7,16 @@ CTI 威脅情資自動化管線（純規則引擎，不使用 LLM）。
   1. 讀取 data/sync_state.json 的 high-water mark（無則回溯 N 小時）
   2. 呼叫 Luminar STIX 2.1 API 分頁取回增量物件
   3. 規則過濾：indicator + ipv4-addr + confidence>=90 + threat_score>=90
-  4. Upsert 至 data/base_iocs.json，並輸出 blocklist_edl.txt / daily_iocs.json
-  5. 回寫 high-water mark
-  6. 自動 git add / commit / push 至遠端 main
+  4. Upsert 至 data/base_iocs.json（全量庫）；首次出現的 IP 另外累計進
+     data/daily_iocs.json（台北時間「今日」桶，橫跨多次執行持續累加）
+  5. 以「EDL 階梯式判定邏輯」從全量庫篩出 data/blocklist_edl.txt：
+       條件 A（致命高危直通）：labels 命中高危關鍵字 AND threat_score>=95
+                               AND last_seen 在 72 小時內（seen_count==1 亦可）
+       條件 B（頑固威脅累計）：seen_count>=2 AND threat_score>=90
+                               AND last_seen 在 7 天內
+       符合任一條件即收錄；其餘 IP 僅留在 base_iocs.json 供查詢，不進 EDL。
+  6. 回寫 high-water mark
+  7. 自動 git add / commit / push 至遠端 main
 
 用法:
   python pipeline.py                 # 正常增量同步
@@ -73,8 +80,29 @@ def setup_logging(verbose: bool = False) -> None:
     )
 
 
+TAIPEI_TZ = timezone(timedelta(hours=8))
+
+
 def now_utc_iso() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def taipei_today_str() -> str:
+    """台北時間（UTC+8）today 字串，作為 daily_iocs.json 的累計桶 key。"""
+    return datetime.now(TAIPEI_TZ).strftime("%Y-%m-%d")
+
+
+def parse_iso(value: Optional[str]) -> Optional[datetime]:
+    """寬鬆解析 ISO8601 時間字串，失敗回傳 None（而非拋例外）。"""
+    if not isinstance(value, str) or not value:
+        return None
+    try:
+        dt = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt
 
 
 def epoch_ms(dt: datetime) -> int:
@@ -366,8 +394,17 @@ def load_base_iocs() -> Dict[str, Dict[str, Any]]:
 
 def upsert_base_iocs(
     base: Dict[str, Dict[str, Any]], incoming: List[Dict[str, Any]]
-) -> Dict[str, int]:
+) -> Tuple[Dict[str, int], List[Dict[str, Any]]]:
+    """
+    Upsert 進全量庫。回傳 (counters, new_records)。
+
+    new_records 是本次「首次出現」且剛寫入 base 的完整紀錄（seen_count=1），
+    供 write_daily_iocs() 收集進 data/daily_iocs.json 的台北「今日」累計桶。
+    既有 IP 只更新 last_seen/threat_score/confidence/labels 等欄位，不會
+    重複計入 daily，因為它已經不是「新發現」。
+    """
     counters = {"new": 0, "updated": 0}
+    new_records: List[Dict[str, Any]] = []
     stamp = now_utc_iso()
 
     for item in incoming:
@@ -380,6 +417,7 @@ def upsert_base_iocs(
             record["last_updated"] = stamp
             base[ip] = record
             counters["new"] += 1
+            new_records.append(record)
             continue
 
         existing["seen_count"] = int(existing.get("seen_count", 1)) + 1
@@ -405,12 +443,124 @@ def upsert_base_iocs(
         existing["last_updated"] = stamp
         counters["updated"] += 1
 
-    return counters
+    return counters, new_records
+
+
+def load_daily_bucket() -> Tuple[Dict[str, Dict[str, Any]], str]:
+    """
+    讀取 data/daily_iocs.json 目前的累計桶。
+    若檔案記錄的日期不是台北時間的今天（或格式是舊版），視為空桶重新累積，
+    確保「今日新增」跨日自動歸零，但同一天內多次執行會持續累加。
+    """
+    today = taipei_today_str()
+    raw = read_json(DAILY_IOCS_FILE, {})
+    if not isinstance(raw, dict):
+        return {}, today
+    meta = raw.get("meta") or {}
+    iocs = raw.get("iocs")
+    if meta.get("date_taipei") != today or not isinstance(iocs, dict):
+        return {}, today
+    return iocs, today
+
+
+def write_daily_iocs(new_records: List[Dict[str, Any]], stats: Dict[str, Any]) -> None:
+    """把本次首次出現的 IP 併入台北時間今日的累計桶，寫回 daily_iocs.json。"""
+    bucket, today = load_daily_bucket()
+    for record in new_records:
+        bucket[record["ip"]] = record
+
+    write_json(
+        DAILY_IOCS_FILE,
+        {
+            "meta": {
+                "generated_at": now_utc_iso(),
+                "date_taipei": today,
+                "count": len(bucket),
+                "new_this_run": len(new_records),
+                "run_stats": stats,
+            },
+            "iocs": bucket,
+        },
+    )
+    log.info("今日新增累計（台北時間 %s）：%d 筆（本次新增 %d 筆）", today, len(bucket), len(new_records))
+
+
+# --------------------------------------------------------------------------- #
+# EDL 階梯式判定邏輯（Tiered Decision）
+# --------------------------------------------------------------------------- #
+HIGH_RISK_LABEL_KEYWORDS = (
+    "c2", "ransomware", "apt", "cobaltstrike", "webshell", "trojan", "botnet",
+)
+
+
+def select_edl_candidates(
+    base: Dict[str, Dict[str, Any]], now: datetime
+) -> Tuple[List[str], Dict[str, int]]:
+    """
+    只有符合以下任一條件的 IP 才會寫入 blocklist_edl.txt：
+
+      條件 A（致命高危直通）：
+        labels 命中任一高危關鍵字 AND threat_score >= 95
+        AND last_seen 在近 72 小時內（即使 seen_count == 1 也收錄）
+      條件 B（頑固威脅累計）：
+        seen_count >= 2 AND threat_score >= 90 AND last_seen 在近 7 天內
+
+    其餘 IP（單次出現、無高危標籤、或已超過 7 天無活動）保留在
+    base_iocs.json 供查詢，但不進入 EDL 阻斷清單。
+
+    同時把判定結果以 record["edl_tier"] = "A" / "B" / None 寫回每筆
+    base 紀錄（直接修改傳入的 dict），讓前端（docs/edl.html）能直接讀取
+    「當初是依哪個條件被收錄」，不必自行以瀏覽器當下時間重新計算
+    ——否則使用者晚點才打開頁面，72 小時 / 7 天的時間窗會跟著「現在」
+    往後漂移，可能誤判成不符合任何條件。
+    """
+    window_a = now - timedelta(hours=72)
+    window_b = now - timedelta(days=7)
+    stats = {"condition_a": 0, "condition_b": 0, "excluded": 0}
+    selected: List[str] = []
+
+    for ip, record in base.items():
+        labels_lower = [str(l).lower() for l in record.get("labels", []) or []]
+        has_high_risk_label = any(
+            keyword in label for label in labels_lower for keyword in HIGH_RISK_LABEL_KEYWORDS
+        )
+        threat_score = to_number(record.get("threat_score")) or 0
+        seen_count = int(record.get("seen_count", 1) or 1)
+        last_seen_dt = parse_iso(record.get("last_seen"))
+
+        condition_a = (
+            has_high_risk_label
+            and threat_score >= 95
+            and last_seen_dt is not None
+            and last_seen_dt >= window_a
+        )
+        condition_b = (
+            seen_count >= 2
+            and threat_score >= 90
+            and last_seen_dt is not None
+            and last_seen_dt >= window_b
+        )
+
+        if condition_a:
+            stats["condition_a"] += 1
+            selected.append(ip)
+            record["edl_tier"] = "A"
+        elif condition_b:
+            stats["condition_b"] += 1
+            selected.append(ip)
+            record["edl_tier"] = "B"
+        else:
+            stats["excluded"] += 1
+            record["edl_tier"] = None
+
+    selected.sort(key=lambda s: tuple(int(x) for x in s.split("/")[0].split(".")))
+    return selected, stats
 
 
 def write_outputs(
     base: Dict[str, Dict[str, Any]],
-    daily: List[Dict[str, Any]],
+    edl_ips: List[str],
+    edl_stats: Dict[str, int],
     stats: Dict[str, Any],
 ) -> None:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -428,36 +578,27 @@ def write_outputs(
                 "avg_threat_score": avg_score,
                 "min_confidence": stats.get("min_confidence"),
                 "min_threat_score": stats.get("min_threat_score"),
+                "edl_count": len(edl_ips),
+                "edl_condition_a": edl_stats.get("condition_a", 0),
+                "edl_condition_b": edl_stats.get("condition_b", 0),
                 "source": "Luminar STIX 2.1",
             },
             "iocs": base,
         },
     )
 
-    write_json(
-        DAILY_IOCS_FILE,
-        {
-            "meta": {
-                "generated_at": stamp,
-                "count": len(daily),
-                "run_stats": stats,
-            },
-            "iocs": daily,
-        },
+    # EDL：純 IP 換行，供防火牆直接拉取（已經過階梯式判定篩選）
+    EDL_FILE.write_text(
+        "\n".join(edl_ips) + ("\n" if edl_ips else ""), encoding="utf-8"
     )
-
-    # EDL：純 IP 換行，供防火牆直接拉取
-    ips = sorted(
-        base.keys(),
-        key=lambda s: tuple(int(x) for x in s.split("/")[0].split(".")),
-    )
-    EDL_FILE.write_text("\n".join(ips) + ("\n" if ips else ""), encoding="utf-8")
 
     log.info(
-        "輸出完成：base_iocs=%d 筆, daily_iocs=%d 筆, EDL=%d 行",
+        "輸出完成：base_iocs=%d 筆, EDL=%d 行（條件A命中=%d, 條件B命中=%d, 未達標=%d）",
         len(base),
-        len(daily),
-        len(ips),
+        len(edl_ips),
+        edl_stats.get("condition_a", 0),
+        edl_stats.get("condition_b", 0),
+        edl_stats.get("excluded", 0),
     )
 
 
@@ -649,11 +790,15 @@ def main() -> int:
 
     # ---- 3. Upsert ----
     base = load_base_iocs()
-    counters = upsert_base_iocs(base, daily)
+    counters, new_records = upsert_base_iocs(base, daily)
     stats.update(counters)
     log.info("Upsert: 新增 %d, 更新 %d, 資料庫總計 %d", counters["new"], counters["updated"], len(base))
 
-    write_outputs(base, daily, stats)
+    write_daily_iocs(new_records, stats)
+
+    # ---- 3.5 EDL 階梯式判定 ----
+    edl_ips, edl_stats = select_edl_candidates(base, datetime.now(timezone.utc))
+    write_outputs(base, edl_ips, edl_stats, stats)
 
     # ---- 4. 回寫高水位線 ----
     if latest_ts:

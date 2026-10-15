@@ -5,12 +5,19 @@
   // GitHub Pages 可能設定為 repo 根目錄或 /docs 子目錄為站台根，
   // 兩種情況下 data/ 的相對位置不同，因此依序嘗試。
   var IOC_CANDIDATES = ["../data/base_iocs.json", "./data/base_iocs.json", "/data/base_iocs.json"];
+  var DAILY_CANDIDATES = ["../data/daily_iocs.json", "./data/daily_iocs.json", "/data/daily_iocs.json"];
   var EDL_CANDIDATES = ["../data/blocklist_edl.txt", "./data/blocklist_edl.txt", "/data/blocklist_edl.txt"];
 
   var PAGE_SIZE = 200;
 
   var state = {
-    all: [],        // 全部 IOC
+    raw: {                   // 各頁籤各自的完整資料（載入後不隨篩選變動）
+      all: { meta: {}, list: [] },
+      daily: { meta: {}, list: [] },
+      edl: { meta: {}, list: [] }
+    },
+    activeTab: "all",
+    all: [],        // 目前作用中頁籤的資料
     view: [],       // 篩選後
     shown: 0,
     meta: {},
@@ -109,14 +116,28 @@
     $("tableBody").innerHTML =
       '<tr><td colspan="9" class="text-center py-5 muted">載入中 …</td></tr>';
 
-    fetchFirstAvailable(IOC_CANDIDATES, true)
-      .then(function (result) {
-        var normalized = normalize(result.data);
-        state.all = normalized.list;
-        state.meta = normalized.meta;
-        buildLabelOptions();
-        renderStats();
-        applyFilters();
+    var allPromise = fetchFirstAvailable(IOC_CANDIDATES, true).then(function (result) {
+      state.raw.all = normalize(result.data);
+    });
+
+    // daily_iocs.json 在尚未產生任何新資料前可能不存在，容錯回傳空集合
+    var dailyPromise = fetchFirstAvailable(DAILY_CANDIDATES, true)
+      .then(function (result) { return normalize(result.data); })
+      .catch(function () { return { meta: {}, list: [] }; })
+      .then(function (normalized) { state.raw.daily = normalized; });
+
+    Promise.all([allPromise, dailyPromise])
+      .then(function () {
+        // EDL 頁籤不另外抓檔，直接從全量庫篩出 edl_tier 已標記的紀錄
+        // （edl_tier 由 pipeline.py 的階梯式判定邏輯於同步當下寫入，
+        // 避免前端用瀏覽器當下時間重算導致 72 小時 / 7 天時間窗漂移）
+        var edlList = state.raw.all.list.filter(function (r) {
+          return r.edl_tier === "A" || r.edl_tier === "B";
+        });
+        state.raw.edl = { meta: state.raw.all.meta, list: edlList };
+
+        updateTabBadges();
+        switchTab(state.activeTab);
       })
       .catch(function (err) {
         $("tableBody").innerHTML =
@@ -136,6 +157,36 @@
       .catch(function () {
         $("edlLink").classList.add("disabled");
       });
+  }
+
+  function updateTabBadges() {
+    $("tabAllBadge").textContent = state.raw.all.list.length.toLocaleString();
+    $("tabDailyBadge").textContent = state.raw.daily.list.length.toLocaleString();
+    $("tabEdlBadge").textContent = state.raw.edl.list.length.toLocaleString();
+  }
+
+  var TAB_LABELS = {
+    all: "收錄總 IP 數",
+    daily: "今日新增 IP 數",
+    edl: "EDL 阻斷 IP 數"
+  };
+
+  function switchTab(tab) {
+    if (!state.raw[tab]) tab = "all";
+    state.activeTab = tab;
+
+    var bucket = state.raw[tab];
+    state.all = bucket.list;
+    state.meta = bucket.meta;
+
+    $("tabAllBtn").classList.toggle("active", tab === "all");
+    $("tabDailyBtn").classList.toggle("active", tab === "daily");
+    $("tabEdlBtn").classList.toggle("active", tab === "edl");
+    $("statTotalLabel").textContent = TAB_LABELS[tab] || TAB_LABELS.all;
+
+    buildLabelOptions();
+    renderStats();
+    applyFilters();
   }
 
   // ---------------------------------------------------------------- 篩選
@@ -243,7 +294,11 @@
   }
 
   function rowHtml(r) {
-    var labels = r.labels.slice(0, 6).map(function (l) {
+    var tierTag = "";
+    if (r.edl_tier === "A") tierTag = '<span class="tag tag-tier-a">高危直通</span>';
+    else if (r.edl_tier === "B") tierTag = '<span class="tag tag-tier-b">頑固威脅</span>';
+
+    var labels = tierTag + r.labels.slice(0, 6).map(function (l) {
       return '<span class="tag">' + esc(l) + "</span>";
     }).join("");
     if (r.labels.length > 6) {
@@ -291,15 +346,20 @@
     var total = state.all.length;
     $("statTotal").textContent = total.toLocaleString();
 
-    var avg = state.meta.avg_threat_score;
-    if (avg == null && total) {
+    var avg = 0;
+    if (total) {
       avg = state.all.reduce(function (s, r) { return s + r.threat_score; }, 0) / total;
     }
     $("statAvgScore").textContent = total ? Number(avg).toFixed(1) : "—";
 
-    var synced = state.meta.generated_at;
+    // 同步時間與 EDL 阻斷數是全系統層級指標，不隨頁籤切換，固定讀全量庫 meta
+    var globalMeta = state.raw.all.meta || {};
+    var synced = globalMeta.generated_at;
     $("statSync").textContent = synced ? fmtDate(synced) : "—";
     $("statSyncLocal").textContent = " ";
+
+    var edlCount = globalMeta.edl_count;
+    $("statEdl").textContent = (edlCount != null) ? Number(edlCount).toLocaleString() : "—";
   }
 
   // ---------------------------------------------------------------- 事件
@@ -323,6 +383,10 @@
   }
 
   function bind() {
+    $("tabAllBtn").addEventListener("click", function () { switchTab("all"); });
+    $("tabDailyBtn").addEventListener("click", function () { switchTab("daily"); });
+    $("tabEdlBtn").addEventListener("click", function () { switchTab("edl"); });
+
     $("searchBox").addEventListener("input", debounce(applyFilters, 180));
 
     $("labelFilterBtn").addEventListener("click", function (e) {
