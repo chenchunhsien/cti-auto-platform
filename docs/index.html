@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CTI 威脅情資查詢平台</title>
+  <title>CTI 情資收斂與 EDL 聯防平台</title>
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
     rel="stylesheet"
@@ -81,6 +81,11 @@
     }
     .tag-tier-a { background: rgba(239,68,68,.16); color: #fca5a5; border-color: rgba(239,68,68,.4); font-weight: 700; }
     .tag-tier-b { background: rgba(249,115,22,.16); color: #fdba74; border-color: rgba(249,115,22,.4); font-weight: 700; }
+    .tier-block {
+      border-radius: .5rem; padding: .75rem .9rem; height: 100%;
+    }
+    .tier-block-a { background: rgba(239,68,68,.12); border: 1px solid rgba(239,68,68,.45); }
+    .tier-block-b { background: rgba(249,115,22,.12); border: 1px solid rgba(249,115,22,.45); }
     .score-pill {
       font-weight: 700; font-size: .82rem; padding: .18rem .5rem; border-radius: .4rem;
     }
@@ -154,7 +159,7 @@
   <div class="container-fluid px-4 py-2">
     <span class="navbar-brand d-flex align-items-center gap-2 mb-0">
       <span class="brand-dot"></span>
-      <span class="fw-bold">CTI 威脅情資查詢平台</span>
+      <span class="fw-bold">CTI 情資收斂與 EDL 聯防平台</span>
       <span class="badge text-bg-secondary ms-1">Luminar STIX 2.1</span>
     </span>
     <div class="d-flex gap-2">
@@ -187,8 +192,8 @@
     </li>
   </ul>
 
-  <!-- 統計卡片 -->
-  <div class="row g-3 mb-4">
+  <!-- 統計卡片（EDL 阻斷清單頁籤不顯示，改用下方精簡版同步時間）-->
+  <div class="row g-3 mb-4" id="statsRow">
     <div class="col-6 col-lg">
       <div class="stat-card">
         <div class="stat-label" id="statTotalLabel">收錄總 IP 數</div>
@@ -226,30 +231,39 @@
     </div>
   </div>
 
+  <!-- 精簡版同步時間（僅 EDL 阻斷清單頁籤顯示，取代上方整排統計卡片）-->
+  <div class="muted small mb-3" id="edlSyncCompact" hidden>
+    最後同步時間 (UTC+8)：<span id="statSyncEdl">—</span>
+  </div>
+
   <!-- EDL 判定條件說明（僅 EDL 阻斷清單頁籤顯示）-->
   <div class="panel p-3 mb-3" id="edlCriteriaPanel" hidden>
     <div class="row g-3">
       <div class="col-md-6">
-        <div class="d-flex align-items-center gap-2 mb-1">
-          <span class="tag tag-tier-a">高危直通</span>
-          <span class="fw-bold small">條件 A</span>
-        </div>
-        <div class="muted small">
-          標籤命中高危關鍵字（c2 / ransomware / apt / cobaltstrike / webshell / trojan / botnet）
-          <span class="text-light">且</span> 威脅分數 ≥ 95
-          <span class="text-light">且</span> 最後活躍時間在 72 小時內
-          （即使僅出現 1 次也收錄）
+        <div class="tier-block tier-block-a">
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <span class="tag tag-tier-a">高危直通</span>
+            <span class="fw-bold small">條件 A</span>
+          </div>
+          <div class="muted small">
+            標籤命中高危關鍵字（c2 / ransomware / apt / cobaltstrike / webshell / trojan / botnet）
+            <span class="text-light">且</span> 威脅分數 ≥ 95
+            <span class="text-light">且</span> 最後活躍時間在 72 小時內
+            （即使僅出現 1 次也收錄）
+          </div>
         </div>
       </div>
       <div class="col-md-6">
-        <div class="d-flex align-items-center gap-2 mb-1">
-          <span class="tag tag-tier-b">頑固威脅</span>
-          <span class="fw-bold small">條件 B</span>
-        </div>
-        <div class="muted small">
-          累計出現次數 ≥ 2 次
-          <span class="text-light">且</span> 威脅分數 ≥ 90
-          <span class="text-light">且</span> 最後活躍時間在 7 天內
+        <div class="tier-block tier-block-b">
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <span class="tag tag-tier-b">頑固威脅</span>
+            <span class="fw-bold small">條件 B</span>
+          </div>
+          <div class="muted small">
+            累計出現次數 ≥ 2 次
+            <span class="text-light">且</span> 威脅分數 ≥ 90
+            <span class="text-light">且</span> 最後活躍時間在 7 天內
+          </div>
         </div>
       </div>
     </div>
@@ -349,7 +363,7 @@
 
 <!-- GitHub Pages 對靜態資源下 Cache-Control: max-age=600，每次更動 app.js
      都要跟著調整 ?v= 版本號，否則使用者瀏覽器可能在 10 分鐘內吃到舊快取 -->
-<script src="asn_dict.js?v=20261015k"></script>
-<script src="app.js?v=20261015k"></script>
+<script src="asn_dict.js?v=20261015l"></script>
+<script src="app.js?v=20261015l"></script>
 </body>
 </html>

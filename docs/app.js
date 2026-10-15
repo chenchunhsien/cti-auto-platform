@@ -1,4 +1,4 @@
-/* CTI 威脅情資查詢平台 — 前端邏輯（原生 JS，無框架） */
+/* CTI 情資收斂與 EDL 聯防平台 — 前端邏輯（原生 JS，無框架） */
 (function () {
   "use strict";
 
@@ -191,6 +191,8 @@
     $("edlCriteriaPanel").hidden = (tab !== "edl");
     $("edlTierFilterRow").hidden = (tab !== "edl");
     $("searchRow").hidden = (tab === "edl");
+    $("statsRow").hidden = (tab === "edl");
+    $("edlSyncCompact").hidden = (tab !== "edl");
 
     // EDL 頁籤沒有排序下拉，固定依威脅分數排序（相同分數時以信心值為次要依據）；
     // 離開時還原其餘頁籤原本的排序設定
@@ -414,6 +416,7 @@
     var synced = globalMeta.generated_at;
     $("statSync").textContent = synced ? fmtDate(synced) : "—";
     $("statSyncLocal").textContent = " ";
+    $("statSyncEdl").textContent = synced ? fmtDate(synced) : "—";
 
     var edlCount = globalMeta.edl_count;
     $("statEdl").textContent = (edlCount != null) ? Number(edlCount).toLocaleString() : "—";
