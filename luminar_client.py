@@ -3,37 +3,42 @@ luminar_client.py
 -----------------
 Luminar (Cognyte) STIX 2.1 External API v2 客戶端。
 
-端點（2026-10-15 對 cyberluminar.com 實測確認）:
-  Token : POST {base}/externalApi/v2/realm/{realm}/token
-          body: grant_type=client_credentials, client_id, client_secret,
-                scope=externalAPI/stix.readonly   <-- 必填！漏填會導致
-                JWT 的 scope 為空字串，查詢 /externalApi/v2/stix 時一律
-                回 400 "Invalid limit size (0-100): null"（誤導成像是
-                limit 參數錯誤，實際上是 Token 未取得查詢權限）。
-  Query : POST {base}/externalApi/v2/stix
-          第一頁 body: {"dataSources": [<source>], "resultsPerPage": 1-100,
-                       "timestamp": <Epoch 毫秒>}
-          續頁 body  : {"dataSources": [<source>], "resultsPerPage": 1-100,
-                       "nextPageToken": <token>}
-                       —— 續頁「不可」再帶 timestamp，否則該欄位會被忽略
-                       （伺服器仍可接受請求，但等同重新從 timestamp 查起）。
-          dataSources 合法值: leakedRecords, all, vulnerability, IOC, cyberFeed
-          回應: {"nextPageToken": str|null, "totalHits": int,
-                "latestTimestamp": <Epoch 毫秒>, "stix": [bundle, ...]}
-                —— 每個 bundle 物件才有 "objects" 陣列，需攤平收集。
+依官方文件《Luminar External Client APIs v4.0 (2026-08)》實作，並經
+2026-10-15 對 cyberluminar.com 實測確認：
 
-重要實測結論（Token 效期 300 秒；已知的伺服器端分頁/時間戳問題）:
-  * `latestTimestamp` **不可**當作高水位線：連續執行時幾乎不會推進
-    （實測連續 3 次呼叫只從 ...219331 增加到 ...219454、...219570，
-    每次僅增加約 100 毫秒，totalHits 卻維持在數千萬不變）。若拿它當
-    下次查詢的起點，管線會永遠卡在同一個舊時間點、追不上新資料。
-    本模組改以本次實際取得物件的 modified / extensions.collection_date /
-    valid_from / created 欄位取最大值作為高水位線（見
-    `_latest_from_objects`），實測證實能正確推進到接近目前時間。
-  * `nextPageToken` 在不含新資料時仍可能持續回傳非 null 值，並重複送出
-    同一批物件（已實測到：翻 150 頁仍卡在同一組 ~100 筆物件）。
-    因此分頁迴圈改以「本頁有無新的物件 ID」為終止條件，而非單純依賴
-    nextPageToken 是否存在，以避免無窮迴圈持續消耗 API 配額。
+  Token : POST {base}/externalApi/v2/realm/{realm}/token
+          body (x-www-form-urlencoded): grant_type=client_credentials,
+                client_id, client_secret, scope=<scope>
+          scope 必填（官方文件 5.1.1.2），本專案使用
+          "externalAPI/stix.readonly"。漏填會導致 JWT scope 為空，
+          查詢 API 一律回 400 "Invalid limit size (0-100): null"
+          （乍看像是 limit 參數錯誤，實際上是查詢權限問題）。
+
+  首頁查詢 : POST {base}/externalApi/v2/stix
+          body: {"dataSources": [<source>], "resultsPerPage": 1-100,
+                 "timestamp": <Epoch 毫秒>, "duration": "<scroll 保活時間>"}
+          dataSources 合法值: all, IOC, leakedRecords, cyberFeed,
+                              vulnerability
+
+  續頁查詢 : POST {base}/externalApi/v2/stix/next   <-- 官方文件 6.1.2
+          body: {"nextPageToken": <token>}          （只帶這一個欄位！）
+
+          實測教訓：若誤將 nextPageToken 疊加送回 /externalApi/v2/stix
+          （而非官方指定的 /stix/next），伺服器會接受請求但分頁不會真正
+          前進，重複回傳同一批資料（翻 150 頁仍卡住）。改用正確端點後
+          每頁皆為新資料，問題消失。
+
+  回應: {"nextPageToken": str|null, "totalHits": long,
+        "latestTimestamp": <Epoch 毫秒>, "stix": [bundle, ...]}
+        每個 bundle 才有 "objects" 陣列，需攤平收集。
+
+高水位線策略:
+  totalHits 對應的是「整個查詢範圍」的物件總數，可能高達百萬筆以上；
+  實測發現 `latestTimestamp` 隨分頁推進極慢（每頁僅增加數十~數百毫秒），
+  若回溯區間涵蓋數天，單次執行往往無法掃到「現在」。
+  因此本模組改以本次實際取得物件的 modified / extensions.collection_date /
+  valid_from / created 欄位取最大值作為高水位線，並允許「長時間斷線後
+  的補抓分成多次排程執行逐步追上」——這是合理且預期中的行為，而非 bug。
 """
 
 from __future__ import annotations
@@ -50,7 +55,7 @@ log = logging.getLogger("luminar")
 TOKEN_TTL_SECONDS = 300
 TOKEN_REFRESH_SKEW = 30
 
-# dataSources 列舉（伺服器端錯誤訊息實測取得的完整清單）
+# dataSources 列舉（官方文件 6.1.1.3 + 伺服器端錯誤訊息實測確認）
 DATA_SOURCE_IOC = "IOC"
 DATA_SOURCE_LEAKED_RECORDS = "leakedRecords"
 DATA_SOURCE_VULNERABILITY = "vulnerability"
@@ -60,6 +65,10 @@ DATA_SOURCE_ALL = "all"
 # 對外相容別名（pipeline.py 使用這兩個名稱選擇 feed）
 FEED_IOC = DATA_SOURCE_IOC
 FEED_LEAKED_CREDENTIALS = DATA_SOURCE_LEAKED_RECORDS
+
+# 官方文件建議值（6.1.1.3 Recommended: 10；FAQ: 408 逾時請調小 resultsPerPage）
+RECOMMENDED_RESULTS_PER_PAGE = 10
+MAX_RESULTS_PER_PAGE = 100
 
 
 class LuminarError(RuntimeError):
@@ -85,10 +94,12 @@ class LuminarClient:
         client_secret: str,
         token_path: str = "/externalApi/v2/realm/{realm}/token",
         query_path: str = "/externalApi/v2/stix",
+        query_next_path: str = "/externalApi/v2/stix/next",
         scope: str = "externalAPI/stix.readonly",
-        page_limit: int = 100,
-        max_pages: int = 1000,
-        timeout: int = 300,
+        page_limit: int = RECOMMENDED_RESULTS_PER_PAGE,
+        scroll_duration: str = "2m",
+        max_pages: int = 2000,
+        timeout: int = 120,
         verify_ssl: bool = True,
     ) -> None:
         self.base_url = base_url.rstrip("/")
@@ -97,9 +108,10 @@ class LuminarClient:
         self.client_secret = client_secret
         self.token_path = token_path
         self.query_path = query_path
+        self.query_next_path = query_next_path
         self.scope = scope
-        # 伺服器端限制 resultsPerPage 介於 1-100
-        self.page_limit = max(1, min(int(page_limit), 100))
+        self.page_limit = max(1, min(int(page_limit), MAX_RESULTS_PER_PAGE))
+        self.scroll_duration = scroll_duration
         self.max_pages = max_pages
         self.timeout = timeout
         self.verify_ssl = verify_ssl
@@ -120,6 +132,10 @@ class LuminarClient:
     @property
     def query_url(self) -> str:
         return self.base_url + self.query_path
+
+    @property
+    def query_next_url(self) -> str:
+        return self.base_url + self.query_next_path
 
     def _token_is_valid(self) -> bool:
         return bool(self._token) and time.monotonic() < self._token_expiry
@@ -183,19 +199,19 @@ class LuminarClient:
     # ------------------------------------------------------------------ #
     # HTTP
     # ------------------------------------------------------------------ #
-    def _post_query(self, body: Dict[str, Any]) -> Dict[str, Any]:
-        """送出 STIX 查詢；遇 401 自動刷新 Token 重試一次。"""
+    def _post(self, url: str, body: Dict[str, Any]) -> Dict[str, Any]:
+        """送出請求；遇 401 自動刷新 Token 重試一次。"""
         for attempt in (1, 2):
             try:
                 resp = self.session.post(
-                    self.query_url,
+                    url,
                     json=body,
                     headers=self._auth_headers(),
                     timeout=self.timeout,
                     verify=self.verify_ssl,
                 )
             except requests.RequestException as exc:
-                raise LuminarError(f"STIX 查詢連線失敗: {exc}") from exc
+                raise LuminarError(f"POST {url} 連線失敗: {exc}") from exc
 
             if resp.status_code == 401 and attempt == 1:
                 log.warning("收到 401，強制刷新 Token 後重試")
@@ -210,7 +226,17 @@ class LuminarClient:
                         "請確認 Token 請求有帶正確的 scope（LUMINAR_SCOPE），"
                         f"或洽 Luminar 確認帳號是否已開通此 dataSource (HTTP {resp.status_code}: {text})"
                     )
-                raise LuminarError(f"STIX 查詢失敗 HTTP {resp.status_code}: {text}")
+                if resp.status_code == 403:
+                    raise LuminarError(
+                        f"HTTP 403 Forbidden：本機 IP 可能未加入 Luminar 白名單，"
+                        f"請洽 Luminar 確認。({text})"
+                    )
+                if resp.status_code == 408:
+                    raise LuminarError(
+                        f"HTTP 408 查詢逾時：請嘗試調小 resultsPerPage"
+                        f"（官方建議 10）。({text})"
+                    )
+                raise LuminarError(f"POST {url} 失敗 HTTP {resp.status_code}: {text}")
 
             try:
                 return resp.json()
@@ -257,14 +283,7 @@ class LuminarClient:
 
     @staticmethod
     def _extract_latest_timestamp(body: Dict[str, Any]) -> Optional[int]:
-        """
-        取回應中的 latestTimestamp 欄位，**僅供診斷記錄用**。
-
-        實測發現此值不可作為高水位線：連續執行時它幾乎不會推進
-        （曾觀察到每次只增加約 100 毫秒，totalHits 卻維持數千萬不變），
-        若拿來當下次查詢起點會導致管線永遠卡在同一個舊時間點，
-        追不上新資料。真正的高水位線改由 `_latest_from_objects()` 計算。
-        """
+        """取回應中的 latestTimestamp 欄位，僅供診斷記錄用（見模組說明）。"""
         if not isinstance(body, dict):
             return None
         value = body.get("latestTimestamp")
@@ -320,6 +339,10 @@ class LuminarClient:
         """
         從指定時間戳（Epoch 毫秒）起抓取 STIX 物件。
 
+        首頁 POST 至 query_path（/externalApi/v2/stix），續頁依官方文件
+        6.1.2 改 POST 至 query_next_path（/externalApi/v2/stix/next），
+        body 僅帶 nextPageToken。
+
         Args:
             timestamp: 起始時間戳，Epoch 毫秒（僅套用於第一頁請求）。
             feed: dataSources 值，預設 FEED_IOC（"IOC"）；
@@ -327,30 +350,35 @@ class LuminarClient:
 
         Returns:
             (objects, latest_timestamp_ms) —— latest_timestamp 由本次取得
-            物件的最新 modified/collection_date 等欄位推導（見
-            `_latest_from_objects`），而非信任伺服器的 latestTimestamp 欄位。
-            若本次未取得任何物件，回傳 None（呼叫端應維持原高水位線不變）。
+            物件的 modified/collection_date 等欄位推導（見
+            `_latest_from_objects`），而非信任伺服器的 latestTimestamp 欄位
+            （理由見模組說明）。若本次未取得任何物件，回傳 None（呼叫端
+            應以當前時間作為高水位線，詳見 pipeline.py）。
         """
         objects: List[Dict[str, Any]] = []
         seen_ids: Set[str] = set()
         api_latest_ts: Optional[int] = None
         next_token: Optional[str] = None
+        total_hits: Any = None
         page = 0
 
         while page < self.max_pages:
             page += 1
-            body: Dict[str, Any] = {
-                "dataSources": [feed],
-                "resultsPerPage": self.page_limit,
-            }
-            if next_token:
-                body["nextPageToken"] = next_token
-            else:
-                # 僅第一頁帶 timestamp；續頁帶 timestamp 會被伺服器忽略
-                # （視同重新從頭查詢），因此之後一律不再附加。
-                body["timestamp"] = int(timestamp)
 
-            resp = self._post_query(body)
+            if page == 1:
+                url = self.query_url
+                body: Dict[str, Any] = {
+                    "dataSources": [feed],
+                    "resultsPerPage": self.page_limit,
+                    "timestamp": int(timestamp),
+                    "duration": self.scroll_duration,
+                }
+            else:
+                # 官方文件 6.1.2：續頁走專屬端點，body 只帶 nextPageToken
+                url = self.query_next_url
+                body = {"nextPageToken": next_token}
+
+            resp = self._post(url, body)
 
             if page == 1:
                 api_latest_ts = self._extract_latest_timestamp(resp)
@@ -377,12 +405,16 @@ class LuminarClient:
             if not next_token or not page_objects:
                 break
             if not new_objects:
-                # 已知伺服器端分頁 bug：nextPageToken 持續存在但內容不再推進。
-                # 本頁 0 筆新資料即視為抓取完畢，避免無窮迴圈消耗配額。
+                # 保險措施：若伺服器端仍回傳與已取得物件完全重複的內容，
+                # 視為無新資料可抓，避免無窮迴圈消耗配額。
                 log.info("本頁無新物件，視為已抓取完畢，停止分頁")
                 break
         else:
-            log.warning("已達 max_pages=%d 上限，可能尚有未取回資料", self.max_pages)
+            log.warning(
+                "已達 max_pages=%d 上限（totalHits=%s），回溯區間資料量過大，"
+                "本次僅部分抓取，下次排程將從本次高水位線繼續補抓",
+                self.max_pages, total_hits,
+            )
 
         local_latest = self._latest_from_objects(objects)
         now_ms = int(time.time() * 1000)

@@ -604,9 +604,15 @@ def main() -> int:
                     "LUMINAR_TOKEN_PATH", "/externalApi/v2/realm/{realm}/token"
                 ),
                 query_path=env_str("LUMINAR_QUERY_PATH", "/externalApi/v2/stix"),
+                query_next_path=env_str(
+                    "LUMINAR_QUERY_NEXT_PATH", "/externalApi/v2/stix/next"
+                ),
                 scope=env_str("LUMINAR_SCOPE", "externalAPI/stix.readonly"),
+                # 官方文件建議 10、上限 100；實測 24h 視窗用 10 要數百頁才爬得完，
+                # 改用上限值大幅減少來回次數；若遇 HTTP 408 請調低（FAQ 建議）。
                 page_limit=env_int("PAGE_LIMIT", 100),
-                max_pages=env_int("MAX_PAGES", 1000),
+                scroll_duration=env_str("LUMINAR_SCROLL_DURATION", "2m"),
+                max_pages=env_int("MAX_PAGES", 2000),
             )
             with client:
                 objects, latest_ts = client.fetch_stix(start_ts, feed=args.feed)

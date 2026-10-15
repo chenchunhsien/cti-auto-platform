@@ -71,30 +71,34 @@ Windows 工作排程器：
 因此週末/假日電腦關機、排程漏跑都不會造成資料缺口。執行**失敗時刻意不更新**此值，
 下次執行會自動重抓缺漏區間。初次執行（無狀態檔）預設回溯 `DEFAULT_LOOKBACK_HOURS` 小時。
 
-此時間戳**不是**直接採信 Luminar API 回應的 `latestTimestamp`（該值經實測不可靠，見下方
-API 筆記），而是由 `luminar_client.py` 掃描本次實際取得物件的時間欄位自行推導，
-確保每次執行都能真正往前推進、追上最新資料。
+此時間戳**不是**直接採信 Luminar API 回應的 `latestTimestamp`（原因見下方 API 筆記），
+而是由 `luminar_client.py` 掃描本次實際取得物件的時間欄位自行推導，確保每次執行都能
+真正往前推進。若斷線多日造成的回溯量極大（總筆數可能上看百萬），單次執行未必能一次
+追上「現在」，可能需要**連續跑幾次排程才逐步補齊**——這是預期中的正常行為。
 
 ---
 
 ## Luminar API 實測筆記
 
-> 以下為 2026-10-15 對 `cyberluminar.com` 實際打點確認的結果。最初依文件猜測的端點
-> （`/externalApi/realm/.../token`、GET `/externalApi/stix`、`limit` 參數）都走不通，
-> 完整正確用法如下。
+> 依官方文件《Luminar External Client APIs v4.0（2026-08，Cognyte）》，並於
+> 2026-10-15 對 `cyberluminar.com` 實際打點確認。在尚未取得官方文件、純靠錯誤訊息
+> 反推 API 用法的階段，曾誤以為分頁續頁要把 `nextPageToken` 疊加送回
+> `/externalApi/v2/stix`，導致分頁卡死、重複回傳同一批資料；取得官方文件後才發現
+> 續頁其實要走專屬的 `/stix/next` 端點，問題隨之消失。以下是目前確認正確的用法。
 
-| 項目 | 實測結果 |
-|------|----------|
-| Token 端點 | `POST /externalApi/v2/realm/{realm}/token`（**注意 `v2`**，少了會回 401 SESSION_TIMEOUT） |
-| Token body | `grant_type=client_credentials, client_id, client_secret, scope=externalAPI/stix.readonly` —— **`scope` 必填**，漏填會導致 JWT scope 為空字串，查詢時一律回 `400 Invalid limit size (0-100): null`（這個錯誤訊息容易誤導成「limit 參數錯誤」或「帳號未開通」，實際上是 Token 沒有查詢權限） |
+| 項目 | 內容 |
+|------|------|
+| Token 端點 | `POST /externalApi/v2/realm/{realm}/token`（官方文件 5.1.1；注意是 v2，少了會回 401 SESSION_TIMEOUT） |
+| Token body | `grant_type=client_credentials, client_id, client_secret, scope=<scope>`。`scope` 為必填欄位，漏填會導致 JWT scope 為空字串，查詢時一律回 `400 Invalid limit size (0-100): null`（這個錯誤訊息容易誤導成是 limit 參數錯誤或帳號未開通，實際上是 Token 沒有查詢權限）。本專案使用 `externalAPI/stix.readonly` |
 | Token 效期 | `expires_in = 300` 秒；本專案提早 30 秒刷新 |
-| 查詢端點 | `POST /externalApi/v2/stix`（IOC 與外洩憑證**共用同一端點**，靠 `dataSources` 參數切換） |
-| 查詢 body（首頁） | `{"dataSources": ["IOC"], "resultsPerPage": 1-100, "timestamp": <Epoch 毫秒>}` |
-| 查詢 body（續頁） | `{"dataSources": ["IOC"], "resultsPerPage": 1-100, "nextPageToken": <token>}` —— **續頁不可再帶 `timestamp`**，帶了會被忽略、等同重新從頭查 |
-| `dataSources` 合法值 | `leakedRecords`, `all`, `vulnerability`, `IOC`, `cyberFeed`（伺服器錯誤訊息實測取得的完整列舉） |
-| 回應結構 | `{"nextPageToken", "totalHits", "latestTimestamp", "stix": [bundle, ...]}`，**物件在每個 bundle 的 `objects` 陣列裡**，需攤平收集 |
-| **`latestTimestamp` 不可信** | 連續執行幾乎不推進（實測連續 3 次只從 `...219331`→`...219454`→`...219570`，每次僅 +100 毫秒），拿來當高水位線會永遠卡住。本專案改用本次取得物件的 `modified`/`extensions.collection_date`/`valid_from`/`created` 取最大值作為高水位線，實測可正確推進到接近現在時間 |
-| **分頁 bug** | `nextPageToken` 在無新資料時仍可能持續回傳非 null 值，並重複送出同一批物件（實測翻 150 頁仍卡在同一組 ~100 筆）。本專案改以「本頁有無新的物件 ID」為分頁終止條件，而非單純看 `nextPageToken` 是否存在 |
+| 首頁查詢 | `POST /externalApi/v2/stix`（官方文件 6.1.1），body 需含 `dataSources`、`resultsPerPage`（1-100）、`timestamp`（Epoch 毫秒）、可選的 `duration`（scroll 保活時間，如 "2m"，預設 "30s"） |
+| 續頁查詢 | `POST /externalApi/v2/stix/next`（官方文件 6.1.2），body 只帶 `nextPageToken` 一個欄位——這是先前分頁卡死的根本原因：誤將續頁送回 `/stix` 而非官方指定的 `/stix/next`，改對端點後問題消失 |
+| dataSources 合法值 | all、IOC、leakedRecords、cyberFeed、vulnerability（官方文件 6.1.1.3） |
+| resultsPerPage | 官方建議 10、上限 100。實測 10 在 24 小時回溯視窗下要爬數百頁才夠，本專案預設改用上限 100 以減少來回次數；若遇 HTTP 408 逾時，依官方 FAQ 建議調小 |
+| 回應結構 | `nextPageToken`、`totalHits`、`latestTimestamp`、`stix`（bundle 陣列）。物件在每個 bundle 的 `objects` 陣列裡，需攤平收集 |
+| latestTimestamp 不適合當高水位線 | 官方文件未說明其確切語意；實測發現在同一次 scroll 中隨分頁推進極慢（每頁僅增加數十到數百毫秒），而 totalHits 可能高達百萬筆以上，回溯區間涵蓋數天時單次執行往往無法掃到現在。本專案改用本次取得物件的 modified、extensions.collection_date、valid_from、created 欄位取最大值作為高水位線，確保每次執行都有真正進展 |
+| 403 Forbidden | 本機 IP 未加入 Luminar 白名單（官方 FAQ） |
+| 408 Request timeout | 查詢逾時，請調小 resultsPerPage（官方建議 10） |
 
 ---
 
@@ -111,12 +115,15 @@ API 筆記），而是由 `luminar_client.py` 掃描本次實際取得物件的�
 `labels`、`asn`、`resolving_domains`、
 `first_seen`（`valid_from` → `created`）、`last_seen`（`collection_date` → `modified`）、`valid_until`。
 
-> **`labels` 欄位說明**：STIX 2.1 的 indicator 物件沒有 `labels`（STIX 2.0 已棄用該欄位），
-> 實際分類資訊在 `indicator_types`（如 `malicious-activity`）與
-> `extensions.*.threat_types`（如 `phishing`、`resource-exploitation`）。
-> 本專案將兩者合併存入 `labels`，若未來資料來源真的帶有 `labels` 欄位也會一併保留。
-> 同理，`asn`/`resolving_domains` 在目前的 Luminar IOC feed 中經常是空的——這是
-> 上游資料本身未提供，不代表程式有誤。
+> **`labels` 欄位說明**：STIX 2.1 的 indicator 物件官方 schema 用的是 `indicator_types`
+> （STIX 2.0 的 `labels` 已棄用），如 `malicious-activity`；部分 indicator 另在
+> `extensions.*.threat_types` 帶有更細緻的分類（如 `phishing`、`resource-exploitation`），
+> 也有部分帳號的實際資料確實帶有自訂 `labels`（如 `Honeypot`、`Scanner`）。
+> 本專案將 `labels`、`indicator_types`、`threat_types` 三者合併去重存入 `labels`，
+> 盡量保留所有可用的分類資訊。
+>
+> `asn`/`resolving_domains` 欄位則視資料來源而定，官方範例與部分實測資料中並未提供，
+> 此時會是空值——這是上游資料本身未附帶，不代表程式有誤。
 
 Upsert 行為：相同 IP 再次出現時累計 `seen_count`、更新 `last_seen`、
 合併 `labels` 與 `resolving_domains`、取 `confidence`/`threat_score` 較大值。
