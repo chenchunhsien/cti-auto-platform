@@ -91,6 +91,41 @@
     }
     .btn-edl:hover { background: #67e8f9; color: #04202a; }
     kbd { background: #1b2635; border: 1px solid var(--cti-border); }
+
+    /* 標籤多選下拉 */
+    .label-filter { position: relative; }
+    .label-filter-btn {
+      background-color: #0e141f; border: 1px solid var(--cti-border); color: #dbe5f0;
+      font-size: .95rem; text-align: left;
+    }
+    .label-filter-btn:hover, .label-filter-btn:focus {
+      background-color: #0e141f; color: #fff; border-color: var(--cti-accent);
+    }
+    .label-filter-btn-text {
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .label-filter-caret { color: var(--cti-muted); font-size: .7rem; margin-left: .5rem; }
+    .label-filter-menu {
+      position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 30;
+      background: var(--cti-panel); border: 1px solid var(--cti-border); border-radius: .6rem;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, .45);
+      display: flex; flex-direction: column; max-height: 360px;
+    }
+    .label-filter-search-wrap { padding: .5rem; border-bottom: 1px solid var(--cti-border); }
+    .label-filter-list { overflow-y: auto; padding: .35rem .25rem; flex: 1 1 auto; }
+    .label-filter-item {
+      display: flex; align-items: center; gap: .5rem; padding: .32rem .5rem;
+      border-radius: .4rem; cursor: pointer; font-size: .88rem; margin: 0;
+    }
+    .label-filter-item:hover { background: #16283a; }
+    .label-filter-item input { cursor: pointer; flex: 0 0 auto; }
+    .label-filter-item span.name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .label-filter-item span.count { margin-left: auto; color: var(--cti-muted); font-size: .76rem; flex: 0 0 auto; }
+    .label-filter-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .5rem .6rem; border-top: 1px solid var(--cti-border);
+    }
+    .label-filter-empty { padding: .75rem; color: var(--cti-muted); font-size: .85rem; text-align: center; }
   </style>
 </head>
 <body>
@@ -153,9 +188,23 @@
                placeholder="搜尋 IP / 標籤 / 網域 / ASN …  (按 / 快速聚焦)" autocomplete="off" />
       </div>
       <div class="col-6 col-lg-3">
-        <select id="labelFilter" class="form-select">
-          <option value="">全部標籤 (labels)</option>
-        </select>
+        <div class="label-filter" id="labelFilterWrap">
+          <button type="button" class="btn label-filter-btn w-100 d-flex justify-content-between align-items-center" id="labelFilterBtn">
+            <span id="labelFilterBtnText" class="label-filter-btn-text">全部標籤 (labels)</span>
+            <span class="label-filter-caret">▾</span>
+          </button>
+          <div class="label-filter-menu" id="labelFilterMenu" hidden>
+            <div class="label-filter-search-wrap">
+              <input type="search" id="labelFilterSearch" class="form-control form-control-sm"
+                     placeholder="搜尋標籤…" autocomplete="off" />
+            </div>
+            <div id="labelFilterList" class="label-filter-list"></div>
+            <div class="label-filter-footer">
+              <button type="button" class="btn btn-sm btn-outline-secondary" id="labelFilterClear">清除選取</button>
+              <span class="muted small" id="labelFilterSelectedCount">&nbsp;</span>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="col-6 col-lg-2">
         <select id="sortSelect" class="form-select">

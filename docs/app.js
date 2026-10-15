@@ -15,7 +15,9 @@
     shown: 0,
     meta: {},
     sortKey: "threat_score",
-    sortDir: -1
+    sortDir: -1,
+    labelCounts: [],         // [{name, count}]，依總數排序
+    selectedLabels: new Set()  // 目前勾選的標籤（符合其中任一即顯示）
   };
 
   var $ = function (id) { return document.getElementById(id); };
@@ -148,25 +150,62 @@
     var names = Object.keys(counts).sort(function (a, b) {
       return counts[b] - counts[a] || a.localeCompare(b);
     });
-
-    var select = $("labelFilter");
-    select.innerHTML = '<option value="">全部標籤 (labels)</option>';
-    names.forEach(function (name) {
-      var opt = document.createElement("option");
-      opt.value = name;
-      opt.textContent = name + " (" + counts[name] + ")";
-      select.appendChild(opt);
+    state.labelCounts = names.map(function (name) {
+      return { name: name, count: counts[name] };
     });
 
+    // 資料重新載入後，先前勾選但已不存在的標籤要移除
+    var valid = new Set(names);
+    state.selectedLabels.forEach(function (l) {
+      if (!valid.has(l)) state.selectedLabels.delete(l);
+    });
+
+    renderLabelMenu();
+    updateLabelButton();
     $("statLabels").textContent = names.length.toLocaleString();
+  }
+
+  function renderLabelMenu() {
+    var query = ($("labelFilterSearch").value || "").trim().toLowerCase();
+    var list = $("labelFilterList");
+    var items = state.labelCounts.filter(function (item) {
+      return !query || item.name.toLowerCase().indexOf(query) !== -1;
+    });
+
+    if (!items.length) {
+      list.innerHTML = '<div class="label-filter-empty">沒有符合的標籤</div>';
+      return;
+    }
+
+    list.innerHTML = items.map(function (item, idx) {
+      var checked = state.selectedLabels.has(item.name) ? "checked" : "";
+      var id = "lblChk" + idx + "_" + item.name.length;
+      return (
+        '<label class="label-filter-item" for="' + id + '">' +
+          '<input type="checkbox" id="' + id + '" data-label="' + esc(item.name) + '" ' + checked + ' />' +
+          '<span class="name">' + esc(item.name) + "</span>" +
+          '<span class="count">' + item.count + "</span>" +
+        "</label>"
+      );
+    }).join("");
+  }
+
+  function updateLabelButton() {
+    var n = state.selectedLabels.size;
+    var text;
+    if (n === 0) text = "全部標籤 (labels)";
+    else if (n === 1) text = Array.from(state.selectedLabels)[0];
+    else text = "已選 " + n + " 個標籤";
+    $("labelFilterBtnText").textContent = text;
+    $("labelFilterSelectedCount").textContent = n ? ("已勾選 " + n + " 項") : " ";
   }
 
   function applyFilters() {
     var query = $("searchBox").value.trim().toLowerCase();
-    var label = $("labelFilter").value;
+    var selected = state.selectedLabels;
 
     state.view = state.all.filter(function (r) {
-      if (label && r.labels.indexOf(label) === -1) return false;
+      if (selected.size && !r.labels.some(function (l) { return selected.has(l); })) return false;
       if (query && r._search.indexOf(query) === -1) return false;
       return true;
     });
@@ -177,7 +216,7 @@
     renderMore();
 
     $("statFiltered").textContent =
-      (query || label)
+      (query || selected.size)
         ? "符合條件 " + state.view.length.toLocaleString() + " 筆"
         : " ";
   }
@@ -272,9 +311,47 @@
     };
   }
 
+  function toggleLabelMenu(forceOpen) {
+    var menu = $("labelFilterMenu");
+    var open = forceOpen != null ? forceOpen : menu.hidden;
+    menu.hidden = !open;
+    if (open) {
+      $("labelFilterSearch").value = "";
+      renderLabelMenu();
+      setTimeout(function () { $("labelFilterSearch").focus(); }, 0);
+    }
+  }
+
   function bind() {
     $("searchBox").addEventListener("input", debounce(applyFilters, 180));
-    $("labelFilter").addEventListener("change", applyFilters);
+
+    $("labelFilterBtn").addEventListener("click", function (e) {
+      e.stopPropagation();
+      toggleLabelMenu();
+    });
+    $("labelFilterMenu").addEventListener("click", function (e) {
+      e.stopPropagation();
+    });
+    $("labelFilterSearch").addEventListener("input", renderLabelMenu);
+    $("labelFilterList").addEventListener("change", function (e) {
+      var target = e.target;
+      if (!target || target.type !== "checkbox") return;
+      var label = target.getAttribute("data-label");
+      if (target.checked) state.selectedLabels.add(label);
+      else state.selectedLabels.delete(label);
+      updateLabelButton();
+      applyFilters();
+    });
+    $("labelFilterClear").addEventListener("click", function () {
+      state.selectedLabels.clear();
+      updateLabelButton();
+      renderLabelMenu();
+      applyFilters();
+    });
+    document.addEventListener("click", function () {
+      toggleLabelMenu(false);
+    });
+
     $("sortSelect").addEventListener("change", function () {
       state.sortKey = this.value;
       state.sortDir = this.value === "ip" ? 1 : -1;
@@ -284,7 +361,9 @@
     $("btnRefresh").addEventListener("click", load);
     $("btnReset").addEventListener("click", function () {
       $("searchBox").value = "";
-      $("labelFilter").value = "";
+      state.selectedLabels.clear();
+      updateLabelButton();
+      renderLabelMenu();
       $("sortSelect").value = "threat_score";
       state.sortKey = "threat_score";
       state.sortDir = -1;
@@ -301,6 +380,7 @@
     });
 
     document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") toggleLabelMenu(false);
       if (e.key === "/" && document.activeElement !== $("searchBox")) {
         e.preventDefault();
         $("searchBox").focus();
