@@ -298,7 +298,12 @@ def parse_indicators(
                 "threat_score": int(threat_score)
                 if threat_score.is_integer()
                 else threat_score,
-                "labels": as_list(obj.get("labels")),  # 完整保留
+                # STIX 2.1 indicator 無 labels 欄位（2.0 已棄用），改用
+                # indicator_types 並併入 extensions.threat_types 以保留完整分類標籤
+                "labels": merge_labels(
+                    as_list(obj.get("labels")),
+                    merge_labels(as_list(obj.get("indicator_types")), as_list(ext.get("threat_types"))),
+                ),
                 "asn": ext.get("asn"),
                 "resolving_domains": as_list(ext.get("resolving_domains")),
                 "first_seen": first_seen,
@@ -596,20 +601,20 @@ def main() -> int:
                 client_id=env_str("LUMINAR_CLIENT_ID"),
                 client_secret=env_str("LUMINAR_CLIENT_SECRET"),
                 token_path=env_str(
-                    "LUMINAR_TOKEN_PATH", "/externalApi/realm/{realm}/token"
+                    "LUMINAR_TOKEN_PATH", "/externalApi/v2/realm/{realm}/token"
                 ),
-                ioc_path=env_str("LUMINAR_IOC_PATH", "/externalApi/v2/stix"),
-                leaks_path=env_str("LUMINAR_LEAKS_PATH", "/externalApi/stix"),
+                query_path=env_str("LUMINAR_QUERY_PATH", "/externalApi/v2/stix"),
+                scope=env_str("LUMINAR_SCOPE", "externalAPI/stix.readonly"),
                 page_limit=env_int("PAGE_LIMIT", 100),
-                max_pages=env_int("MAX_PAGES", 500),
+                max_pages=env_int("MAX_PAGES", 1000),
             )
             with client:
                 objects, latest_ts = client.fetch_stix(start_ts, feed=args.feed)
     except LuminarEntitlementError as exc:
-        log.error("帳號權限不足: %s", exc)
+        log.error("查詢被拒: %s", exc)
         log.error(
-            "請洽 Luminar 支援窗口，確認 client_id '%s' 是否已開通 "
-            "STIX IOC feed（/externalApi/v2/stix）。",
+            "請先確認 LUMINAR_SCOPE 是否正確送出（常見肇因是 Token 請求漏帶 scope），"
+            "若已確認仍失敗才需要洽 Luminar 確認 client_id '%s' 的 dataSource 開通狀態。",
             env_str("LUMINAR_CLIENT_ID"),
         )
         mark_run_failed(str(exc))
@@ -648,9 +653,9 @@ def main() -> int:
     if latest_ts:
         save_high_water_mark(latest_ts, stats)
     else:
-        # API 未回傳 latestTimestamp 時，以本次執行時間為準（避免重複抓取）
+        # 本次未取得任何物件（已追上進度），以當前時間為準，避免下次重複查詢同一空窗
         fallback_ts = epoch_ms(datetime.now(timezone.utc))
-        log.warning("API 未提供 latestTimestamp，改以當前時間 %s 作為高水位線", fallback_ts)
+        log.info("本次無新物件，改以當前時間 %s 作為高水位線", fallback_ts)
         save_high_water_mark(fallback_ts, stats)
 
     # ---- 5. Git push ----
