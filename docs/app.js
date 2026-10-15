@@ -31,7 +31,12 @@
     if (!value) return "—";
     var d = new Date(value);
     if (isNaN(d.getTime())) return esc(String(value).slice(0, 19));
-    return d.toISOString().slice(0, 16).replace("T", " ");
+    // 固定以 UTC+8（台北時間）顯示，不受瀏覽者所在時區影響
+    return d.toLocaleString("sv-SE", {
+      timeZone: "Asia/Taipei",
+      year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", minute: "2-digit"
+    });
   }
 
   function ipKey(ip) {
@@ -255,9 +260,7 @@
 
     var synced = state.meta.generated_at;
     $("statSync").textContent = synced ? fmtDate(synced) : "—";
-    $("statSyncLocal").textContent = synced
-      ? "本地時間 " + new Date(synced).toLocaleString()
-      : " ";
+    $("statSyncLocal").textContent = " ";
   }
 
   // ---------------------------------------------------------------- 事件
