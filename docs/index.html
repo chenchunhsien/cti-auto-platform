@@ -258,9 +258,9 @@
     </div>
   </div>
 
-  <!-- 查詢列 -->
+  <!-- 查詢列（搜尋 / 標籤 / 排序 / 清除條件，EDL 阻斷清單頁籤不提供，只用階梯式判定篩選）-->
   <div class="panel p-3 mb-3">
-    <div class="row g-2 align-items-center">
+    <div class="row g-2 align-items-center" id="searchRow">
       <div class="col-12 col-lg-5">
         <input id="searchBox" type="search" class="form-control"
                placeholder="搜尋 IP / 標籤 / 網域 / ASN …  (按 / 快速聚焦)" autocomplete="off" />
@@ -307,6 +307,7 @@
           <input type="checkbox" id="tierFilterB" checked />
           <span class="tag tag-tier-b">頑固威脅 (B)</span>
         </label>
+        <span class="muted small" id="edlTierFilterCount">&nbsp;</span>
       </div>
     </div>
   </div>
@@ -348,7 +349,7 @@
 
 <!-- GitHub Pages 對靜態資源下 Cache-Control: max-age=600，每次更動 app.js
      都要跟著調整 ?v= 版本號，否則使用者瀏覽器可能在 10 分鐘內吃到舊快取 -->
-<script src="asn_dict.js?v=20261015h"></script>
-<script src="app.js?v=20261015h"></script>
+<script src="asn_dict.js?v=20261015j"></script>
+<script src="app.js?v=20261015j"></script>
 </body>
 </html>

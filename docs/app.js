@@ -25,7 +25,8 @@
     sortDir: -1,
     labelCounts: [],         // [{name, count}]，依總數排序
     selectedLabels: new Set(),  // 目前勾選的標籤（符合其中任一即顯示）
-    edlTierFilter: { A: true, B: true }  // EDL 頁籤的階梯式判定篩選，預設 A+B 皆勾選
+    edlTierFilter: { A: true, B: true },  // EDL 頁籤的階梯式判定篩選，預設 A+B 皆勾選
+    preEdlSort: null  // 進入 EDL 頁籤前的排序設定，離開時還原給其餘頁籤用
   };
 
   var $ = function (id) { return document.getElementById(id); };
@@ -189,6 +190,19 @@
     $("statTotalLabel").textContent = TAB_LABELS[tab] || TAB_LABELS.all;
     $("edlCriteriaPanel").hidden = (tab !== "edl");
     $("edlTierFilterRow").hidden = (tab !== "edl");
+    $("searchRow").hidden = (tab === "edl");
+
+    // EDL 頁籤沒有排序下拉，固定依 IP 排序；離開時還原其餘頁籤原本的排序設定
+    if (tab === "edl") {
+      if (!state.preEdlSort) state.preEdlSort = { key: state.sortKey, dir: state.sortDir };
+      state.sortKey = "ip";
+      state.sortDir = 1;
+    } else if (state.preEdlSort) {
+      state.sortKey = state.preEdlSort.key;
+      state.sortDir = state.preEdlSort.dir;
+      state.preEdlSort = null;
+      $("sortSelect").value = state.sortKey;
+    }
 
     buildLabelOptions();
     renderStats();
@@ -258,13 +272,13 @@
   }
 
   function applyFilters() {
-    var query = $("searchBox").value.trim().toLowerCase();
-    var selected = state.selectedLabels;
     var isEdlTab = state.activeTab === "edl";
+    // EDL 頁籤沒有搜尋框/標籤篩選 UI，一律不套用，只用階梯式判定篩選
+    var query = isEdlTab ? "" : $("searchBox").value.trim().toLowerCase();
+    var selected = isEdlTab ? new Set() : state.selectedLabels;
     var tierFilter = state.edlTierFilter;
 
     state.view = state.all.filter(function (r) {
-      // 階梯式判定（A / B）篩選僅在 EDL 頁籤生效，其餘頁籤的紀錄本來就不一定有 edl_tier
       if (isEdlTab && !tierFilter[r.edl_tier]) return false;
       if (selected.size && !r.labels.some(function (l) { return selected.has(l); })) return false;
       if (query && r._search.indexOf(query) === -1) return false;
@@ -281,6 +295,10 @@
       (query || selected.size || tierNarrowed)
         ? "符合條件 " + state.view.length.toLocaleString() + " 筆"
         : " ";
+
+    if (isEdlTab) {
+      $("edlTierFilterCount").textContent = "已選 " + state.view.length.toLocaleString() + " 筆";
+    }
   }
 
   function sortView() {
@@ -300,20 +318,11 @@
   }
 
   // ---------------------------------------------------------------- EDL 匯出
-  // 匯出清單依「目前的篩選結果」產生（階梯式判定 A/B、標籤、搜尋關鍵字皆套用），
-  // 而非直接下載 pipeline.py 產生的靜態全量檔，預設 A+B 皆勾選時等同全量。
+  // 匯出清單依「目前的篩選結果」產生（EDL 頁籤只有階梯式判定 A/B 篩選），
+  // 預設 A+B 皆勾選時等同 pipeline.py 產生的靜態全量檔。
   function buildEdlExportText() {
-    var query = $("searchBox").value.trim().toLowerCase();
-    var selected = state.selectedLabels;
     var tierFilter = state.edlTierFilter;
-
-    var rows = state.raw.edl.list.filter(function (r) {
-      if (!tierFilter[r.edl_tier]) return false;
-      if (selected.size && !r.labels.some(function (l) { return selected.has(l); })) return false;
-      if (query && r._search.indexOf(query) === -1) return false;
-      return true;
-    });
-
+    var rows = state.raw.edl.list.filter(function (r) { return tierFilter[r.edl_tier]; });
     rows.sort(function (a, b) { return ipKey(a.ip) - ipKey(b.ip); });
     return rows.map(function (r) { return r.ip; }).join("\n") + (rows.length ? "\n" : "");
   }
