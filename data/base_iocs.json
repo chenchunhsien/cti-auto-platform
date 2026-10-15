@@ -1,0 +1,11 @@
+{
+  "meta": {
+    "generated_at": "2026-10-15T03:07:58Z",
+    "total_ips": 0,
+    "avg_threat_score": 0,
+    "min_confidence": 90,
+    "min_threat_score": 90,
+    "source": "Luminar STIX 2.1"
+  },
+  "iocs": {}
+}

@@ -1,0 +1,20 @@
+{
+  "meta": {
+    "generated_at": "2026-10-15T03:07:58Z",
+    "count": 0,
+    "run_stats": {
+      "total_objects": 0,
+      "indicators": 0,
+      "ipv4_indicators": 0,
+      "rejected_confidence": 0,
+      "rejected_score": 0,
+      "passed": 0,
+      "unique_ips": 0,
+      "min_confidence": 90,
+      "min_threat_score": 90,
+      "new": 0,
+      "updated": 0
+    }
+  },
+  "iocs": []
+}
