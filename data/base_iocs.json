@@ -1,11 +1,121 @@
 {
   "meta": {
-    "generated_at": "2026-10-15T03:42:45Z",
-    "total_ips": 0,
-    "avg_threat_score": 0,
+    "generated_at": "2026-10-15T03:43:36Z",
+    "total_ips": 5,
+    "avg_threat_score": 98.6,
     "min_confidence": 90,
     "min_threat_score": 90,
     "source": "Luminar STIX 2.1"
   },
-  "iocs": {}
+  "iocs": {
+    "91.92.240.109": {
+      "ip": "91.92.240.109",
+      "confidence": 95,
+      "threat_score": 94,
+      "labels": [
+        "phishing",
+        "malware",
+        "malicious-activity"
+      ],
+      "asn": 202412,
+      "resolving_domains": [],
+      "first_seen": "2026-10-08T00:00:00.000Z",
+      "last_seen": "2026-10-08T06:00:01.688Z",
+      "valid_until": "2026-10-15T00:00:00.000Z",
+      "stix_id": "indicator--2178a44a-73a9-5dc9-aabc-e53a547a7015",
+      "seen_count": 1,
+      "first_recorded": "2026-10-15T03:43:36Z",
+      "last_updated": "2026-10-15T03:43:36Z"
+    },
+    "153.117.67.83": {
+      "ip": "153.117.67.83",
+      "confidence": 99,
+      "threat_score": 99,
+      "labels": [
+        "CommandInjection",
+        "AccessAttempt",
+        "SuspiciousNetworkActivity",
+        "malicious-activity",
+        "authbypass"
+      ],
+      "asn": 9541,
+      "resolving_domains": [],
+      "first_seen": "2026-10-08T00:00:00.000Z",
+      "last_seen": "2026-10-08T06:00:01.688Z",
+      "valid_until": "2026-10-15T00:00:00.000Z",
+      "stix_id": "indicator--d5b7e56c-8557-599e-ab8e-34a5e7830454",
+      "seen_count": 1,
+      "first_recorded": "2026-10-15T03:43:36Z",
+      "last_updated": "2026-10-15T03:43:36Z"
+    },
+    "87.236.176.47": {
+      "ip": "87.236.176.47",
+      "confidence": 99,
+      "threat_score": 100,
+      "labels": [
+        "Honeypot",
+        "Scanner",
+        "SuspiciousNetworkActivity",
+        "phishing",
+        "malicious-activity",
+        "pentestingtool"
+      ],
+      "asn": 211298,
+      "resolving_domains": [],
+      "first_seen": "2026-10-08T00:00:00.000Z",
+      "last_seen": "2026-10-08T06:00:01.689Z",
+      "valid_until": "2026-10-15T00:00:00.000Z",
+      "stix_id": "indicator--bf536700-c9e6-5c8d-9a4b-b0e34b7bb69e",
+      "seen_count": 1,
+      "first_recorded": "2026-10-15T03:43:36Z",
+      "last_updated": "2026-10-15T03:43:36Z"
+    },
+    "64.62.156.66": {
+      "ip": "64.62.156.66",
+      "confidence": 99,
+      "threat_score": 100,
+      "labels": [
+        "Crawler",
+        "SuspiciousNetworkActivity",
+        "malware",
+        "InvalidFileAccess",
+        "Honeypot",
+        "Scanner",
+        "phishing",
+        "malicious-activity"
+      ],
+      "asn": 6939,
+      "resolving_domains": [],
+      "first_seen": "2026-10-08T00:00:00.000Z",
+      "last_seen": "2026-10-08T06:00:01.689Z",
+      "valid_until": "2026-10-15T00:00:00.000Z",
+      "stix_id": "indicator--1cbe31bd-c307-5cc7-89da-ce03a268c29c",
+      "seen_count": 1,
+      "first_recorded": "2026-10-15T03:43:36Z",
+      "last_updated": "2026-10-15T03:43:36Z"
+    },
+    "74.82.47.5": {
+      "ip": "74.82.47.5",
+      "confidence": 99,
+      "threat_score": 100,
+      "labels": [
+        "SuspiciousNetworkActivity",
+        "Honeypot",
+        "Crawler",
+        "Scanner",
+        "phishing",
+        "exploit",
+        "malicious-activity"
+      ],
+      "asn": 6939,
+      "resolving_domains": [],
+      "first_seen": "2026-10-08T00:00:00.000Z",
+      "last_seen": "2026-10-08T06:00:01.688Z",
+      "valid_until": "2026-10-15T00:00:00.000Z",
+      "stix_id": "indicator--5a62fe9b-ec53-5953-8ba8-2f20808ba7a0",
+      "seen_count": 1,
+      "first_recorded": "2026-10-15T03:43:36Z",
+      "last_updated": "2026-10-15T03:43:36Z"
+    }
+  }
 }
