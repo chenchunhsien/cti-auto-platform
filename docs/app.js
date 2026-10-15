@@ -192,11 +192,12 @@
     $("edlTierFilterRow").hidden = (tab !== "edl");
     $("searchRow").hidden = (tab === "edl");
 
-    // EDL 頁籤沒有排序下拉，固定依 IP 排序；離開時還原其餘頁籤原本的排序設定
+    // EDL 頁籤沒有排序下拉，固定依威脅分數排序（相同分數時以信心值為次要依據）；
+    // 離開時還原其餘頁籤原本的排序設定
     if (tab === "edl") {
       if (!state.preEdlSort) state.preEdlSort = { key: state.sortKey, dir: state.sortDir };
-      state.sortKey = "ip";
-      state.sortDir = 1;
+      state.sortKey = "threat_score";
+      state.sortDir = -1;
     } else if (state.preEdlSort) {
       state.sortKey = state.preEdlSort.key;
       state.sortDir = state.preEdlSort.dir;
@@ -312,6 +313,10 @@
       } else if (typeof x === "string" || typeof y === "string") {
         x = String(x == null ? "" : x); y = String(y == null ? "" : y);
         return x.localeCompare(y) * dir;
+      }
+      if (x === y && key === "threat_score" && a.confidence !== b.confidence) {
+        // 威脅分數相同時，以信心值作為次要排序依據（方向跟主排序一致）
+        return a.confidence > b.confidence ? dir : -dir;
       }
       return x === y ? 0 : (x > y ? dir : -dir);
     });
