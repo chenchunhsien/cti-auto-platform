@@ -11,9 +11,10 @@
   var PAGE_SIZE = 200;
 
   var state = {
-    raw: {                   // 兩個頁籤各自的完整資料（載入後不隨篩選變動）
+    raw: {                   // 各頁籤各自的完整資料（載入後不隨篩選變動）
       all: { meta: {}, list: [] },
-      daily: { meta: {}, list: [] }
+      daily: { meta: {}, list: [] },
+      edl: { meta: {}, list: [] }
     },
     activeTab: "all",
     all: [],        // 目前作用中頁籤的資料
@@ -127,6 +128,14 @@
 
     Promise.all([allPromise, dailyPromise])
       .then(function () {
+        // EDL 頁籤不另外抓檔，直接從全量庫篩出 edl_tier 已標記的紀錄
+        // （edl_tier 由 pipeline.py 的階梯式判定邏輯於同步當下寫入，
+        // 避免前端用瀏覽器當下時間重算導致 72 小時 / 7 天時間窗漂移）
+        var edlList = state.raw.all.list.filter(function (r) {
+          return r.edl_tier === "A" || r.edl_tier === "B";
+        });
+        state.raw.edl = { meta: state.raw.all.meta, list: edlList };
+
         updateTabBadges();
         switchTab(state.activeTab);
       })
@@ -153,7 +162,14 @@
   function updateTabBadges() {
     $("tabAllBadge").textContent = state.raw.all.list.length.toLocaleString();
     $("tabDailyBadge").textContent = state.raw.daily.list.length.toLocaleString();
+    $("tabEdlBadge").textContent = state.raw.edl.list.length.toLocaleString();
   }
+
+  var TAB_LABELS = {
+    all: "收錄總 IP 數",
+    daily: "今日新增 IP 數",
+    edl: "EDL 阻斷 IP 數"
+  };
 
   function switchTab(tab) {
     if (!state.raw[tab]) tab = "all";
@@ -165,7 +181,8 @@
 
     $("tabAllBtn").classList.toggle("active", tab === "all");
     $("tabDailyBtn").classList.toggle("active", tab === "daily");
-    $("statTotalLabel").textContent = tab === "daily" ? "今日新增 IP 數" : "收錄總 IP 數";
+    $("tabEdlBtn").classList.toggle("active", tab === "edl");
+    $("statTotalLabel").textContent = TAB_LABELS[tab] || TAB_LABELS.all;
 
     buildLabelOptions();
     renderStats();
@@ -277,7 +294,11 @@
   }
 
   function rowHtml(r) {
-    var labels = r.labels.slice(0, 6).map(function (l) {
+    var tierTag = "";
+    if (r.edl_tier === "A") tierTag = '<span class="tag tag-tier-a">高危直通</span>';
+    else if (r.edl_tier === "B") tierTag = '<span class="tag tag-tier-b">頑固威脅</span>';
+
+    var labels = tierTag + r.labels.slice(0, 6).map(function (l) {
       return '<span class="tag">' + esc(l) + "</span>";
     }).join("");
     if (r.labels.length > 6) {
@@ -364,6 +385,7 @@
   function bind() {
     $("tabAllBtn").addEventListener("click", function () { switchTab("all"); });
     $("tabDailyBtn").addEventListener("click", function () { switchTab("daily"); });
+    $("tabEdlBtn").addEventListener("click", function () { switchTab("edl"); });
 
     $("searchBox").addEventListener("input", debounce(applyFilters, 180));
 
