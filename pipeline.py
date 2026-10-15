@@ -103,7 +103,8 @@ def read_json(path: Path, default: Any) -> Any:
     if not path.exists():
         return default
     try:
-        with path.open("r", encoding="utf-8") as fh:
+        # utf-8-sig：容忍 Windows 工具（Out-File、記事本）寫入的 BOM
+        with path.open("r", encoding="utf-8-sig") as fh:
             return json.load(fh)
     except (ValueError, OSError) as exc:
         log.warning("讀取 %s 失敗（%s），改用預設值", path.name, exc)
