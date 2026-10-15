@@ -1,19 +1,19 @@
 {
-  "last_successful_timestamp": 1792037218255,
-  "last_successful_timestamp_utc": "2026-10-15T04:06:58Z",
-  "last_run_utc": "2026-10-15T04:23:42Z",
+  "last_successful_timestamp": 1792038359294,
+  "last_successful_timestamp_utc": "2026-10-15T04:25:59Z",
+  "last_run_utc": "2026-10-15T04:25:59Z",
   "last_run_status": "success",
   "last_run_stats": {
-    "total_objects": 217878,
-    "indicators": 198263,
-    "ipv4_indicators": 46924,
-    "rejected_confidence": 38532,
-    "rejected_score": 5121,
-    "passed": 3271,
-    "unique_ips": 3265,
+    "total_objects": 0,
+    "indicators": 0,
+    "ipv4_indicators": 0,
+    "rejected_confidence": 0,
+    "rejected_score": 0,
+    "passed": 0,
+    "unique_ips": 0,
     "min_confidence": 90,
     "min_threat_score": 90,
-    "new": 3264,
-    "updated": 1
+    "new": 0,
+    "updated": 0
   }
 }
