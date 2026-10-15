@@ -126,6 +126,17 @@
       padding: .5rem .6rem; border-top: 1px solid var(--cti-border);
     }
     .label-filter-empty { padding: .75rem; color: var(--cti-muted); font-size: .85rem; text-align: center; }
+
+    /* 頁籤 */
+    .cti-tabs { border-bottom: 1px solid var(--cti-border); }
+    .cti-tabs .nav-link {
+      color: var(--cti-muted); border: none; border-bottom: 2px solid transparent;
+      background: transparent; padding: .6rem 1rem; font-size: .95rem; border-radius: 0;
+    }
+    .cti-tabs .nav-link:hover { color: #dbe5f0; }
+    .cti-tabs .nav-link.active {
+      color: #fff; border-bottom-color: var(--cti-accent); background: transparent;
+    }
   </style>
 </head>
 <body>
@@ -148,34 +159,55 @@
 
 <main class="container-fluid px-4 py-4">
 
+  <!-- 頁籤：全部情資庫 / 今日最新發現 -->
+  <ul class="nav nav-tabs cti-tabs mb-3" id="dataTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="tabAllBtn" type="button" data-tab="all">
+        全部情資庫 <span class="badge bg-secondary ms-1" id="tabAllBadge">0</span>
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tabDailyBtn" type="button" data-tab="daily">
+        今日最新發現 <span class="badge bg-danger ms-1" id="tabDailyBadge">0</span>
+      </button>
+    </li>
+  </ul>
+
   <!-- 統計卡片 -->
   <div class="row g-3 mb-4">
-    <div class="col-6 col-lg-3">
+    <div class="col-6 col-lg">
       <div class="stat-card">
-        <div class="stat-label">收錄總 IP 數</div>
+        <div class="stat-label" id="statTotalLabel">收錄總 IP 數</div>
         <div class="stat-value" id="statTotal">—</div>
         <div class="muted small" id="statFiltered">&nbsp;</div>
       </div>
     </div>
-    <div class="col-6 col-lg-3">
+    <div class="col-6 col-lg">
       <div class="stat-card">
         <div class="stat-label">平均威脅分數</div>
         <div class="stat-value text-warning" id="statAvgScore">—</div>
         <div class="muted small">門檻 confidence ≥ 90 / score ≥ 90</div>
       </div>
     </div>
-    <div class="col-6 col-lg-3">
+    <div class="col-6 col-lg">
       <div class="stat-card">
         <div class="stat-label">最後同步時間 (UTC+8)</div>
         <div class="stat-value" style="font-size:1.25rem" id="statSync">—</div>
         <div class="muted small" id="statSyncLocal">&nbsp;</div>
       </div>
     </div>
-    <div class="col-6 col-lg-3">
+    <div class="col-6 col-lg">
       <div class="stat-card">
         <div class="stat-label">不重複標籤數</div>
         <div class="stat-value text-info" id="statLabels">—</div>
         <div class="muted small">labels 完整保留，未做 IP Defanging</div>
+      </div>
+    </div>
+    <div class="col-6 col-lg">
+      <div class="stat-card">
+        <div class="stat-label">EDL 實際阻斷數</div>
+        <div class="stat-value text-danger" id="statEdl">—</div>
+        <div class="muted small">階梯式判定：高危直通 / 頑固累計</div>
       </div>
     </div>
   </div>
