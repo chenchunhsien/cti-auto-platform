@@ -36,6 +36,7 @@ import re
 import subprocess
 import sys
 import time
+from collections import Counter
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
@@ -693,6 +694,13 @@ def lookup_asn_via_rdap(
     if not name or name.strip() == asn:
         name = f"AS{asn}"
 
+    # 部分 RIR（實測如 APNIC）會在頂層直接給結構化的 country 欄位，
+    # 比從 vcard 地址自由格式文字解析更可靠，優先採用；查無此欄位
+    # （常見於 ARIN/RIPE 來源）才退回解析 vcard label 文字。
+    top_country = data.get("country")
+    if top_country and re.fullmatch(r"[A-Za-z]{2}", str(top_country).strip()):
+        return name, str(top_country).strip().upper()
+
     labels = _extract_rdap_address_labels(data)
     candidate_lines: List[str] = []
     for label in labels:
@@ -728,9 +736,14 @@ def load_asn_dict() -> Dict[str, Dict[str, Any]]:
     return raw if isinstance(raw, dict) else {}
 
 
-def extract_asn_numbers(base: Dict[str, Dict[str, Any]]) -> Set[str]:
-    """從全量庫每筆紀錄的 asn 欄位萃取純數字編號（與前端 extractAsnNumber 同邏輯）。"""
-    numbers: Set[str] = set()
+def count_asn_occurrences(base: Dict[str, Dict[str, Any]]) -> Counter:
+    """
+    統計全量庫每個 ASN 編號在幾筆紀錄中出現（與前端 extractAsnNumber
+    同邏輯取純數字編號）。回傳次數而非單純集合，讓查詢配額受限時能
+    優先處理「影響範圍最大」的未收錄 ASN，而非依編號大小這種與實際
+    資料無關的順序。
+    """
+    counts: Counter = Counter()
     for record in base.values():
         raw = record.get("asn")
         if raw is None:
@@ -741,8 +754,8 @@ def extract_asn_numbers(base: Dict[str, Dict[str, Any]]) -> Set[str]:
         text = re.sub(r"^as\s*", "", text, flags=re.IGNORECASE)
         match = re.match(r"^(\d+)", text)
         if match:
-            numbers.add(match.group(1))
-    return numbers
+            counts[match.group(1)] += 1
+    return counts
 
 
 def update_asn_dictionary(
@@ -754,12 +767,19 @@ def update_asn_dictionary(
 
     為避免單次執行查詢上百個 ASN 導致管線跑太久或被免費服務限流，
     每次執行最多新增 max_per_run 筆，其餘留到下次排程執行繼續補齊。
+    查詢順序依「該 ASN 在本次資料中出現的筆數」由多到少排列，確保
+    配額有限時優先解析影響範圍最大的 ASN（出現次數相同則退回依編號
+    由小到大排序，確保每次執行順序穩定、好追蹤進度）。
     網路失敗的 ASN 不寫入字典（允許下次重試）；查詢成功但解析不出
     國別時，仍寫入並以 "--" 標示未知，避免每次都重查同一筆。
     """
     asn_dict = load_asn_dict()
-    all_asns = extract_asn_numbers(base)
-    unknown = sorted(all_asns - set(asn_dict.keys()), key=int)
+    asn_counts = count_asn_occurrences(base)
+    all_asns = set(asn_counts.keys())
+    unknown = sorted(
+        all_asns - set(asn_dict.keys()),
+        key=lambda asn: (-asn_counts[asn], int(asn)),
+    )
 
     stats = {
         "total_distinct": len(all_asns),
