@@ -427,7 +427,12 @@
     <div class="panel p-3 mb-3">
       <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-1">
         <div class="fw-bold">公用設施與 CDN 誤阻斷防護基準 (Anti-Collateral Damage)</div>
-        <div class="muted small text-nowrap" id="whitelistSyncTime">&nbsp;</div>
+        <div class="d-flex align-items-center gap-2">
+          <div class="muted small text-nowrap" id="whitelistSyncTime">&nbsp;</div>
+          <a id="btnManualSyncWhitelist" class="btn btn-edl btn-sm px-3 text-nowrap" href="https://github.com/chenchunhsien/cti-auto-platform/actions/workflows/sync-public-infra-whitelist.yml" target="_blank" rel="noopener noreferrer">
+            ↻ 手動更新白名單
+          </a>
+        </div>
       </div>
       <div class="muted small">
         為避免防火牆 L3/L4 EDL 誤封鎖共用 IP 導致企業內部合法業務或 SaaS 服務中斷，本平台導入公用基礎設施
@@ -438,8 +443,8 @@
     <div class="sectors-grid" id="whitelistGrid"></div>
     <div class="panel p-3 mt-4">
       <div class="muted small">
-        本白名單網段整合 GitHub Actions 定期排程，每週自動向官方權威 API 同步更新，確保資料準確性與零人工
-        維護負擔。
+        本白名單網段資料來源為 5 大官方權威 API，點擊右上角「手動更新白名單」按鈕可前往 GitHub Actions
+        頁面手動觸發同步（內建資料完整性校驗門檻，異常時自動中止並保留原有資料，不會寫入損壞內容）。
       </div>
     </div>
   </div>
