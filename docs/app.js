@@ -16,37 +16,37 @@
   var SECTOR_RULES = [
     {
       id: "gov_defense", name: "國安與政府機關", shortName: "國安/政府",
-      customers: ["個資會", "政府機關專案", "國防軍方專案"],
+      targets: ["中央公務機關", "公務個資資料庫", "國防科研專案"],
       tags: ["apt", "espionage", "c2", "wiper", "exploit", "phishing"],
       summary: "鎖定國家級威脅與間諜活動，APT 組織與破壞性攻擊（wiper）為主要風險。"
     },
     {
       id: "logistics_supplychain", name: "物流與倉儲供應鏈", shortName: "物流/倉儲",
-      customers: ["嘉里大榮", "永聯物流"],
+      targets: ["陸運整合車隊", "自動化智慧倉儲", "供應鏈管理系統"],
       tags: ["ransomware", "phishing", "trojan", "botnet", "supply-chain"],
       summary: "供應鏈攻擊與勒索軟體是物流業最主要的營運中斷風險。"
     },
     {
       id: "financial", name: "金融與支付", shortName: "金融/支付",
-      customers: ["金融核心系統整合專案"],
+      targets: ["核心帳務主機", "數位網銀系統", "金流支付閘道"],
       tags: ["phishing", "banking-trojan", "credential-theft", "ransomware", "stealer"],
       summary: "針對帳戶憑證與交易系統的竊取型攻擊為主要威脅。"
     },
     {
       id: "telecom_network", name: "電信與通訊基礎", shortName: "電信/通訊",
-      customers: ["電信維運專案", "核心網路安全"],
+      targets: ["核心網路維運", "骨幹網路基礎設施", "DNS 服務節點"],
       tags: ["ddos", "botnet", "dns-amplification", "c2", "exploit"],
       summary: "大流量癱瘓攻擊（DDoS）與核心網路入侵為主要風險。"
     },
     {
       id: "healthcare", name: "醫療與生醫設施", shortName: "醫療/基礎",
-      customers: ["血液基金會"],
+      targets: ["關鍵公衛機構", "醫療 HIS/LIS 系統", "生醫資料中心"],
       tags: ["ransomware", "data-leak", "phishing", "trojan", "extortion", "critical-infrastructure"],
       summary: "病患資料外洩與關鍵醫療設施中斷風險並存，勒索軟體衝擊尤其嚴重。"
     },
     {
       id: "retail_ecommerce", name: "零售通路與電商", shortName: "零售/電商",
-      customers: ["全國電子"],
+      targets: ["連鎖門市 POS 系統", "大型電子商務平台", "會員身分認證平台"],
       tags: ["botnet", "ddos", "credential-stuffing", "carding", "brute-force", "scanner"],
       summary: "帳號盜用（credential stuffing）與自動化掃描攻擊為電商通路主要風險。"
     }
@@ -112,14 +112,42 @@
     view: [],       // 篩選後
     shown: 0,
     meta: {},
+    // 每個頁籤各自獨立記住自己的排序狀態（key/dir/是否已被手動覆寫），
+    // 而非共用同一組全域排序，避免「在 EDL 頁籤點過表頭後，切去其他
+    // 頁籤、再回 EDL 下載」這種情境下排序互相污染。sortKey/sortDir 只是
+    // 目前作用中頁籤的鏡射，方便既有 UI（排序下拉、表頭）讀寫。
+    tabSort: {
+      all:   { key: "threat_score", dir: -1, custom: false },
+      daily: { key: "last_seen", dir: -1, custom: false },
+      edl:   { key: "threat_score", dir: -1, custom: false }
+    },
     sortKey: "threat_score",
     sortDir: -1,
     labelCounts: [],         // [{name, count}]，依總數排序
     selectedLabels: new Set(),  // 目前勾選的標籤（符合其中任一即顯示）
     edlTierFilter: { A: true, B: true },  // EDL 頁籤的階梯式判定篩選，預設 A+B 皆勾選
-    edlSectorFilter: new Set(),  // EDL 頁籤的領域快篩（複選），空集合代表「全部 (All)」
-    preEdlSort: null  // 進入 EDL 頁籤前的排序設定，離開時還原給其餘頁籤用
+    edlSectorFilter: new Set()  // EDL 頁籤的領域快篩（複選），空集合代表「全部 (All)」
   };
+
+  // 各頁籤初始（未手動調整過）的主要排序欄位，供頁籤第一次載入與
+  // 「清除條件」還原使用。
+  var TAB_DEFAULT_PRIMARY = {
+    all:   { key: "threat_score", dir: -1 },  // 全部情資庫：歷史威脅獵捕
+    daily: { key: "last_seen", dir: -1 },     // 今日最新發現：當日最新感知
+    edl:   { key: "threat_score", dir: -1 }   // EDL 阻斷清單：活體攻擊優先阻斷
+  };
+
+  // 標準 SOC 次要排序順位：不論主要排序欄位選哪一個（無論是頁籤預設，
+  // 或使用者從下拉選單/點表頭手動改選的任何欄位），當主要欄位打平時，
+  // 一律依這個順位依序 tie-break（已選為主要欄位的那一項會被跳過）。
+  // 這避免了「主要欄位打平就直接 return 0」導致看似同分/同時間的列
+  // 之間順序混亂的問題。
+  var CANONICAL_TIEBREAK_ORDER = [
+    { key: "threat_score", dir: -1 },
+    { key: "last_seen", dir: -1 },
+    { key: "confidence", dir: -1 },
+    { key: "seen_count", dir: -1 }
+  ];
 
   var $ = function (id) { return document.getElementById(id); };
 
@@ -297,17 +325,13 @@
     state.meta = bucket.meta;
     $("statTotalLabel").textContent = TAB_LABELS[tab] || TAB_LABELS.all;
 
-    // EDL 頁籤沒有排序下拉，固定依威脅分數排序（相同分數時以信心值為次要依據）；
-    // 離開時還原其餘頁籤原本的排序設定
-    if (tab === "edl") {
-      if (!state.preEdlSort) state.preEdlSort = { key: state.sortKey, dir: state.sortDir };
-      state.sortKey = "threat_score";
-      state.sortDir = -1;
-    } else if (state.preEdlSort) {
-      state.sortKey = state.preEdlSort.key;
-      state.sortDir = state.preEdlSort.dir;
-      state.preEdlSort = null;
-      $("sortSelect").value = state.sortKey;
+    // 切換頁籤時，把目前作用中的排序鏡射成該頁籤自己記住的排序狀態
+    var ts = state.tabSort[tab];
+    state.sortKey = ts.key;
+    state.sortDir = ts.dir;
+    if (tab !== "edl") {
+      var opt = document.querySelector('#sortSelect option[value="' + state.sortKey + '"]');
+      if (opt) $("sortSelect").value = state.sortKey;
     }
 
     buildLabelOptions();
@@ -317,8 +341,8 @@
 
   // ---------------------------------------------------------------- 產業別規則
   function sectorCardHtml(sector) {
-    var customerBadges = sector.customers.map(function (c) {
-      return '<span class="badge-customer">' + esc(c) + "</span>";
+    var targetBadges = sector.targets.map(function (t) {
+      return '<span class="badge-target">' + esc(t) + "</span>";
     }).join("");
     var tagBadges = sector.tags.map(function (t) {
       return '<span class="tag">' + esc(t) + "</span>";
@@ -328,8 +352,8 @@
         '<div class="sector-card-title">' + esc(sector.name) +
           '<span class="sector-card-id">(' + esc(sector.id) + ")</span></div>" +
         '<div>' +
-          '<span class="sector-card-label">涵蓋客戶</span>' +
-          '<div class="sector-card-badges">' + customerBadges + "</div>" +
+          '<span class="sector-card-label">防護標的</span>' +
+          '<div class="sector-card-badges">' + targetBadges + "</div>" +
         "</div>" +
         '<div>' +
           '<span class="sector-card-label">關鍵標籤</span>' +
@@ -462,29 +486,63 @@
     }
   }
 
-  function sortView() {
-    var key = state.sortKey;
-    var dir = state.sortDir;
-    state.view.sort(function (a, b) {
-      var x = a[key], y = b[key];
-      if (key === "ip") { x = ipKey(x); y = ipKey(y); }
-      else if (key === "first_seen" || key === "last_seen") {
-        x = Date.parse(x) || 0; y = Date.parse(y) || 0;
-      } else if (typeof x === "string" || typeof y === "string") {
-        x = String(x == null ? "" : x); y = String(y == null ? "" : y);
-        return x.localeCompare(y) * dir;
+  // 依單一欄位比較兩筆紀錄，回傳負/零/正數（標準 comparator 慣例）
+  // 時間欄位只截斷到「分鐘」精度再比較：後端寫入時同一批次的紀錄
+  // last_seen/first_seen 往往只差幾毫秒（寫入處理順序造成，不具代表
+  // 任何「誰比較新」的實質意義），但畫面上 (fmtDate) 只顯示到分鐘。
+  // 若用完整毫秒精度比較，兩筆紀錄幾乎不可能真的打平，次要排序
+  // （威脅分數等）就永遠排不到比較的機會——這正是「畫面上顯示同一
+  // 分鐘，但分數卻亂序」的根因。改成分鐘精度比較後，真正同一分鐘的
+  // 紀錄才會被視為打平，進而交給次要欄位排序。
+  function truncateToMinute(epochMs) {
+    return epochMs ? Math.floor(epochMs / 60000) * 60000 : 0;
+  }
+
+  function compareByKey(a, b, key, dir) {
+    var x = a[key], y = b[key];
+    if (key === "ip") { x = ipKey(x); y = ipKey(y); }
+    else if (key === "first_seen" || key === "last_seen") {
+      x = truncateToMinute(Date.parse(x) || 0);
+      y = truncateToMinute(Date.parse(y) || 0);
+    } else if (typeof x === "string" || typeof y === "string") {
+      x = String(x == null ? "" : x); y = String(y == null ? "" : y);
+      return x.localeCompare(y) * dir;
+    }
+    return x === y ? 0 : (x > y ? dir : -dir);
+  }
+
+  // 排序鏈 = 目前的主要排序欄位（頁籤預設，或使用者手動選的任何欄位）
+  // + 標準次要排序順位（扣掉已經是主要欄位的那一項）。不論主要欄位是
+  // 什麼，次要 tie-break 永遠都在，不會有「只有兩種預設模式才有
+  // fallback、其餘排序方式退化成單欄位」的落差。
+  function buildSortChain(tab) {
+    var ts = state.tabSort[tab];
+    var chain = [{ key: ts.key, dir: ts.dir }];
+    CANONICAL_TIEBREAK_ORDER.forEach(function (entry) {
+      if (entry.key !== ts.key) chain.push(entry);
+    });
+    return chain;
+  }
+
+  function sortRows(rows, chain) {
+    rows.sort(function (a, b) {
+      for (var i = 0; i < chain.length; i++) {
+        var cmp = compareByKey(a, b, chain[i].key, chain[i].dir);
+        if (cmp !== 0) return cmp;
       }
-      if (x === y && key === "threat_score" && a.confidence !== b.confidence) {
-        // 威脅分數相同時，以信心值作為次要排序依據（方向跟主排序一致）
-        return a.confidence > b.confidence ? dir : -dir;
-      }
-      return x === y ? 0 : (x > y ? dir : -dir);
+      return 0;
     });
   }
 
+  function sortView() {
+    sortRows(state.view, buildSortChain(state.activeTab));
+  }
+
   // ---------------------------------------------------------------- EDL 匯出
-  // 匯出清單依「目前的篩選結果」產生（階梯式判定 A/B + 領域快篩），
-  // 預設 A+B 皆勾選、領域為「全部」時等同 pipeline.py 產生的靜態全量檔。
+  // 匯出清單依「目前的篩選結果」產生（階梯式判定 A/B + 領域快篩），內容
+  // （IP 集合）預設 A+B 皆勾選、領域為「全部」時等同 pipeline.py 產生的
+  // 靜態全量檔；排序則對齊 EDL 頁籤目前畫面上的排序（標準 SOC 預設：
+  // threat_score → last_seen → confidence 皆降冪，或使用者手動覆寫的排序）。
   function buildEdlExportText() {
     var tierFilter = state.edlTierFilter;
     var sectorFilter = state.edlSectorFilter;
@@ -493,7 +551,8 @@
       if (!recordMatchesSectorFilter(r, sectorFilter)) return false;
       return true;
     });
-    rows.sort(function (a, b) { return ipKey(a.ip) - ipKey(b.ip); });
+
+    sortRows(rows, buildSortChain("edl"));
     return rows.map(function (r) { return r.ip; }).join("\n") + (rows.length ? "\n" : "");
   }
 
@@ -658,8 +717,12 @@
     });
 
     $("sortSelect").addEventListener("change", function () {
-      state.sortKey = this.value;
-      state.sortDir = this.value === "ip" ? 1 : -1;
+      var ts = state.tabSort[state.activeTab];
+      ts.key = this.value;
+      ts.dir = this.value === "ip" ? 1 : -1;
+      ts.custom = true;
+      state.sortKey = ts.key;
+      state.sortDir = ts.dir;
       applyFilters();
     });
     $("btnMore").addEventListener("click", renderMore);
@@ -669,9 +732,13 @@
       state.selectedLabels.clear();
       updateLabelButton();
       renderLabelMenu();
-      $("sortSelect").value = "threat_score";
-      state.sortKey = "threat_score";
-      state.sortDir = -1;
+      var tab = state.activeTab;
+      var defaultEntry = TAB_DEFAULT_PRIMARY[tab];
+      state.tabSort[tab] = { key: defaultEntry.key, dir: defaultEntry.dir, custom: false };
+      state.sortKey = defaultEntry.key;
+      state.sortDir = defaultEntry.dir;
+      var opt = document.querySelector('#sortSelect option[value="' + state.sortKey + '"]');
+      if (opt) $("sortSelect").value = state.sortKey;
       state.edlTierFilter = { A: true, B: true };
       $("tierFilterA").checked = true;
       $("tierFilterB").checked = true;
@@ -696,8 +763,18 @@
     document.querySelectorAll("th[data-sort]").forEach(function (th) {
       th.addEventListener("click", function () {
         var key = th.getAttribute("data-sort");
-        state.sortDir = state.sortKey === key ? -state.sortDir : (key === "ip" ? 1 : -1);
-        state.sortKey = key;
+        var tab = state.activeTab;
+        var ts = state.tabSort[tab];
+        // 已經是手動模式且點的是同一欄位才切換升降冪，否則採用該欄位的預設方向
+        ts.dir = (ts.custom && ts.key === key) ? -ts.dir : (key === "ip" ? 1 : -1);
+        ts.key = key;
+        ts.custom = true;
+        state.sortKey = ts.key;
+        state.sortDir = ts.dir;
+        if (tab !== "edl") {
+          var opt = document.querySelector('#sortSelect option[value="' + key + '"]');
+          if (opt) $("sortSelect").value = key;
+        }
         applyFilters();
       });
     });

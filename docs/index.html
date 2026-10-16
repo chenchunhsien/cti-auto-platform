@@ -170,7 +170,7 @@
       color: var(--cti-muted); margin-bottom: .35rem;
     }
     .sector-card-badges { display: flex; flex-wrap: wrap; gap: .3rem; }
-    .badge-customer {
+    .badge-target {
       background: rgba(34,211,238,.14); color: #67e8f9; border: 1px solid rgba(34,211,238,.35);
       border-radius: .35rem; padding: .14rem .55rem; font-size: .76rem;
     }
@@ -390,15 +390,16 @@
       <div class="fw-bold mb-2">新增產業別時的需求格式參考</div>
       <p class="muted small mb-2">
         以下是當初用來定義這 6 個產業規則的原始需求格式，之後要請求新增第 7 個（以後）產業別時，
-        比照這個格式描述即可，讓實作時欄位（涵蓋客戶／關鍵標籤／威脅重點）不會漏掉。
+        比照這個格式描述即可，讓實作時欄位（防護標的／關鍵標籤／威脅重點）不會漏掉。
+        為符合資安去敏化規範與客戶 NDA 要求，範例一律使用去敏後的領域範疇描述，不得填入真實客戶名稱。
       </p>
       <pre class="sector-prompt-ref">N. **領域中文名稱 (`英文代號_id`)**：
-   - 涵蓋客戶：客戶或專案名稱A、客戶或專案名稱B
+   - 防護標的：去敏化後的系統/場景描述A、描述B（嚴禁填入真實客戶名稱）
    - 關鍵標籤：tag1, tag2, tag3, tag4, tag5（對應 EDL 清單中 IP 的 labels，用來做領域快篩比對）
 
 範例（實際採用的第 1 個領域）：
 1. **國安與政府機關 (`gov_defense`)**：
-   - 涵蓋客戶：個資會、政府機關專案、國防軍方專案
+   - 防護標的：中央公務機關、公務個資資料庫、國防科研專案
    - 關鍵標籤：apt, espionage, c2, wiper, exploit, phishing</pre>
     </div>
   </div>
@@ -440,7 +441,7 @@
 
 <!-- GitHub Pages 對靜態資源下 Cache-Control: max-age=600，每次更動 app.js
      都要跟著調整 ?v= 版本號，否則使用者瀏覽器可能在 10 分鐘內吃到舊快取 -->
-<script src="asn_dict.js?v=20261017a"></script>
-<script src="app.js?v=20261017a"></script>
+<script src="asn_dict.js?v=20261017b"></script>
+<script src="app.js?v=20261017b"></script>
 </body>
 </html>
