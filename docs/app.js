@@ -177,6 +177,19 @@
     });
   }
 
+  // 同 fmtDate，但保留到秒——公用設施白名單頁籤的同步時間需要秒數精度，
+  // 其餘頁籤沿用 fmtDate 的分鐘精度即可，兩者分開避免互相牽動。
+  function fmtDateTimeSeconds(value) {
+    if (!value) return "—";
+    var d = new Date(value);
+    if (isNaN(d.getTime())) return esc(String(value).slice(0, 19));
+    return d.toLocaleString("sv-SE", {
+      timeZone: "Asia/Taipei",
+      year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", minute: "2-digit", second: "2-digit"
+    });
+  }
+
   function ipKey(ip) {
     var parts = String(ip).split("/")[0].split(".");
     if (parts.length !== 4) return 0;
@@ -359,21 +372,20 @@
         // EDL 頁籤不另外抓檔，直接從全量庫篩出 edl_tier 已標記的紀錄
         // （edl_tier 由 pipeline.py 的階梯式判定邏輯於同步當下寫入，
         // 避免前端用瀏覽器當下時間重算導致 72 小時 / 7 天時間窗漂移）。
-        // 命中公用雲端/CDN 白名單的紀錄從 EDL 中排除，改列進「雲端公用
-        // 清單」頁籤（見 matchPublicInfra()），避免誤封共用基礎設施。
-        var edlCandidates = state.raw.all.list.filter(function (r) {
-          return r.edl_tier === "A" || r.edl_tier === "B";
-        });
-        var edlList = [];
-        var publicInfraList = [];
-        edlCandidates.forEach(function (r) {
+        // 公用雲端/CDN 白名單比對（matchPublicInfra()）對「全部情資庫」
+        // 每一筆紀錄都執行、一律標記，不只限於已經符合 EDL 條件的候選
+        // 名單——這樣「雲端公用清單」頁籤能完整呈現所有命中公用設施的
+        // 情資，而不是只有「原本差點被 EDL 誤判」的子集合。命中白名單的
+        // 紀錄同時會被排除在 EDL 清單之外，避免誤封共用基礎設施。
+        state.raw.all.list.forEach(function (r) {
           var match = matchPublicInfra(r);
-          if (match) {
-            r._publicInfraMatch = match;
-            publicInfraList.push(r);
-          } else {
-            edlList.push(r);
-          }
+          if (match) r._publicInfraMatch = match;
+        });
+        var edlList = state.raw.all.list.filter(function (r) {
+          return (r.edl_tier === "A" || r.edl_tier === "B") && !r._publicInfraMatch;
+        });
+        var publicInfraList = state.raw.all.list.filter(function (r) {
+          return !!r._publicInfraMatch;
         });
         state.raw.edl = { meta: state.raw.all.meta, list: edlList };
         state.raw.publicInfra = { meta: state.raw.all.meta, list: publicInfraList };
@@ -553,19 +565,25 @@
   // 目前僅做 ASN 比對、尚無 CIDR 清單——沒有資料時誠實顯示說明文字，
   // 不假造網段內容。
   function cidrBlockHtml(cidrs) {
-    if (!cidrs || !cidrs.length) {
-      return '<div class="muted small mt-2">尚未同步 CIDR 網段清單（目前僅以 ASN 比對，待官方 API 整合後補上）</div>';
-    }
-    var preview = cidrs.slice(0, 4).map(function (c) {
+    // 沒有資料就什麼都不畫——scripts/sync_public_infra.py 正式同步後，
+    // 5 家廠商都會有真實 CIDR，這裡不再寫死「尚未同步」之類的提示文字；
+    // 若未來真的遇到某家完全沒資料（例如全新廠商還沒跑過同步），就單純
+    // 不顯示這個區塊，不誤導使用者。
+    if (!cidrs || !cidrs.length) return "";
+
+    var preview = cidrs.slice(0, 3).map(function (c) {
       return '<span class="tag">' + esc(c) + "</span>";
     }).join("");
-    var expandLabel = "展開查看全部 " + cidrs.length + " 筆 CIDR";
+    var expandLabel = "展開全部 " + cidrs.length + " 筆 CIDR ⯆";
+    var collapseLabel = "收合 CIDR 清單 ⯅";
     var fullText = cidrs.join("\n");
     return (
       '<div class="cidr-block mt-2">' +
         '<div class="sector-card-badges mb-2">' + preview + "</div>" +
         '<button type="button" class="btn btn-sm btn-outline-info cidr-toggle-btn" ' +
-          'data-expand-label="' + esc(expandLabel) + '">' + esc(expandLabel) + "</button>" +
+          'data-expand-label="' + esc(expandLabel) + '" data-collapse-label="' + esc(collapseLabel) + '">' +
+          esc(expandLabel) +
+        "</button>" +
         '<div class="cidr-full-list mt-2" hidden>' +
           '<div class="d-flex justify-content-end mb-1">' +
             '<button type="button" class="btn btn-sm btn-outline-secondary cidr-copy-btn">複製全部</button>' +
@@ -637,8 +655,8 @@
   function renderWhitelistPanel() {
     $("whitelistGrid").innerHTML = WHITELIST_RULES.map(whitelistCardHtml).join("");
     $("whitelistSyncTime").textContent = PUBLIC_INFRA.lastSyncTime
-      ? "資料最後同步時間：" + fmtDate(PUBLIC_INFRA.lastSyncTime) + " (UTC+8)"
-      : "資料最後同步時間：—";
+      ? "最後同步時間 (UTC+8)：" + fmtDateTimeSeconds(PUBLIC_INFRA.lastSyncTime)
+      : "最後同步時間 (UTC+8)：—";
   }
 
   function renderSectorPills() {
@@ -1022,7 +1040,9 @@
         var fullList = block.querySelector(".cidr-full-list");
         var wasHidden = fullList.hidden;
         fullList.hidden = !wasHidden;
-        toggleBtn.textContent = wasHidden ? "收合 CIDR 清單" : toggleBtn.getAttribute("data-expand-label");
+        toggleBtn.textContent = wasHidden
+          ? toggleBtn.getAttribute("data-collapse-label")
+          : toggleBtn.getAttribute("data-expand-label");
         return;
       }
       var copyBtn = e.target.closest(".cidr-copy-btn");
