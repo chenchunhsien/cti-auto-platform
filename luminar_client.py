@@ -298,9 +298,22 @@ class LuminarClient:
     @staticmethod
     def _latest_from_objects(objects: Iterable[Dict[str, Any]]) -> Optional[int]:
         """
-        以本次實際取得之物件（不限 indicator，所有型別都掃）的
+        以本次實際取得之 indicator 物件（只看 type=="indicator"）的
         modified / extensions.collection_date / valid_from / created
         取最大值，作為真正可信的高水位線來源。
+
+        重要實測教訓（2026-10-16）：STIX bundle 裡混雜的其他型別物件，
+        像是 extension-definition（描述擴充欄位 schema）、以及代表資料
+        來源的 identity 物件，其 created/modified 欄位實測發現是伺服器
+        「產生這次回應當下」的即時時間戳，每次呼叫都會變、且幾乎等於
+        現在時間——跟該筆物件實際的情資蒐集時間完全無關。若把這些型別
+        也納入取最大值計算，會讓推導出的高水位線幾乎永遠等於「現在」，
+        即使本次查詢因 max_pages 上限而提早中止、實際只掃了一小段區間，
+        也會誤判為已追上進度，導致中間漏抓的區間永遠不會被重新抓取
+        （嚴重的靜默資料遺漏風險）。indicator 物件本身的時間欄位沒有
+        這個問題（同一批資料跨多頁查詢時維持穩定不變，不隨呼叫當下時間
+        跳動），且反正下游 pipeline.py 也只消費 indicator 型別的物件，
+        因此改為只看 indicator，其餘型別一律略過。
         """
         latest: Optional[int] = None
 
@@ -319,6 +332,8 @@ class LuminarClient:
                 latest = ms
 
         for obj in objects:
+            if not isinstance(obj, dict) or obj.get("type") != "indicator":
+                continue
             consider(obj.get("modified"))
             consider(obj.get("valid_from"))
             consider(obj.get("created"))
