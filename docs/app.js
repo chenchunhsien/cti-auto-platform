@@ -10,6 +10,97 @@
 
   var PAGE_SIZE = 200;
 
+  // 產業別規則：目前服務之 6 大領域，驅動「產業別規則」頁籤的卡片內容，
+  // 以及 EDL 頁籤「領域快篩」膠囊按鈕的標籤比對邏輯（單一事實來源，
+  // 避免卡片內容跟篩選邏輯各寫一份日後對不上）。
+  var SECTOR_RULES = [
+    {
+      id: "gov_defense", name: "國安與政府機關", shortName: "國安/政府",
+      customers: ["個資會", "政府機關專案", "國防軍方專案"],
+      tags: ["apt", "espionage", "c2", "wiper", "exploit", "phishing"],
+      summary: "鎖定國家級威脅與間諜活動，APT 組織與破壞性攻擊（wiper）為主要風險。"
+    },
+    {
+      id: "logistics_supplychain", name: "物流與倉儲供應鏈", shortName: "物流/倉儲",
+      customers: ["嘉里大榮", "永聯物流"],
+      tags: ["ransomware", "phishing", "trojan", "botnet", "supply-chain"],
+      summary: "供應鏈攻擊與勒索軟體是物流業最主要的營運中斷風險。"
+    },
+    {
+      id: "financial", name: "金融與支付", shortName: "金融/支付",
+      customers: ["金融核心系統整合專案"],
+      tags: ["phishing", "banking-trojan", "credential-theft", "ransomware", "stealer"],
+      summary: "針對帳戶憑證與交易系統的竊取型攻擊為主要威脅。"
+    },
+    {
+      id: "telecom_network", name: "電信與通訊基礎", shortName: "電信/通訊",
+      customers: ["電信維運專案", "核心網路安全"],
+      tags: ["ddos", "botnet", "dns-amplification", "c2", "exploit"],
+      summary: "大流量癱瘓攻擊（DDoS）與核心網路入侵為主要風險。"
+    },
+    {
+      id: "healthcare", name: "醫療與生醫設施", shortName: "醫療/基礎",
+      customers: ["血液基金會"],
+      tags: ["ransomware", "data-leak", "phishing", "trojan", "extortion", "critical-infrastructure"],
+      summary: "病患資料外洩與關鍵醫療設施中斷風險並存，勒索軟體衝擊尤其嚴重。"
+    },
+    {
+      id: "retail_ecommerce", name: "零售通路與電商", shortName: "零售/電商",
+      customers: ["全國電子"],
+      tags: ["botnet", "ddos", "credential-stuffing", "carding", "brute-force", "scanner"],
+      summary: "帳號盜用（credential stuffing）與自動化掃描攻擊為電商通路主要風險。"
+    }
+  ];
+  var SECTOR_BY_ID = {};
+  SECTOR_RULES.forEach(function (sector) {
+    sector._tagSet = {};
+    sector.tags.forEach(function (t) { sector._tagSet[t.toLowerCase()] = true; });
+    SECTOR_BY_ID[sector.id] = sector;
+  });
+
+  // 「其他/未分類」：條件 B（頑固威脅）完全不限制標籤內容，所以 EDL 清單
+  // 裡有不少紀錄的標籤（如 SuspiciousNetworkActivity、CommandInjection、
+  // malicious-activity）不屬於任何一個產業的關鍵標籤。這個特殊選項讓
+  // 使用者能單獨看到「6 個產業都比對不到」的這些紀錄，而不是只能看到
+  // 「全部」或某個產業。
+  var UNCATEGORIZED_SECTOR_ID = "__uncategorized__";
+  var ALL_SECTOR_TAGS = {};
+  SECTOR_RULES.forEach(function (sector) {
+    Object.keys(sector._tagSet).forEach(function (t) { ALL_SECTOR_TAGS[t] = true; });
+  });
+
+  // 產業別快篩改為複選：選取的每個產業各自的關鍵標籤先聯集成一個集合，
+  // 紀錄的標籤命中聯集中任一個即符合（同時符合其中任何一個選取的產業）。
+  function buildSectorTagUnion(sectorIdSet) {
+    var union = {};
+    sectorIdSet.forEach(function (sid) {
+      var sector = SECTOR_BY_ID[sid];
+      if (!sector) return;
+      Object.keys(sector._tagSet).forEach(function (t) { union[t] = true; });
+    });
+    return union;
+  }
+
+  function recordMatchesTagUnion(record, tagUnion) {
+    return record.labels.some(function (l) { return tagUnion[String(l).toLowerCase()]; });
+  }
+
+  // 完全沒選（或選「全部」）回傳 true，代表不限制；否則依「選了哪些產業 /
+  // 是否有選其他未分類」組合判斷。
+  function recordMatchesSectorFilter(record, sectorIdSet) {
+    if (!sectorIdSet || sectorIdSet.size === 0) return true;
+
+    var wantsUncategorized = sectorIdSet.has(UNCATEGORIZED_SECTOR_ID);
+    if (wantsUncategorized && !recordMatchesTagUnion(record, ALL_SECTOR_TAGS)) return true;
+
+    var realSectorIds = new Set();
+    sectorIdSet.forEach(function (sid) {
+      if (sid !== UNCATEGORIZED_SECTOR_ID) realSectorIds.add(sid);
+    });
+    if (realSectorIds.size === 0) return false;
+    return recordMatchesTagUnion(record, buildSectorTagUnion(realSectorIds));
+  }
+
   var state = {
     raw: {                   // 各頁籤各自的完整資料（載入後不隨篩選變動）
       all: { meta: {}, list: [] },
@@ -26,6 +117,7 @@
     labelCounts: [],         // [{name, count}]，依總數排序
     selectedLabels: new Set(),  // 目前勾選的標籤（符合其中任一即顯示）
     edlTierFilter: { A: true, B: true },  // EDL 頁籤的階梯式判定篩選，預設 A+B 皆勾選
+    edlSectorFilter: new Set(),  // EDL 頁籤的領域快篩（複選），空集合代表「全部 (All)」
     preEdlSort: null  // 進入 EDL 頁籤前的排序設定，離開時還原給其餘頁籤用
   };
 
@@ -177,22 +269,33 @@
   };
 
   function switchTab(tab) {
-    if (!state.raw[tab]) tab = "all";
+    if (tab !== "sectors" && !state.raw[tab]) tab = "all";
     state.activeTab = tab;
-
-    var bucket = state.raw[tab];
-    state.all = bucket.list;
-    state.meta = bucket.meta;
 
     $("tabAllBtn").classList.toggle("active", tab === "all");
     $("tabDailyBtn").classList.toggle("active", tab === "daily");
     $("tabEdlBtn").classList.toggle("active", tab === "edl");
-    $("statTotalLabel").textContent = TAB_LABELS[tab] || TAB_LABELS.all;
+    $("tabSectorsBtn").classList.toggle("active", tab === "sectors");
+
+    var isSectors = tab === "sectors";
+    $("sectorsPanel").hidden = !isSectors;
+    $("resultsPanel").hidden = isSectors;
+    $("statsRow").hidden = (tab === "edl" || isSectors);
+    $("searchRow").hidden = (tab === "edl" || isSectors);
     $("edlCriteriaPanel").hidden = (tab !== "edl");
     $("edlTierFilterRow").hidden = (tab !== "edl");
-    $("searchRow").hidden = (tab === "edl");
-    $("statsRow").hidden = (tab === "edl");
     $("edlSyncCompact").hidden = (tab !== "edl");
+
+    // 產業別規則頁籤是靜態對照表，不走 IOC 資料的篩選/排序/統計流程
+    if (isSectors) {
+      renderSectorsPanel();
+      return;
+    }
+
+    var bucket = state.raw[tab];
+    state.all = bucket.list;
+    state.meta = bucket.meta;
+    $("statTotalLabel").textContent = TAB_LABELS[tab] || TAB_LABELS.all;
 
     // EDL 頁籤沒有排序下拉，固定依威脅分數排序（相同分數時以信心值為次要依據）；
     // 離開時還原其餘頁籤原本的排序設定
@@ -210,6 +313,57 @@
     buildLabelOptions();
     renderStats();
     applyFilters();
+  }
+
+  // ---------------------------------------------------------------- 產業別規則
+  function sectorCardHtml(sector) {
+    var customerBadges = sector.customers.map(function (c) {
+      return '<span class="badge-customer">' + esc(c) + "</span>";
+    }).join("");
+    var tagBadges = sector.tags.map(function (t) {
+      return '<span class="tag">' + esc(t) + "</span>";
+    }).join("");
+    return (
+      '<div class="sector-card">' +
+        '<div class="sector-card-title">' + esc(sector.name) +
+          '<span class="sector-card-id">(' + esc(sector.id) + ")</span></div>" +
+        '<div>' +
+          '<span class="sector-card-label">涵蓋客戶</span>' +
+          '<div class="sector-card-badges">' + customerBadges + "</div>" +
+        "</div>" +
+        '<div>' +
+          '<span class="sector-card-label">關鍵標籤</span>' +
+          '<div class="sector-card-badges">' + tagBadges + "</div>" +
+        "</div>" +
+        '<div class="sector-card-summary">' + esc(sector.summary) + "</div>" +
+      "</div>"
+    );
+  }
+
+  function renderSectorsPanel() {
+    $("sectorsGrid").innerHTML = SECTOR_RULES.map(sectorCardHtml).join("");
+  }
+
+  function renderSectorPills() {
+    var allPill = '<span class="sector-pill" data-sector="">全部 (All)</span>';
+    var sectorPills = SECTOR_RULES.map(function (sector) {
+      return '<span class="sector-pill" data-sector="' + esc(sector.id) + '">' +
+        esc(sector.shortName) + "</span>";
+    }).join("");
+    var uncategorizedPill = '<span class="sector-pill" data-sector="' + UNCATEGORIZED_SECTOR_ID +
+      '">其他/未分類</span>';
+    $("sectorPillGroup").innerHTML = allPill + sectorPills + uncategorizedPill;
+    updateSectorPillUI();
+  }
+
+  // 「全部」在複選集合為空時顯示為選中；其餘產業各自依是否在集合內顯示選中
+  function updateSectorPillUI() {
+    var selected = state.edlSectorFilter;
+    $("sectorPillGroup").querySelectorAll(".sector-pill").forEach(function (el) {
+      var sectorId = el.getAttribute("data-sector");
+      var active = sectorId ? selected.has(sectorId) : selected.size === 0;
+      el.classList.toggle("active", active);
+    });
   }
 
   // ---------------------------------------------------------------- 篩選
@@ -280,9 +434,11 @@
     var query = isEdlTab ? "" : $("searchBox").value.trim().toLowerCase();
     var selected = isEdlTab ? new Set() : state.selectedLabels;
     var tierFilter = state.edlTierFilter;
+    var sectorFilter = state.edlSectorFilter;
 
     state.view = state.all.filter(function (r) {
       if (isEdlTab && !tierFilter[r.edl_tier]) return false;
+      if (isEdlTab && !recordMatchesSectorFilter(r, sectorFilter)) return false;
       if (selected.size && !r.labels.some(function (l) { return selected.has(l); })) return false;
       if (query && r._search.indexOf(query) === -1) return false;
       return true;
@@ -300,7 +456,9 @@
         : " ";
 
     if (isEdlTab) {
-      $("edlTierFilterCount").textContent = "已選 " + state.view.length.toLocaleString() + " 筆";
+      $("edlTierFilterCount").textContent =
+        "符合條件：" + state.view.length.toLocaleString() +
+        " 筆 (總量 " + state.raw.edl.list.length.toLocaleString() + " 筆)";
     }
   }
 
@@ -325,11 +483,16 @@
   }
 
   // ---------------------------------------------------------------- EDL 匯出
-  // 匯出清單依「目前的篩選結果」產生（EDL 頁籤只有階梯式判定 A/B 篩選），
-  // 預設 A+B 皆勾選時等同 pipeline.py 產生的靜態全量檔。
+  // 匯出清單依「目前的篩選結果」產生（階梯式判定 A/B + 領域快篩），
+  // 預設 A+B 皆勾選、領域為「全部」時等同 pipeline.py 產生的靜態全量檔。
   function buildEdlExportText() {
     var tierFilter = state.edlTierFilter;
-    var rows = state.raw.edl.list.filter(function (r) { return tierFilter[r.edl_tier]; });
+    var sectorFilter = state.edlSectorFilter;
+    var rows = state.raw.edl.list.filter(function (r) {
+      if (!tierFilter[r.edl_tier]) return false;
+      if (!recordMatchesSectorFilter(r, sectorFilter)) return false;
+      return true;
+    });
     rows.sort(function (a, b) { return ipKey(a.ip) - ipKey(b.ip); });
     return rows.map(function (r) { return r.ip; }).join("\n") + (rows.length ? "\n" : "");
   }
@@ -446,6 +609,24 @@
     $("tabAllBtn").addEventListener("click", function () { switchTab("all"); });
     $("tabDailyBtn").addEventListener("click", function () { switchTab("daily"); });
     $("tabEdlBtn").addEventListener("click", function () { switchTab("edl"); });
+    $("tabSectorsBtn").addEventListener("click", function () { switchTab("sectors"); });
+
+    $("sectorPillGroup").addEventListener("click", function (e) {
+      var pill = e.target.closest(".sector-pill");
+      if (!pill) return;
+      var sectorId = pill.getAttribute("data-sector");
+
+      if (!sectorId) {
+        // 點「全部」：清空複選，回到不限制
+        state.edlSectorFilter.clear();
+      } else {
+        // 複選：點一下切換該產業是否加入篩選集合
+        if (state.edlSectorFilter.has(sectorId)) state.edlSectorFilter.delete(sectorId);
+        else state.edlSectorFilter.add(sectorId);
+      }
+      updateSectorPillUI();
+      applyFilters();
+    });
 
     $("searchBox").addEventListener("input", debounce(applyFilters, 180));
 
@@ -494,6 +675,8 @@
       state.edlTierFilter = { A: true, B: true };
       $("tierFilterA").checked = true;
       $("tierFilterB").checked = true;
+      state.edlSectorFilter.clear();
+      updateSectorPillUI();
       applyFilters();
     });
 
@@ -529,5 +712,6 @@
   }
 
   bind();
+  renderSectorPills();
   load();
 })();

@@ -140,6 +140,50 @@
       margin: 0 1rem .25rem 0; font-size: .88rem; user-select: none;
     }
     .tier-filter-check input { cursor: pointer; }
+    .edl-filter-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+    .edl-filter-divider {
+      width: 1px; align-self: stretch; background: var(--cti-border); margin: 0 .25rem;
+    }
+    .sector-pill-group { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .sector-pill {
+      display: inline-block; font-size: .78rem; padding: .28rem .75rem;
+      border-radius: 999px; border: 1px solid var(--cti-border); background: #0e141f;
+      color: var(--cti-muted); cursor: pointer; user-select: none; white-space: nowrap;
+    }
+    .sector-pill:hover { color: #dbe5f0; border-color: var(--cti-accent); }
+    .sector-pill.active {
+      background: var(--cti-accent); color: #04202a; border-color: var(--cti-accent); font-weight: 700;
+    }
+
+    /* 產業別規則頁籤 */
+    .sectors-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;
+    }
+    .sector-card {
+      background: var(--cti-panel); border: 1px solid var(--cti-border); border-radius: .7rem;
+      padding: 1.1rem; display: flex; flex-direction: column; gap: .65rem;
+    }
+    .sector-card-title { font-weight: 700; font-size: 1.05rem; color: #fff; }
+    .sector-card-id { font-weight: 400; margin-left: .4rem; font-family: ui-monospace, Consolas, monospace; }
+    .sector-card-label {
+      display: block; font-size: .7rem; text-transform: uppercase; letter-spacing: .07em;
+      color: var(--cti-muted); margin-bottom: .35rem;
+    }
+    .sector-card-badges { display: flex; flex-wrap: wrap; gap: .3rem; }
+    .badge-customer {
+      background: rgba(34,211,238,.14); color: #67e8f9; border: 1px solid rgba(34,211,238,.35);
+      border-radius: .35rem; padding: .14rem .55rem; font-size: .76rem;
+    }
+    .sector-card-summary {
+      font-size: .85rem; color: var(--cti-muted);
+      border-top: 1px solid var(--cti-border); padding-top: .6rem;
+    }
+    .sector-prompt-ref {
+      background: #0e141f; border: 1px solid var(--cti-border); border-radius: .5rem;
+      padding: .9rem 1rem; font-size: .82rem; line-height: 1.6; color: #dbe5f0;
+      white-space: pre-wrap; word-break: break-word; margin: 0;
+      font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    }
 
     /* 頁籤 */
     .cti-tabs { border-bottom: 1px solid var(--cti-border); }
@@ -188,6 +232,11 @@
     <li class="nav-item" role="presentation">
       <button class="nav-link" id="tabEdlBtn" type="button" data-tab="edl">
         EDL 阻斷清單 <span class="badge bg-warning text-dark ms-1" id="tabEdlBadge">0</span>
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tabSectorsBtn" type="button" data-tab="sectors">
+        產業別規則 <span class="badge bg-info text-dark ms-1" id="tabSectorsBadge">6</span>
       </button>
     </li>
   </ul>
@@ -311,23 +360,51 @@
       </div>
     </div>
     <div class="row g-2 align-items-center mt-1" id="edlTierFilterRow" hidden>
-      <div class="col-12">
-        <span class="muted small me-2">階梯式判定篩選：</span>
-        <label class="tier-filter-check" for="tierFilterA">
+      <div class="col-12 edl-filter-bar">
+        <span class="muted small me-1">階梯式判定篩選：</span>
+        <label class="tier-filter-check mb-0" for="tierFilterA">
           <input type="checkbox" id="tierFilterA" checked />
           <span class="tag tag-tier-a">高危直通 (A)</span>
         </label>
-        <label class="tier-filter-check" for="tierFilterB">
+        <label class="tier-filter-check mb-0" for="tierFilterB">
           <input type="checkbox" id="tierFilterB" checked />
           <span class="tag tag-tier-b">頑固威脅 (B)</span>
         </label>
-        <span class="muted small" id="edlTierFilterCount">&nbsp;</span>
+        <span class="edl-filter-divider"></span>
+        <div class="sector-pill-group" id="sectorPillGroup">
+          <span class="sector-pill active" data-sector="">全部 (All)</span>
+        </div>
+        <span class="muted small ms-auto" id="edlTierFilterCount">&nbsp;</span>
       </div>
     </div>
   </div>
 
+  <!-- 產業別規則（僅本頁籤顯示，靜態服務領域對照表，不隨 IOC 資料變動）-->
+  <div id="sectorsPanel" hidden>
+    <p class="muted small mb-3">
+      以下 6 大領域為目前服務範疇的威脅情資分類規則，決定 EDL 阻斷清單頁籤的「領域快篩」如何比對標籤 (labels)。
+    </p>
+    <div class="sectors-grid" id="sectorsGrid"></div>
+
+    <div class="panel p-3 mt-4">
+      <div class="fw-bold mb-2">新增產業別時的需求格式參考</div>
+      <p class="muted small mb-2">
+        以下是當初用來定義這 6 個產業規則的原始需求格式，之後要請求新增第 7 個（以後）產業別時，
+        比照這個格式描述即可，讓實作時欄位（涵蓋客戶／關鍵標籤／威脅重點）不會漏掉。
+      </p>
+      <pre class="sector-prompt-ref">N. **領域中文名稱 (`英文代號_id`)**：
+   - 涵蓋客戶：客戶或專案名稱A、客戶或專案名稱B
+   - 關鍵標籤：tag1, tag2, tag3, tag4, tag5（對應 EDL 清單中 IP 的 labels，用來做領域快篩比對）
+
+範例（實際採用的第 1 個領域）：
+1. **國安與政府機關 (`gov_defense`)**：
+   - 涵蓋客戶：個資會、政府機關專案、國防軍方專案
+   - 關鍵標籤：apt, espionage, c2, wiper, exploit, phishing</pre>
+    </div>
+  </div>
+
   <!-- 結果表 -->
-  <div class="panel">
+  <div class="panel" id="resultsPanel">
     <div class="table-wrap">
       <table class="table table-hover cti-table align-middle">
         <thead>
@@ -363,7 +440,7 @@
 
 <!-- GitHub Pages 對靜態資源下 Cache-Control: max-age=600，每次更動 app.js
      都要跟著調整 ?v= 版本號，否則使用者瀏覽器可能在 10 分鐘內吃到舊快取 -->
-<script src="asn_dict.js?v=20261015l"></script>
-<script src="app.js?v=20261015l"></script>
+<script src="asn_dict.js?v=20261017a"></script>
+<script src="app.js?v=20261017a"></script>
 </body>
 </html>
