@@ -1153,5 +1153,500 @@
     "name": "FORTIS-AS",
     "type": "網路託管/ISP",
     "country": "--"
+  },
+  "138415": {
+    "name": "YANCYLIMITED-AS-HK - Yancy Limited",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "54290": {
+    "name": "HOSTWINDS",
+    "type": "網路託管/ISP",
+    "country": "CA"
+  },
+  "197769": {
+    "name": "VPSDEDICATED-AS",
+    "type": "雲端/VPS",
+    "country": "--"
+  },
+  "17557": {
+    "name": "PKTELECOM-AS-PK - Pakistan Telecommunication Company Limited",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "22363": {
+    "name": "PHMGMT-AS1",
+    "type": "網路託管/ISP",
+    "country": "GB"
+  },
+  "26383": {
+    "name": "ASNET",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "45753": {
+    "name": "NETSEC-HK - Netsec Limited",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "138759": {
+    "name": "NETMAX-IN",
+    "type": "網路託管/ISP",
+    "country": "IN"
+  },
+  "149440": {
+    "name": "EVOXTSDNBHD-AS-AP",
+    "type": "網路託管/ISP",
+    "country": "MY"
+  },
+  "395954": {
+    "name": "LEASEWEB-USA-LAX",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "21859": {
+    "name": "ZEN-ECN",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "28753": {
+    "name": "LEASEWEB-DE-FRA-10",
+    "type": "網路託管/ISP",
+    "country": "DE"
+  },
+  "40676": {
+    "name": "AS40676",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "44382": {
+    "name": "WhiteLabel",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "45996": {
+    "name": "DAOU-AS-KR-KR",
+    "type": "網路託管/ISP",
+    "country": "KR"
+  },
+  "53667": {
+    "name": "PONYNET",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "55990": {
+    "name": "HWCSNET",
+    "type": "網路託管/ISP",
+    "country": "CN"
+  },
+  "150436": {
+    "name": "BYTEPLUS-AS-AP",
+    "type": "網路託管/ISP",
+    "country": "SG"
+  },
+  "207043": {
+    "name": "DEDIK-IO",
+    "type": "網路託管/ISP",
+    "country": "GB"
+  },
+  "208137": {
+    "name": "FPS12",
+    "type": "網路託管/ISP",
+    "country": "BZ"
+  },
+  "210558": {
+    "name": "services-1337-gmbh",
+    "type": "網路託管/ISP",
+    "country": "DE"
+  },
+  "395092": {
+    "name": "SHOCK-1",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "398256": {
+    "name": "AS-ULTAHOST",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "12876": {
+    "name": "AS12876",
+    "type": "網路託管/ISP",
+    "country": "FR"
+  },
+  "48090": {
+    "name": "DMZHOST",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "48287": {
+    "name": "RU-CENTER",
+    "type": "網路託管/ISP",
+    "country": "RU"
+  },
+  "49870": {
+    "name": "AS49870-BV",
+    "type": "網路託管/ISP",
+    "country": "NL"
+  },
+  "58061": {
+    "name": "SCALAXY-AS",
+    "type": "網路託管/ISP",
+    "country": "LV"
+  },
+  "58212": {
+    "name": "DATAFOREST",
+    "type": "網路託管/ISP",
+    "country": "DE"
+  },
+  "58658": {
+    "name": "DXTL-AS-AP",
+    "type": "網路託管/ISP",
+    "country": "HK"
+  },
+  "62468": {
+    "name": "HKCLOUDX",
+    "type": "雲端/VPS",
+    "country": "HK"
+  },
+  "138245": {
+    "name": "XPRESS-AS-IN",
+    "type": "網路託管/ISP",
+    "country": "IN"
+  },
+  "138995": {
+    "name": "ANTBOX1-AS-AP",
+    "type": "網路託管/ISP",
+    "country": "HK"
+  },
+  "139659": {
+    "name": "LUCID-AS-AP",
+    "type": "網路託管/ISP",
+    "country": "HK"
+  },
+  "141995": {
+    "name": "CAPL-AS-AP",
+    "type": "網路託管/ISP",
+    "country": "SG"
+  },
+  "197540": {
+    "name": "netcup-AS",
+    "type": "網路託管/ISP",
+    "country": "DE"
+  },
+  "198367": {
+    "name": "ASINKOTEL",
+    "type": "網路託管/ISP",
+    "country": "RU"
+  },
+  "198550": {
+    "name": "nodehost-as",
+    "type": "網路託管/ISP",
+    "country": "GB"
+  },
+  "401696": {
+    "name": "COGNETCLOUD",
+    "type": "雲端/VPS",
+    "country": "CN"
+  },
+  "403005": {
+    "name": "BLATANTHOST",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "16135": {
+    "name": "TURKCELL-AS",
+    "type": "網路託管/ISP",
+    "country": "TR"
+  },
+  "17451": {
+    "name": "BIZNET-AS-AP",
+    "type": "網路託管/ISP",
+    "country": "ID"
+  },
+  "17858": {
+    "name": "POWERVIS-AS-KR-KR",
+    "type": "網路託管/ISP",
+    "country": "KR"
+  },
+  "20928": {
+    "name": "ORG-TNG3-AFRINIC",
+    "type": "網路託管/ISP",
+    "country": "EG"
+  },
+  "21788": {
+    "name": "HIPOINT-US",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "23470": {
+    "name": "RELIABLESITE",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "34224": {
+    "name": "NETERRA-AS",
+    "type": "網路託管/ISP",
+    "country": "BG"
+  },
+  "44208": {
+    "name": "Farahoosh",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "46475": {
+    "name": "LIMESTONENETWORKS",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "48282": {
+    "name": "VDSINA-AS",
+    "type": "網路託管/ISP",
+    "country": "RU"
+  },
+  "55720": {
+    "name": "GIGABIT-MY",
+    "type": "網路託管/ISP",
+    "country": "MY"
+  },
+  "55933": {
+    "name": "CLOUDIE-AS-AP",
+    "type": "雲端/VPS",
+    "country": "HK"
+  },
+  "56041": {
+    "name": "CMNET-Zhejiang-AP",
+    "type": "網路託管/ISP",
+    "country": "CN"
+  },
+  "59711": {
+    "name": "HZ-EU-AS",
+    "type": "網路託管/ISP",
+    "country": "BG"
+  },
+  "61112": {
+    "name": "AkileCloud",
+    "type": "雲端/VPS",
+    "country": "CH"
+  },
+  "133199": {
+    "name": "SONDERCLOUDLIMITED-AS-AP",
+    "type": "雲端/VPS",
+    "country": "HK"
+  },
+  "133774": {
+    "name": "CHINATELECOM-FUJIAN-FUZHOU-IDC1",
+    "type": "網路託管/ISP",
+    "country": "CN"
+  },
+  "140227": {
+    "name": "HKCICL-AS-AP",
+    "type": "網路託管/ISP",
+    "country": "HK"
+  },
+  "200593": {
+    "name": "PROSPERO-AS",
+    "type": "網路託管/ISP",
+    "country": "RU"
+  },
+  "200823": {
+    "name": "MHost-AS",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "203273": {
+    "name": "NetCraftersOU",
+    "type": "網路託管/ISP",
+    "country": "CH"
+  },
+  "207957": {
+    "name": "ServHost-AS",
+    "type": "網路託管/ISP",
+    "country": "GB"
+  },
+  "208677": {
+    "name": "CLOUDRU-AS",
+    "type": "雲端/VPS",
+    "country": "RU"
+  },
+  "213438": {
+    "name": "colocatel-inc",
+    "type": "網路託管/ISP",
+    "country": "SC"
+  },
+  "213459": {
+    "name": "SNOWD",
+    "type": "網路託管/ISP",
+    "country": "EE"
+  },
+  "213877": {
+    "name": "U1DS-AS",
+    "type": "網路託管/ISP",
+    "country": "GB"
+  },
+  "214036": {
+    "name": "ULTAHOST-AS",
+    "type": "網路託管/ISP",
+    "country": "NL"
+  },
+  "268377": {
+    "name": "ASN268377",
+    "type": "網路託管/ISP",
+    "country": "BR"
+  },
+  "394177": {
+    "name": "SHIFT-HOSTING-LLC",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "396073": {
+    "name": "MAJESTIC-HOSTING-01",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "399883": {
+    "name": "CODEFORHOST-AS-ARIN",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "402253": {
+    "name": "SKN-NETWORK-1",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "8400": {
+    "name": "TELEKOM-AS",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "8648": {
+    "name": "ONE-NETWORK",
+    "type": "網路託管/ISP",
+    "country": "DE"
+  },
+  "8851": {
+    "name": "EDGE",
+    "type": "網路託管/ISP",
+    "country": "GB"
+  },
+  "9198": {
+    "name": "KAZTELECOM-AS",
+    "type": "網路託管/ISP",
+    "country": "KZ"
+  },
+  "9416": {
+    "name": "KBT",
+    "type": "網路託管/ISP",
+    "country": "TW"
+  },
+  "9952": {
+    "name": "HOSTWAY-AS-KR-KR",
+    "type": "網路託管/ISP",
+    "country": "KR"
+  },
+  "12975": {
+    "name": "PALTEL-AS",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "14956": {
+    "name": "ROUTERHOSTING",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "17625": {
+    "name": "BLAZENET-IN-AP",
+    "type": "網路託管/ISP",
+    "country": "IN"
+  },
+  "18779": {
+    "name": "EGIHOSTING",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "20661": {
+    "name": "TurkmenTelecom-AS",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "22697": {
+    "name": "ROBLOX-PRODUCTION",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "24547": {
+    "name": "CMNET-V4HEBEI-AS-AP",
+    "type": "網路託管/ISP",
+    "country": "CN"
+  },
+  "27967": {
+    "name": "AS27967",
+    "type": "網路託管/ISP",
+    "country": "AR"
+  },
+  "29182": {
+    "name": "RU-JSCIOT",
+    "type": "網路託管/ISP",
+    "country": "RU"
+  },
+  "33387": {
+    "name": "NOCIX",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "34665": {
+    "name": "PINDC-AS",
+    "type": "網路託管/ISP",
+    "country": "RU"
+  },
+  "35916": {
+    "name": "MULTA-ASN1",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "36007": {
+    "name": "KAMATERA",
+    "type": "網路託管/ISP",
+    "country": "US"
+  },
+  "37705": {
+    "name": "ORG-TA40-AFRINIC",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "37932": {
+    "name": "RMUTI-AS-AP",
+    "type": "網路託管/ISP",
+    "country": "TH"
+  },
+  "38700": {
+    "name": "SMILESERV-AS-KR-KR",
+    "type": "網路託管/ISP",
+    "country": "KR"
+  },
+  "42960": {
+    "name": "VH-GLOBAL",
+    "type": "網路託管/ISP",
+    "country": "HK"
+  },
+  "43513": {
+    "name": "NANO-AS",
+    "type": "網路託管/ISP",
+    "country": "LV"
+  },
+  "45117": {
+    "name": "INPL-IN-AP",
+    "type": "網路託管/ISP",
+    "country": "IN"
+  },
+  "48715": {
+    "name": "SEFROYEKPARDAZENG-AS",
+    "type": "網路託管/ISP",
+    "country": "--"
+  },
+  "48753": {
+    "name": "AVAHOHST",
+    "type": "網路託管/ISP",
+    "country": "MD"
   }
 }

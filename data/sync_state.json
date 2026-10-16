@@ -1,28 +1,29 @@
 {
-  "last_successful_timestamp": 1792053427531,
-  "last_successful_timestamp_utc": "2026-10-15T08:37:07Z",
-  "last_run_utc": "2026-10-15T08:37:07Z",
+  "last_successful_timestamp": 1792111240793,
+  "last_successful_timestamp_utc": "2026-10-16T00:40:40Z",
+  "last_run_utc": "2026-10-16T00:53:18Z",
   "last_run_status": "success",
   "last_run_stats": {
-    "total_objects": 0,
-    "indicators": 0,
-    "ipv4_indicators": 0,
-    "rejected_confidence": 0,
-    "rejected_score": 0,
-    "passed": 0,
-    "unique_ips": 0,
+    "total_objects": 407764,
+    "indicators": 175556,
+    "ipv4_indicators": 38275,
+    "rejected_confidence": 31915,
+    "rejected_score": 3678,
+    "passed": 2682,
+    "unique_ips": 2682,
     "min_confidence": 90,
     "min_threat_score": 90,
-    "new": 0,
-    "updated": 0,
+    "new": 2045,
+    "updated": 637,
     "asn_dict": {
-      "total_distinct": 887,
-      "already_known": 117,
-      "unknown_total": 770,
+      "total_distinct": 1165,
+      "already_known": 217,
+      "unknown_total": 948,
       "queried": 100,
-      "resolved": 100,
-      "failed": 0,
-      "deferred": 670
+      "resolved": 99,
+      "failed": 1,
+      "deferred": 848
     }
-  }
+  },
+  "last_run_error": "Token 請求連線失敗: HTTPSConnectionPool(host='cyberluminar.com', port=443): Max retries exceeded with url: /externalApi/v2/realm/dc1a4a80-1245-4c8b-823a-060f7384c63e/token (Caused by NameResolutionError(\"HTTPSConnection(host='cyberluminar.com', port=443): Failed to resolve 'cyberluminar.com' ([Errno 11002] getaddrinfo failed)\"))"
 }
