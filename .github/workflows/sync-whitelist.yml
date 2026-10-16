@@ -1,0 +1,107 @@
+name: Sync Public Infra Whitelist
+
+# 定期（與手動）從 5 大官方權威端點同步公用設施 CDN/Cloud CIDR 白名單，
+# 更新 docs/data/public_infra_rules.json。
+#
+# 防呆重點：
+#   1. scripts/sync_public_infra.py 內建的 Sanity Check 熔斷機制會在任何
+#      廠商抓取筆數異常時以非零 Exit Code 中止，本 workflow 直接把該
+#      Exit Code 當作 Job 失敗訊號，不做任何「忽略錯誤繼續跑」的處理。
+#   2. 只有在 git diff 偵測到 docs/data/public_infra_rules.json 實際有
+#      變動，且該檔案仍是合法 JSON 時，才會建立 commit 並 push。
+#   3. 自動提交的 commit message 一律帶有 [skip ci]，避免觸發其他會在
+#      push 時執行的工作流造成無限迴圈。
+
+on:
+  schedule:
+    # 每週一 01:00 UTC（台北時間 09:00）執行一次
+    - cron: "0 1 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: python -m pip install --upgrade certifi
+
+      - name: Run sync script
+        id: sync
+        run: python scripts/sync_public_infra.py
+
+      - name: Check for changes
+        id: diff
+        run: |
+          if git diff --quiet -- docs/data/public_infra_rules.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "公用設施網段無任何變更，略過提交。"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Validate JSON
+        if: steps.diff.outputs.changed == 'true'
+        run: python -c "import json; json.load(open('docs/data/public_infra_rules.json', encoding='utf-8'))"
+
+      - name: Commit and push
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/data/public_infra_rules.json
+          git commit -m "chore(data): auto-update cloud & cdn cidrs via official APIs [skip ci]"
+          git push
+
+      - name: Write success summary
+        if: success()
+        run: |
+          {
+            echo "## ✅ 公用設施白名單自動同步成功"
+            echo ""
+            echo "同步時間（GMT+8）：$(TZ=Asia/Taipei date '+%Y-%m-%d %H:%M:%S')"
+            echo ""
+            echo "| 廠商 | CIDR 筆數 |"
+            echo "| --- | --- |"
+            python - <<'PY'
+import json
+data = json.load(open("docs/data/public_infra_rules.json", encoding="utf-8"))
+for group in data.get("cdn_cidrs", []):
+    print(f"| {group.get('provider', '')} | {len(group.get('cidrs', []))} |")
+PY
+            echo ""
+            if [ "${{ steps.diff.outputs.changed }}" = "true" ]; then
+              echo "本次同步已偵測到變更並完成提交。"
+            else
+              echo "本次同步內容與既有資料相同，未產生新提交。"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Write failure summary
+        if: failure()
+        run: |
+          {
+            echo "## 🔴 公用設施白名單自動同步失敗"
+            echo ""
+            echo "> **警告：自動同步腳本執行失敗，既有的 \`docs/data/public_infra_rules.json\` 未被覆寫。**"
+            echo ">"
+            echo "> 請管理員檢查以下官方端點是否正常："
+            echo ">"
+            echo "> - Cloudflare: https://www.cloudflare.com/ips-v4"
+            echo "> - Fastly: https://api.fastly.com/public-ip-list"
+            echo "> - AWS: https://ip-ranges.amazonaws.com/ip-ranges.json"
+            echo "> - Google Cloud: https://www.gstatic.com/ipranges/goog.json"
+            echo "> - Microsoft 365: https://endpoints.office.com/endpoints/worldwide"
+            echo ">"
+            echo "> 詳細錯誤請參考上方 Job log（\`Run sync script\` 步驟）。"
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -425,7 +425,10 @@
        頁籤如何從 EDL 判定中剔除公用雲端/CDN/DNS）-->
   <div id="whitelistPanel" hidden>
     <div class="panel p-3 mb-3">
-      <div class="fw-bold mb-1">公用設施與 CDN 誤阻斷防護基準 (Anti-Collateral Damage)</div>
+      <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-1">
+        <div class="fw-bold">公用設施與 CDN 誤阻斷防護基準 (Anti-Collateral Damage)</div>
+        <div class="muted small text-nowrap" id="whitelistSyncTime">&nbsp;</div>
+      </div>
       <div class="muted small">
         為避免防火牆 L3/L4 EDL 誤封鎖共用 IP 導致企業內部合法業務或 SaaS 服務中斷，本平台導入公用基礎設施
         排除機制。凡命中本頁定義之知名 ASN、公用 DNS 或官方 CIDR 網段者，強制自防火牆阻斷清單剔除，並轉移至
@@ -434,7 +437,6 @@
     </div>
     <div class="sectors-grid" id="whitelistGrid"></div>
     <div class="panel p-3 mt-4">
-      <div class="muted small mb-1" id="whitelistSyncTime">&nbsp;</div>
       <div class="muted small">
         本白名單網段整合 GitHub Actions 定期排程，每週自動向官方權威 API 同步更新，確保資料準確性與零人工
         維護負擔。
@@ -450,7 +452,7 @@
         阻斷清單中剔除，避免引發正常服務中斷。
       </div>
       <button id="btnExportPublicInfraDomains" class="btn btn-edl btn-sm px-3 text-nowrap">
-        ⬇ 匯出惡意 Domain 清單 (.txt)
+        ⬇ 匯出關聯惡意 Domain (.txt)
       </button>
     </div>
   </div>
@@ -462,10 +464,10 @@
         <thead>
           <tr>
             <th data-sort="ip">IP 位址</th>
-            <th>命中設施 / 規則</th>
-            <th>解析網域</th>
+            <th>命中公用設施 (廠商/ASN)</th>
+            <th>解析網域 (Domain)</th>
             <th data-sort="threat_score">威脅分數</th>
-            <th data-sort="last_seen">最後出現</th>
+            <th data-sort="last_seen">最後出現時間</th>
           </tr>
         </thead>
         <tbody id="publicInfraTableBody">
@@ -517,7 +519,7 @@
 
 <!-- GitHub Pages 對靜態資源下 Cache-Control: max-age=600，每次更動 app.js
      都要跟著調整 ?v= 版本號，否則使用者瀏覽器可能在 10 分鐘內吃到舊快取 -->
-<script src="asn_dict.js?v=20261018f"></script>
-<script src="app.js?v=20261018f"></script>
+<script src="asn_dict.js?v=20261018h"></script>
+<script src="app.js?v=20261018h"></script>
 </body>
 </html>
