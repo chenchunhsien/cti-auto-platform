@@ -186,7 +186,10 @@
   // ---------------------------------------------------------- 公用雲端/CDN 白名單
   // 命中這份白名單的情資會被排除在 EDL 建議阻斷數之外，改列進「雲端公用
   // 清單」頁籤，避免誤封共用的 DNS/CDN/雲端基礎設施波及其他客戶。
-  var PUBLIC_INFRA = { exactIpMap: {}, asnMap: {}, cidrRanges: [] };
+  var PUBLIC_INFRA = {
+    exactIpMap: {}, asnMap: {}, cidrRanges: [],
+    cdnGroups: [], exactIpsRaw: [], lastSyncTime: null  // 載入前的預設空值，避免白名單頁籤在資料到位前渲染出錯
+  };
 
   function extractAsnNum(rawAsn) {
     if (rawAsn == null) return null;
@@ -223,6 +226,15 @@
         PUBLIC_INFRA.cidrRanges.push(range);
       });
     });
+    // 保留原始分組資料，供「公用設施白名單」頁籤渲染網段統計徽章與
+    // 可展開 CIDR 清單使用（比對邏輯本身用上面攤平的 cidrRanges 就夠，
+    // 這裡額外存一份是純粹為了畫面呈現）。
+    PUBLIC_INFRA.cdnGroups = data.cdn_cidrs || [];
+    PUBLIC_INFRA.exactIpsRaw = data.exact_ips || [];
+    // 這個欄位是為了讓未來的自動同步腳本（週期性向官方 API 拉取最新
+    // CIDR/ASN 後覆寫本檔）有固定位置可寫入「最後同步時間」，供前端
+    // 顯示資料新鮮度；目前是手動填入，尚未接自動化腳本。
+    PUBLIC_INFRA.lastSyncTime = data.last_sync_time || null;
   }
 
   // 命中任一條件（完全比對 IP / ASN / CDN CIDR 網段）即視為公用設施，
@@ -393,7 +405,7 @@
   };
 
   function switchTab(tab) {
-    if (tab !== "sectors" && !state.raw[tab]) tab = "all";
+    if (tab !== "sectors" && tab !== "whitelist" && !state.raw[tab]) tab = "all";
     state.activeTab = tab;
 
     $("tabAllBtn").classList.toggle("active", tab === "all");
@@ -401,15 +413,22 @@
     $("tabEdlBtn").classList.toggle("active", tab === "edl");
     $("tabSectorsBtn").classList.toggle("active", tab === "sectors");
     $("tabPublicInfraBtn").classList.toggle("active", tab === "publicInfra");
+    $("tabWhitelistBtn").classList.toggle("active", tab === "whitelist");
 
     var isSectors = tab === "sectors";
     var isPublicInfra = tab === "publicInfra";
+    var isWhitelist = tab === "whitelist";
+    var isStaticTab = isSectors || isWhitelist;
     $("sectorsPanel").hidden = !isSectors;
-    $("resultsPanel").hidden = (isSectors || isPublicInfra);
+    $("whitelistPanel").hidden = !isWhitelist;
+    $("resultsPanel").hidden = (isStaticTab || isPublicInfra);
     $("publicInfraResultsPanel").hidden = !isPublicInfra;
     $("publicInfraPanel").hidden = !isPublicInfra;
-    $("statsRow").hidden = (tab === "edl" || isSectors || isPublicInfra);
-    $("searchRow").hidden = (tab === "edl" || isSectors);
+    $("statsRow").hidden = (tab === "edl" || isStaticTab || isPublicInfra);
+    $("searchRow").hidden = (tab === "edl" || isStaticTab);
+    // 產業別規則／公用設施白名單完全不需要查詢列，整個外層容器隱藏，
+    // 避免 searchRow 和 edlTierFilterRow 都隱藏後留下一條空白橫條
+    $("queryBarPanel").hidden = isStaticTab;
     // 雲端公用清單頁籤精簡查詢列：只留搜尋框 + 清除條件，標籤下拉與
     // 排序下拉都不需要（表格欄位本來就不顯示 labels，排序固定依威脅分數）
     $("labelFilterCol").hidden = isPublicInfra;
@@ -420,9 +439,14 @@
     // 右上角「下載 Firewall EDL 清單」只在 EDL 頁籤有意義，其餘頁籤一律隱藏
     $("edlLink").hidden = (tab !== "edl");
 
-    // 產業別規則頁籤是靜態對照表，不走 IOC 資料的篩選/排序/統計流程
+    // 產業別規則／公用設施白名單都是靜態對照表，不走 IOC 資料的
+    // 篩選/排序/統計流程
     if (isSectors) {
       renderSectorsPanel();
+      return;
+    }
+    if (isWhitelist) {
+      renderWhitelistPanel();
       return;
     }
 
@@ -472,6 +496,149 @@
 
   function renderSectorsPanel() {
     $("sectorsGrid").innerHTML = SECTOR_RULES.map(sectorCardHtml).join("");
+  }
+
+  // ---------------------------------------------------------------- 公用設施白名單規則
+  // 靜態規則定義卡片（比照產業別規則卡片樣式），說明「雲端公用清單」頁籤
+  // 判定邏輯依據的廠商/ASN/官方同步來源，純文件用途，不驅動實際比對
+  // 邏輯（實際比對邏輯讀 docs/data/public_infra_rules.json，見 matchPublicInfra()）。
+  var WHITELIST_RULES = [
+    {
+      name: "Cloudflare",
+      asns: ["AS13335", "AS209242"],
+      source: "https://www.cloudflare.com/ips-v4",
+      summary: "保護全球 Anycast CDN 節點與 1.1.1.1 公用 DNS。",
+      showCidrSection: true
+    },
+    {
+      name: "Fastly",
+      asns: ["AS54113"],
+      source: "https://api.fastly.com/public-ip-list",
+      summary: "保護關鍵 SaaS 服務與開源套件庫。",
+      showCidrSection: true
+    },
+    {
+      name: "Amazon Web Services (AWS)",
+      asns: ["AS16509", "AS14618"],
+      source: "AWS IP Ranges（篩選 CLOUDFRONT）",
+      summary: "涵蓋服務：CloudFront CDN。",
+      showCidrSection: true
+    },
+    {
+      name: "Google Cloud Platform (GCP)",
+      asns: ["AS15169", "AS396982"],
+      source: "https://www.gstatic.com/ipranges/goog.json",
+      summary: "涵蓋服務：Google Core & GCP 網段、8.8.8.8 公用 DNS。",
+      showCidrSection: true
+    },
+    {
+      name: "Microsoft 365 / Azure",
+      asns: ["AS8075", "AS8068"],
+      source: "Microsoft 365 Worldwide IP Web Service",
+      summary: "涵蓋服務：M365 全球通訊端點。",
+      showCidrSection: true
+    },
+    {
+      name: "公用 DNS 服務 (Public DNS)",
+      asns: [],
+      isDns: true,
+      source: null,
+      summary: "避免阻斷各企業內部之核心 DNS 解析節點。"
+    }
+  ];
+
+  // 可展開/收合的 CIDR 清單區塊。資料實際有無來自 docs/data/
+  // public_infra_rules.json（見 loadPublicInfraRules 存的 cdnGroups），
+  // 目前只有 Cloudflare、Fastly 有收錄實際網段，AWS/GCP/Microsoft
+  // 目前僅做 ASN 比對、尚無 CIDR 清單——沒有資料時誠實顯示說明文字，
+  // 不假造網段內容。
+  function cidrBlockHtml(cidrs) {
+    if (!cidrs || !cidrs.length) {
+      return '<div class="muted small mt-2">尚未同步 CIDR 網段清單（目前僅以 ASN 比對，待官方 API 整合後補上）</div>';
+    }
+    var preview = cidrs.slice(0, 4).map(function (c) {
+      return '<span class="tag">' + esc(c) + "</span>";
+    }).join("");
+    var expandLabel = "展開查看全部 " + cidrs.length + " 筆 CIDR";
+    var fullText = cidrs.join("\n");
+    return (
+      '<div class="cidr-block mt-2">' +
+        '<div class="sector-card-badges mb-2">' + preview + "</div>" +
+        '<button type="button" class="btn btn-sm btn-outline-info cidr-toggle-btn" ' +
+          'data-expand-label="' + esc(expandLabel) + '">' + esc(expandLabel) + "</button>" +
+        '<div class="cidr-full-list mt-2" hidden>' +
+          '<div class="d-flex justify-content-end mb-1">' +
+            '<button type="button" class="btn btn-sm btn-outline-secondary cidr-copy-btn">複製全部</button>' +
+          "</div>" +
+          '<pre class="cidr-codebox" data-cidr-text>' + esc(fullText) + "</pre>" +
+        "</div>" +
+      "</div>"
+    );
+  }
+
+  function findCidrGroup(providerName) {
+    var groups = PUBLIC_INFRA.cdnGroups || [];
+    for (var i = 0; i < groups.length; i++) {
+      if (groups[i].provider === providerName) return groups[i];
+    }
+    return null;
+  }
+
+  function whitelistCardHtml(rule) {
+    var asnBadges = (rule.asns || []).map(function (a) {
+      return '<span class="tag">' + esc(a) + "</span>";
+    }).join("");
+
+    var ipBadges = "";
+    if (rule.isDns) {
+      // 公用 DNS 卡片直接讀取 public_infra_rules.json 的 exact_ips，
+      // 確保清單跟實際用於比對的資料永遠一致、不會漏列或手key漏打。
+      ipBadges = (PUBLIC_INFRA.exactIpsRaw || []).map(function (item) {
+        return '<span class="tag">' + esc(item.ip) + "（" + esc(item.name) + "）</span>";
+      }).join("");
+    } else {
+      ipBadges = (rule.ips || []).map(function (ip) {
+        return '<span class="tag">' + esc(ip) + "</span>";
+      }).join("");
+    }
+
+    var cidrGroup = rule.showCidrSection ? findCidrGroup(rule.name) : null;
+    var cidrs = cidrGroup ? cidrGroup.cidrs : null;
+    var countBadge = (cidrs && cidrs.length)
+      ? ' <span class="badge bg-success" style="font-size:.68rem;">已同步 ' + cidrs.length + " 個 IPv4 網段</span>"
+      : "";
+
+    var sourceLine = "";
+    if (rule.source) {
+      var sourceContent = /^https?:\/\//.test(rule.source)
+        ? '<a href="' + esc(rule.source) + '" target="_blank" rel="noopener noreferrer">' + esc(rule.source) + "</a>"
+        : esc(rule.source);
+      sourceLine = '<div class="sector-card-summary">官方同步來源：' + sourceContent + "</div>";
+    }
+
+    return (
+      '<div class="sector-card">' +
+        '<div class="sector-card-title">' + esc(rule.name) + countBadge + "</div>" +
+        (asnBadges
+          ? '<div><span class="sector-card-label">涵蓋 ASN</span>' +
+            '<div class="sector-card-badges">' + asnBadges + "</div></div>"
+          : "") +
+        (ipBadges
+          ? '<div><span class="sector-card-label">涵蓋 IP</span>' +
+            '<div class="sector-card-badges">' + ipBadges + "</div></div>"
+          : "") +
+        sourceLine +
+        '<div class="sector-card-summary">' + esc(rule.summary) + "</div>" +
+        (rule.showCidrSection ? cidrBlockHtml(cidrs) : "") +
+      "</div>"
+    );
+  }
+
+  function renderWhitelistPanel() {
+    $("whitelistGrid").innerHTML = WHITELIST_RULES.map(whitelistCardHtml).join("");
+    $("whitelistSyncTime").textContent = PUBLIC_INFRA.lastSyncTime
+      ? "資料最後同步時間：" + fmtDate(PUBLIC_INFRA.lastSyncTime) + " (UTC+8)"
+      : "資料最後同步時間：—";
   }
 
   function renderSectorPills() {
@@ -844,6 +1011,33 @@
     $("tabEdlBtn").addEventListener("click", function () { switchTab("edl"); });
     $("tabSectorsBtn").addEventListener("click", function () { switchTab("sectors"); });
     $("tabPublicInfraBtn").addEventListener("click", function () { switchTab("publicInfra"); });
+    $("tabWhitelistBtn").addEventListener("click", function () { switchTab("whitelist"); });
+
+    // CIDR 展開/收合 + 複製全部，用事件代理綁在固定不變的 #whitelistGrid
+    // 上，renderWhitelistPanel() 每次重繪 innerHTML 都不需要重新綁定。
+    $("whitelistGrid").addEventListener("click", function (e) {
+      var toggleBtn = e.target.closest(".cidr-toggle-btn");
+      if (toggleBtn) {
+        var block = toggleBtn.closest(".cidr-block");
+        var fullList = block.querySelector(".cidr-full-list");
+        var wasHidden = fullList.hidden;
+        fullList.hidden = !wasHidden;
+        toggleBtn.textContent = wasHidden ? "收合 CIDR 清單" : toggleBtn.getAttribute("data-expand-label");
+        return;
+      }
+      var copyBtn = e.target.closest(".cidr-copy-btn");
+      if (copyBtn) {
+        var pre = copyBtn.closest(".cidr-full-list").querySelector("[data-cidr-text]");
+        var text = pre.textContent;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () {
+            var original = copyBtn.textContent;
+            copyBtn.textContent = "已複製！";
+            setTimeout(function () { copyBtn.textContent = original; }, 1500);
+          }).catch(function () { /* 剪貼簿權限被拒時靜默失敗，使用者仍可手動選取文字複製 */ });
+        }
+      }
+    });
     $("btnExportPublicInfraDomains").addEventListener("click", downloadPublicInfraDomains);
 
     $("sectorPillGroup").addEventListener("click", function (e) {
