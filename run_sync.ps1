@@ -55,6 +55,45 @@ if (Test-Path $LogFile) {
 Write-Log ("=" * 60)
 Write-Log "CTI 同步開始 | 專案目錄: $ProjectRoot"
 
+# ---- 等待網路就緒 ----
+# 開機觸發（AtStartup trigger）時，Windows 判定「開機完成」的時間點常常早於
+# 網卡/DNS 實際就緒（尤其是 Wi-Fi、VPN 或網域環境），導致排程一開機就跑、
+# 但 Luminar API 網域還無法解析而直接失敗（曾實際發生：getaddrinfo failed）。
+# 這裡在呼叫 pipeline.py 前，先輪詢確認網域可解析，最多等 3 分鐘；
+# 逾時仍會照常嘗試執行，失敗時 pipeline.py 自己會記錄清楚的錯誤訊息。
+function Wait-ForNetwork {
+    param(
+        [string]$TargetHost = 'cyberluminar.com',
+        [int]$MaxWaitSeconds = 180,
+        [int]$IntervalSeconds = 10
+    )
+    $elapsed = 0
+    while ($elapsed -lt $MaxWaitSeconds) {
+        try {
+            [System.Net.Dns]::GetHostAddresses($TargetHost) | Out-Null
+            if ($elapsed -gt 0) {
+                Write-Log "網路就緒（等待 $elapsed 秒後可解析 $TargetHost）"
+            }
+            return
+        }
+        catch {
+            Start-Sleep -Seconds $IntervalSeconds
+            $elapsed += $IntervalSeconds
+        }
+    }
+    Write-Log "等待 $MaxWaitSeconds 秒後仍無法解析 $TargetHost，照常繼續執行" 'WARN'
+}
+
+$LuminarHost = 'cyberluminar.com'
+$envFile = Join-Path $ProjectRoot '.env'
+if (Test-Path $envFile) {
+    $baseUrlLine = Get-Content $envFile -Encoding UTF8 | Where-Object { $_ -match '^LUMINAR_BASE_URL=' } | Select-Object -First 1
+    if ($baseUrlLine -and ($baseUrlLine -match '://([^/"\s]+)')) {
+        $LuminarHost = $Matches[1]
+    }
+}
+Wait-ForNetwork -TargetHost $LuminarHost
+
 # ---- 找出 Python 直譯器（優先使用專案 venv）----
 $PythonExe = $null
 foreach ($c in @(
