@@ -417,8 +417,8 @@
     $("edlCriteriaPanel").hidden = (tab !== "edl");
     $("edlTierFilterRow").hidden = (tab !== "edl");
     $("edlSyncCompact").hidden = (tab !== "edl");
-    // 右上角「下載 Firewall EDL 清單」在雲端公用清單頁籤沒有意義，避免誤會
-    $("edlLink").hidden = isPublicInfra;
+    // 右上角「下載 Firewall EDL 清單」只在 EDL 頁籤有意義，其餘頁籤一律隱藏
+    $("edlLink").hidden = (tab !== "edl");
 
     // 產業別規則頁籤是靜態對照表，不走 IOC 資料的篩選/排序/統計流程
     if (isSectors) {
