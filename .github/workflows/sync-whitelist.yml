@@ -16,7 +16,7 @@ on:
   schedule:
     # 每週一 01:00 UTC（台北時間 09:00）執行一次
     - cron: "0 1 * * 1"
-  workflow_dispatch: {}
+  workflow_dispatch: {} # 可於 GitHub Actions 頁面或 API 手動觸發，用於臨時補跑或測試
 
 permissions:
   contents: write
