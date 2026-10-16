@@ -7,6 +7,10 @@
   var IOC_CANDIDATES = ["../data/base_iocs.json", "./data/base_iocs.json", "/data/base_iocs.json"];
   var DAILY_CANDIDATES = ["../data/daily_iocs.json", "./data/daily_iocs.json", "/data/daily_iocs.json"];
   var ASN_DICT_CANDIDATES = ["../data/asn_dict.json", "./data/asn_dict.json", "/data/asn_dict.json"];
+  // 公用雲端/CDN 白名單設定檔是前端自帶的靜態資源，放在 docs/data/ 底下
+  // （跟 pipeline.py 產出、放在專案頂層 data/ 的其他檔案不同目錄），
+  // 所以候選路徑不含 "../data/" 那一種。
+  var PUBLIC_INFRA_CANDIDATES = ["./data/public_infra_rules.json", "/data/public_infra_rules.json"];
 
   var PAGE_SIZE = 200;
 
@@ -105,7 +109,8 @@
     raw: {                   // 各頁籤各自的完整資料（載入後不隨篩選變動）
       all: { meta: {}, list: [] },
       daily: { meta: {}, list: [] },
-      edl: { meta: {}, list: [] }
+      edl: { meta: {}, list: [] },
+      publicInfra: { meta: {}, list: [] }
     },
     activeTab: "all",
     all: [],        // 目前作用中頁籤的資料
@@ -119,7 +124,8 @@
     tabSort: {
       all:   { key: "threat_score", dir: -1, custom: false },
       daily: { key: "last_seen", dir: -1, custom: false },
-      edl:   { key: "threat_score", dir: -1, custom: false }
+      edl:   { key: "threat_score", dir: -1, custom: false },
+      publicInfra: { key: "threat_score", dir: -1, custom: false }
     },
     sortKey: "threat_score",
     sortDir: -1,
@@ -134,7 +140,8 @@
   var TAB_DEFAULT_PRIMARY = {
     all:   { key: "threat_score", dir: -1 },  // 全部情資庫：歷史威脅獵捕
     daily: { key: "last_seen", dir: -1 },     // 今日最新發現：當日最新感知
-    edl:   { key: "threat_score", dir: -1 }   // EDL 阻斷清單：活體攻擊優先阻斷
+    edl:   { key: "threat_score", dir: -1 },  // EDL 阻斷清單：活體攻擊優先阻斷
+    publicInfra: { key: "threat_score", dir: -1 }  // 雲端公用清單：沿用威脅分數優先
   };
 
   // 標準 SOC 次要排序順位：不論主要排序欄位選哪一個（無論是頁籤預設，
@@ -174,6 +181,73 @@
     var parts = String(ip).split("/")[0].split(".");
     if (parts.length !== 4) return 0;
     return parts.reduce(function (acc, p) { return acc * 256 + (parseInt(p, 10) || 0); }, 0);
+  }
+
+  // ---------------------------------------------------------- 公用雲端/CDN 白名單
+  // 命中這份白名單的情資會被排除在 EDL 建議阻斷數之外，改列進「雲端公用
+  // 清單」頁籤，避免誤封共用的 DNS/CDN/雲端基礎設施波及其他客戶。
+  var PUBLIC_INFRA = { exactIpMap: {}, asnMap: {}, cidrRanges: [] };
+
+  function extractAsnNum(rawAsn) {
+    if (rawAsn == null) return null;
+    var s = String(rawAsn).trim();
+    if (!s) return null;
+    s = s.replace(/^as\s*/i, "");
+    var match = s.match(/^(\d+)/);
+    return match ? match[1] : null;
+  }
+
+  // 用純算術（非位元運算）算出 CIDR 的位址範圍，避免 JS 位元運算子把
+  // 數值視為 32-bit 帶號整數、在靠近 2^31 以上的位址算錯的問題。
+  function cidrToRange(cidr) {
+    var parts = cidr.split("/");
+    var base = ipKey(parts[0]);
+    var bits = parseInt(parts[1], 10);
+    var size = Math.pow(2, 32 - (isNaN(bits) ? 32 : bits));
+    var networkBase = Math.floor(base / size) * size;
+    return { start: networkBase, end: networkBase + size - 1 };
+  }
+
+  function loadPublicInfraRules(data) {
+    (data.exact_ips || []).forEach(function (item) {
+      if (item && item.ip) PUBLIC_INFRA.exactIpMap[item.ip] = item.name || item.ip;
+    });
+    (data.asns || []).forEach(function (item) {
+      if (item && item.asn) PUBLIC_INFRA.asnMap[item.asn.toUpperCase()] = item.name || item.asn;
+    });
+    (data.cdn_cidrs || []).forEach(function (group) {
+      (group.cidrs || []).forEach(function (cidr) {
+        var range = cidrToRange(cidr);
+        range.provider = group.provider;
+        range.cidr = cidr;
+        PUBLIC_INFRA.cidrRanges.push(range);
+      });
+    });
+  }
+
+  // 命中任一條件（完全比對 IP / ASN / CDN CIDR 網段）即視為公用設施，
+  // 回傳 {type, name} 說明命中哪一條規則；完全沒命中回傳 null。
+  function matchPublicInfra(record) {
+    var ipOnly = String(record.ip).split("/")[0];
+
+    if (PUBLIC_INFRA.exactIpMap[ipOnly]) {
+      return { type: "exact_ip", name: PUBLIC_INFRA.exactIpMap[ipOnly] };
+    }
+
+    var asnNum = extractAsnNum(record.asn);
+    if (asnNum && PUBLIC_INFRA.asnMap["AS" + asnNum]) {
+      return { type: "asn", name: PUBLIC_INFRA.asnMap["AS" + asnNum] };
+    }
+
+    var ipInt = ipKey(ipOnly);
+    for (var i = 0; i < PUBLIC_INFRA.cidrRanges.length; i++) {
+      var range = PUBLIC_INFRA.cidrRanges[i];
+      if (ipInt >= range.start && ipInt <= range.end) {
+        return { type: "cdn_cidr", name: range.provider + " " + range.cidr };
+      }
+    }
+
+    return null;
   }
 
   function toArray(value) {
@@ -236,7 +310,7 @@
 
   function load() {
     $("tableBody").innerHTML =
-      '<tr><td colspan="9" class="text-center py-5 muted">載入中 …</td></tr>';
+      '<tr><td colspan="10" class="text-center py-5 muted">載入中 …</td></tr>';
 
     // pipeline.py 自動查詢擴充的 ASN 字典；尚未產生或載入失敗時
     // 容錯跳過，沿用 asn_dict.js 內建的靜態基礎字典即可。
@@ -247,6 +321,12 @@
     var asnDictPromise = fetchFirstAvailable(ASN_DICT_CANDIDATES, true)
       .then(function (result) { mergeAsnDict(result.data); })
       .catch(function () { /* 沒有動態字典也不影響其餘功能 */ });
+
+    // 公用雲端/CDN 白名單是前端自帶的靜態設定檔，載入失敗不應影響其餘
+    // 功能（只是雲端公用清單會是空的、EDL 也就不會排除任何東西）。
+    var publicInfraPromise = fetchFirstAvailable(PUBLIC_INFRA_CANDIDATES, true)
+      .then(function (result) { loadPublicInfraRules(result.data); })
+      .catch(function () { /* 沒有設定檔就不做白名單過濾 */ });
 
     var allPromise = asnDictPromise.then(function () {
       return fetchFirstAvailable(IOC_CANDIDATES, true).then(function (result) {
@@ -262,22 +342,36 @@
         .then(function (normalized) { state.raw.daily = normalized; });
     });
 
-    Promise.all([allPromise, dailyPromise, asnDictPromise])
+    Promise.all([allPromise, dailyPromise, asnDictPromise, publicInfraPromise])
       .then(function () {
         // EDL 頁籤不另外抓檔，直接從全量庫篩出 edl_tier 已標記的紀錄
         // （edl_tier 由 pipeline.py 的階梯式判定邏輯於同步當下寫入，
-        // 避免前端用瀏覽器當下時間重算導致 72 小時 / 7 天時間窗漂移）
-        var edlList = state.raw.all.list.filter(function (r) {
+        // 避免前端用瀏覽器當下時間重算導致 72 小時 / 7 天時間窗漂移）。
+        // 命中公用雲端/CDN 白名單的紀錄從 EDL 中排除，改列進「雲端公用
+        // 清單」頁籤（見 matchPublicInfra()），避免誤封共用基礎設施。
+        var edlCandidates = state.raw.all.list.filter(function (r) {
           return r.edl_tier === "A" || r.edl_tier === "B";
         });
+        var edlList = [];
+        var publicInfraList = [];
+        edlCandidates.forEach(function (r) {
+          var match = matchPublicInfra(r);
+          if (match) {
+            r._publicInfraMatch = match;
+            publicInfraList.push(r);
+          } else {
+            edlList.push(r);
+          }
+        });
         state.raw.edl = { meta: state.raw.all.meta, list: edlList };
+        state.raw.publicInfra = { meta: state.raw.all.meta, list: publicInfraList };
 
         updateTabBadges();
         switchTab(state.activeTab);
       })
       .catch(function (err) {
         $("tableBody").innerHTML =
-          '<tr><td colspan="9" class="text-center py-5 text-danger">' +
+          '<tr><td colspan="10" class="text-center py-5 text-danger">' +
           "無法載入 base_iocs.json：" + esc(err.message) +
           '<br><span class="muted small">請先執行 pipeline.py 產生資料，或確認 GitHub Pages 發佈路徑。</span>' +
           "</td></tr>";
@@ -288,12 +382,14 @@
     $("tabAllBadge").textContent = state.raw.all.list.length.toLocaleString();
     $("tabDailyBadge").textContent = state.raw.daily.list.length.toLocaleString();
     $("tabEdlBadge").textContent = state.raw.edl.list.length.toLocaleString();
+    $("tabPublicInfraBadge").textContent = state.raw.publicInfra.list.length.toLocaleString();
   }
 
   var TAB_LABELS = {
     all: "收錄總 IP 數",
     daily: "今日新增 IP 數",
-    edl: "EDL 阻斷 IP 數"
+    edl: "EDL 阻斷 IP 數",
+    publicInfra: "雲端公用 IP 數"
   };
 
   function switchTab(tab) {
@@ -304,15 +400,25 @@
     $("tabDailyBtn").classList.toggle("active", tab === "daily");
     $("tabEdlBtn").classList.toggle("active", tab === "edl");
     $("tabSectorsBtn").classList.toggle("active", tab === "sectors");
+    $("tabPublicInfraBtn").classList.toggle("active", tab === "publicInfra");
 
     var isSectors = tab === "sectors";
+    var isPublicInfra = tab === "publicInfra";
     $("sectorsPanel").hidden = !isSectors;
-    $("resultsPanel").hidden = isSectors;
-    $("statsRow").hidden = (tab === "edl" || isSectors);
+    $("resultsPanel").hidden = (isSectors || isPublicInfra);
+    $("publicInfraResultsPanel").hidden = !isPublicInfra;
+    $("publicInfraPanel").hidden = !isPublicInfra;
+    $("statsRow").hidden = (tab === "edl" || isSectors || isPublicInfra);
     $("searchRow").hidden = (tab === "edl" || isSectors);
+    // 雲端公用清單頁籤精簡查詢列：只留搜尋框 + 清除條件，標籤下拉與
+    // 排序下拉都不需要（表格欄位本來就不顯示 labels，排序固定依威脅分數）
+    $("labelFilterCol").hidden = isPublicInfra;
+    $("sortSelectCol").hidden = isPublicInfra;
     $("edlCriteriaPanel").hidden = (tab !== "edl");
     $("edlTierFilterRow").hidden = (tab !== "edl");
     $("edlSyncCompact").hidden = (tab !== "edl");
+    // 右上角「下載 Firewall EDL 清單」在雲端公用清單頁籤沒有意義，避免誤會
+    $("edlLink").hidden = isPublicInfra;
 
     // 產業別規則頁籤是靜態對照表，不走 IOC 資料的篩選/排序/統計流程
     if (isSectors) {
@@ -329,7 +435,7 @@
     var ts = state.tabSort[tab];
     state.sortKey = ts.key;
     state.sortDir = ts.dir;
-    if (tab !== "edl") {
+    if (tab !== "edl" && !isPublicInfra) {
       var opt = document.querySelector('#sortSelect option[value="' + state.sortKey + '"]');
       if (opt) $("sortSelect").value = state.sortKey;
     }
@@ -454,9 +560,11 @@
 
   function applyFilters() {
     var isEdlTab = state.activeTab === "edl";
-    // EDL 頁籤沒有搜尋框/標籤篩選 UI，一律不套用，只用階梯式判定篩選
+    var isPublicInfraTab = state.activeTab === "publicInfra";
+    // EDL 頁籤沒有搜尋框/標籤篩選 UI，一律不套用，只用階梯式判定篩選；
+    // 雲端公用清單頁籤保留搜尋框，但沒有標籤篩選 UI。
     var query = isEdlTab ? "" : $("searchBox").value.trim().toLowerCase();
-    var selected = isEdlTab ? new Set() : state.selectedLabels;
+    var selected = (isEdlTab || isPublicInfraTab) ? new Set() : state.selectedLabels;
     var tierFilter = state.edlTierFilter;
     var sectorFilter = state.edlSectorFilter;
 
@@ -470,8 +578,12 @@
 
     sortView();
     state.shown = 0;
-    $("tableBody").innerHTML = "";
-    renderMore();
+    if (isPublicInfraTab) {
+      renderPublicInfraTable();
+    } else {
+      $("tableBody").innerHTML = "";
+      renderMore();
+    }
 
     var tierNarrowed = isEdlTab && !(tierFilter.A && tierFilter.B);
     $("statFiltered").textContent =
@@ -601,6 +713,9 @@
       '<td class="muted small">' + fmtDate(r.first_seen) + "</td>" +
       '<td class="muted small">' + fmtDate(r.last_seen) + "</td>" +
       '<td class="text-center">' + r.seen_count + "</td>" +
+      '<td class="muted small">' +
+        (r._publicInfraMatch ? esc(r._publicInfraMatch.name) : '<span class="muted">—</span>') +
+      "</td>" +
       "</tr>";
   }
 
@@ -609,7 +724,7 @@
 
     if (!state.view.length) {
       $("tableBody").innerHTML =
-        '<tr><td colspan="9" class="text-center py-5 muted">沒有符合條件的情資</td></tr>';
+        '<tr><td colspan="10" class="text-center py-5 muted">沒有符合條件的情資</td></tr>';
       $("rowInfo").textContent = "0 筆";
       $("btnMore").classList.add("d-none");
       return;
@@ -621,6 +736,63 @@
     $("rowInfo").textContent =
       "顯示 " + state.shown.toLocaleString() + " / " + state.view.length.toLocaleString() + " 筆";
     $("btnMore").classList.toggle("d-none", state.shown >= state.view.length);
+  }
+
+  // 雲端公用清單頁籤專用的精簡表格渲染（5 欄，無分頁——預期筆數不多）
+  function publicInfraRowHtml(r) {
+    var domains = r.resolving_domains.length
+      ? r.resolving_domains.map(esc).join("<br>")
+      : '<span class="muted">—</span>';
+    var ruleName = r._publicInfraMatch
+      ? esc(r._publicInfraMatch.name)
+      : '<span class="muted">—</span>';
+    return "<tr>" +
+      '<td class="ip-cell">' + esc(r.ip) + "</td>" +
+      '<td class="muted small">' + ruleName + "</td>" +
+      '<td class="domain-list">' + domains + "</td>" +
+      '<td><span class="' + scoreClass(r.threat_score) + '">' + r.threat_score + "</span></td>" +
+      '<td class="muted small">' + fmtDate(r.last_seen) + "</td>" +
+      "</tr>";
+  }
+
+  function renderPublicInfraTable() {
+    if (!state.view.length) {
+      $("publicInfraTableBody").innerHTML =
+        '<tr><td colspan="5" class="text-center py-5 muted">沒有符合條件的情資</td></tr>';
+      $("publicInfraRowInfo").textContent = "0 筆";
+      return;
+    }
+    $("publicInfraTableBody").innerHTML = state.view.map(publicInfraRowHtml).join("");
+    $("publicInfraRowInfo").textContent = "共 " + state.view.length.toLocaleString() + " 筆";
+  }
+
+  // 匯出目前畫面上（已套用搜尋篩選）的非空解析網域，去重、一行一個
+  function buildPublicInfraDomainExportText() {
+    var seen = {};
+    var domains = [];
+    state.view.forEach(function (r) {
+      (r.resolving_domains || []).forEach(function (d) {
+        var domain = String(d || "").trim();
+        if (domain && !seen[domain]) {
+          seen[domain] = true;
+          domains.push(domain);
+        }
+      });
+    });
+    return domains.join("\n") + (domains.length ? "\n" : "");
+  }
+
+  function downloadPublicInfraDomains() {
+    var text = buildPublicInfraDomainExportText();
+    var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "public_infra_malicious_domains.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
   }
 
   function renderStats() {
@@ -640,8 +812,10 @@
     $("statSyncLocal").textContent = " ";
     $("statSyncEdl").textContent = synced ? fmtDate(synced) : "—";
 
-    var edlCount = globalMeta.edl_count;
-    $("statEdl").textContent = (edlCount != null) ? Number(edlCount).toLocaleString() : "—";
+    // 注意：不用 globalMeta.edl_count（後端算出的原始條件A/B命中數），改用
+    // 前端扣掉公用雲端/CDN 白名單之後的 state.raw.edl.list，這樣「EDL 建議
+    // 阻斷數」才會真的反映白名單降階後的建議封鎖量。
+    $("statEdl").textContent = state.raw.edl.list.length.toLocaleString();
   }
 
   // ---------------------------------------------------------------- 事件
@@ -669,6 +843,8 @@
     $("tabDailyBtn").addEventListener("click", function () { switchTab("daily"); });
     $("tabEdlBtn").addEventListener("click", function () { switchTab("edl"); });
     $("tabSectorsBtn").addEventListener("click", function () { switchTab("sectors"); });
+    $("tabPublicInfraBtn").addEventListener("click", function () { switchTab("publicInfra"); });
+    $("btnExportPublicInfraDomains").addEventListener("click", downloadPublicInfraDomains);
 
     $("sectorPillGroup").addEventListener("click", function (e) {
       var pill = e.target.closest(".sector-pill");
