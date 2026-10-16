@@ -1,7 +1,11 @@
 name: Sync Public Infra Whitelist
 
-# 定期（與手動）從 5 大官方權威端點同步公用設施 CDN/Cloud CIDR 白名單，
+# 手動從 5 大官方權威端點同步公用設施 CDN/Cloud CIDR 白名單，
 # 更新 docs/data/public_infra_rules.json。
+#
+# 僅支援手動觸發（workflow_dispatch），不設排程：由「公用設施白名單」
+# 頁面上的手動更新按鈕導向本頁面觸發，管理員視需要手動執行即可，官方
+# CDN/Cloud 網段本身變動頻率不高，不需要固定排程。
 #
 # 防呆重點：
 #   1. scripts/sync_public_infra.py 內建的 Sanity Check 熔斷機制會在任何
@@ -13,10 +17,7 @@ name: Sync Public Infra Whitelist
 #      push 時執行的工作流造成無限迴圈。
 
 on:
-  schedule:
-    # 台北時間（GMT+8）每週一 01:00 執行一次，換算 UTC 為週日 17:00
-    - cron: "0 17 * * 0"
-  workflow_dispatch: {} # 可於 GitHub Actions 頁面或 API 手動觸發，用於臨時補跑或測試
+  workflow_dispatch: {}
 
 permissions:
   contents: write
@@ -73,12 +74,7 @@ jobs:
             echo ""
             echo "| 廠商 | CIDR 筆數 |"
             echo "| --- | --- |"
-            python - <<'PY'
-import json
-data = json.load(open("docs/data/public_infra_rules.json", encoding="utf-8"))
-for group in data.get("cdn_cidrs", []):
-    print(f"| {group.get('provider', '')} | {len(group.get('cidrs', []))} |")
-PY
+            python -c "import json; d=json.load(open('docs/data/public_infra_rules.json', encoding='utf-8')); print('\n'.join('| %s | %d |' % (g.get('provider', ''), len(g.get('cidrs', []))) for g in d.get('cdn_cidrs', [])))"
             echo ""
             if [ "${{ steps.diff.outputs.changed }}" = "true" ]; then
               echo "本次同步已偵測到變更並完成提交。"
