@@ -1,0 +1,53 @@
+# ---- Secrets ----
+.env
+.env.local
+*.pem
+*.key
+
+# ---- 租戶/執行狀態（可能內含Luminar Realm ID等租戶識別資訊）----
+# last_run_error 欄位會原樣保留連線失敗時的例外訊息，過去曾因此把
+# Luminar Realm ID（API URL路徑的一部分）意外寫進這個會被git追蹤的
+# 檔案。sync_state.json是本機排程狀態，不是情資輸出，日後排程產生的
+# 版本一律不再進版控，避免同樣的洩漏再次發生。
+data/sync_state.json
+
+# ---- Python ----
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# ---- Logs ----
+*.log
+logs/
+*.lock
+
+# ---- 原子寫入暫存殘檔 ----
+# write_json()（pipeline.py）採「寫入<檔名>.tmp再replace()」的原子寫入
+# 模式，避免中途中斷造成正式檔案毀損；但若排程在replace()前被強制
+# 終止，理論上可能在data/或docs/data/留下殘留的.tmp檔。write_json()
+# 目前所有呼叫點都只落在這兩個目錄，這裡精準排除這兩處的*.tmp，不用
+# 全域*.tmp規則，避免誤擋到其他目錄未來可能存在、需要進版控的.tmp
+# 範例檔或測試固定資料。
+data/*.tmp
+docs/data/*.tmp
+
+# ---- 本機可觀測性分析報表 ----
+# 由 pipeline.py --emit-decision-detail 或 rule_backtest.py --output 產出，
+# 純本機分析/除錯用途，decision_detail.json 單次可能有數十MB（每筆IOC都
+# 附完整的三通道判定明細），不適合進版控（此repo為public，見README「安全性」
+# 一節）；需要的話可自行在本機保留，不受git追蹤。
+data/decision_detail.json
+data/cidr_aggregation_report.json
+data/rule_backtest_report.json
+
+# ---- OS / Editor ----
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/
+.claude/

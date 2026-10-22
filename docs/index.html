@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CTI 情資收斂與 EDL 聯防平台</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous" />
+  <style>
+    :root {
+      --cti-bg: #0b0f16;
+      --cti-panel: #131a26;
+      --cti-border: #1f2b3d;
+      --cti-accent: #22d3ee;
+      --cti-muted: #7c8da6;
+    }
+    body {
+      background:
+        radial-gradient(1200px 600px at 15% -10%, #16243a 0%, transparent 60%),
+        var(--cti-bg);
+      color: #dbe5f0;
+      font-family: "Segoe UI", "Noto Sans TC", system-ui, sans-serif;
+      min-height: 100vh;
+    }
+    .navbar-cti {
+      background: rgba(11, 15, 22, .88);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--cti-border);
+    }
+    .brand-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--cti-accent);
+      box-shadow: 0 0 12px var(--cti-accent);
+      display: inline-block;
+    }
+    .edl-export-hint {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, .45);
+      line-height: 1.2;
+    }
+    .stat-card {
+      background: linear-gradient(160deg, var(--cti-panel), #0e141f);
+      border: 1px solid var(--cti-border);
+      border-radius: .9rem;
+      padding: 1.1rem 1.25rem;
+      height: 100%;
+    }
+    .stat-label {
+      font-size: .78rem; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--cti-muted);
+    }
+    .stat-value { font-size: 1.85rem; font-weight: 700; line-height: 1.2; }
+    .panel {
+      background: var(--cti-panel);
+      border: 1px solid var(--cti-border);
+      border-radius: .9rem;
+    }
+    .form-control, .form-select {
+      background-color: #0e141f; border-color: var(--cti-border); color: #dbe5f0;
+    }
+    .form-control:focus, .form-select:focus {
+      background-color: #0e141f; color: #fff;
+      border-color: var(--cti-accent);
+      box-shadow: 0 0 0 .2rem rgba(34, 211, 238, .15);
+    }
+    table.cti-table { --bs-table-bg: transparent; margin-bottom: 0; }
+    table.cti-table thead th {
+      position: sticky; top: 0; z-index: 2;
+      background: #0e141f; color: var(--cti-muted);
+      font-size: .76rem; letter-spacing: .07em; text-transform: uppercase;
+      border-bottom: 1px solid var(--cti-border); white-space: nowrap;
+      cursor: pointer; user-select: none;
+    }
+    table.cti-table tbody td {
+      border-color: #192334; vertical-align: middle; font-size: .9rem;
+    }
+    .ip-cell { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-weight: 600; }
+    .table-wrap { max-height: 62vh; overflow: auto; }
+    /* 窄螢幕表格水平捲動提示（審查後新增，2026-10-22）：主要IOC資料表
+       欄位較多，自然內容寬度本來就會超出窄螢幕可視範圍——.table-wrap
+       既有的 overflow: auto 已經能正確把這個超出範圍限制在表格自己的
+       捲動容器內（不會撐寬整個頁面），這點經Chrome headless實測確認；
+       缺的只是「使用者不會主動注意到還能左右滑動」這個可發現性問題。
+       這段提示文字只在窄於 lg 中斷點（991.98px）時顯示，桌面版版面與
+       操作方式完全不變。純CSS/HTML，不需要JS判斷、不影響既有排序與
+       篩選功能。 */
+    .table-scroll-hint { display: none; }
+    @media (max-width: 991.98px) {
+      .table-scroll-hint {
+        display: block; font-size: .78rem; color: var(--cti-muted);
+        padding: .4rem .25rem; text-align: center;
+      }
+    }
+    .tag {
+      display: inline-block; font-size: .72rem; padding: .12rem .45rem;
+      border-radius: .35rem; margin: .1rem .15rem .1rem 0;
+      background: #16283a; color: #8fd8ea; border: 1px solid #1f3b52;
+    }
+    .tag-tier-a { background: rgba(239,68,68,.16); color: #fca5a5; border-color: rgba(239,68,68,.4); font-weight: 700; }
+    .tag-tier-b { background: rgba(249,115,22,.16); color: #fdba74; border-color: rgba(249,115,22,.4); font-weight: 700; }
+    .tag-tier-c { background: rgba(168,85,247,.16); color: #d8b4fe; border-color: rgba(168,85,247,.4); font-weight: 700; }
+    .tag-today-new { background: rgba(34,211,238,.16); color: #67e8f9; border-color: rgba(34,211,238,.4); font-weight: 700; }
+    .tier-block {
+      border-radius: .5rem; padding: .75rem .9rem; height: 100%;
+    }
+    .tier-block-a { background: rgba(239,68,68,.12); border: 1px solid rgba(239,68,68,.45); }
+    .tier-block-b { background: rgba(249,115,22,.12); border: 1px solid rgba(249,115,22,.45); }
+    .tier-block-c { background: rgba(168,85,247,.12); border: 1px solid rgba(168,85,247,.45); }
+    .score-pill {
+      font-weight: 700; font-size: .82rem; padding: .18rem .5rem; border-radius: .4rem;
+    }
+    .score-crit { background: rgba(239,68,68,.16); color: #fca5a5; border: 1px solid rgba(239,68,68,.35); }
+    .score-high { background: rgba(249,115,22,.16); color: #fdba74; border: 1px solid rgba(249,115,22,.35); }
+    .domain-list { font-size: .78rem; color: var(--cti-muted); word-break: break-all; }
+    .muted { color: var(--cti-muted); }
+    .btn-edl {
+      background: var(--cti-accent); border: none; color: #04202a; font-weight: 600;
+    }
+    .btn-edl:hover { background: #67e8f9; color: #04202a; }
+    kbd { background: #1b2635; border: 1px solid var(--cti-border); }
+
+    /* 標籤多選下拉 */
+    .label-filter { position: relative; }
+    .label-filter-btn {
+      background-color: #0e141f; border: 1px solid var(--cti-border); color: #dbe5f0;
+      font-size: .95rem; text-align: left;
+    }
+    .label-filter-btn:hover, .label-filter-btn:focus {
+      background-color: #0e141f; color: #fff; border-color: var(--cti-accent);
+    }
+    .label-filter-btn-text {
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .label-filter-caret { color: var(--cti-muted); font-size: .7rem; margin-left: .5rem; }
+    .label-filter-menu {
+      position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 30;
+      background: var(--cti-panel); border: 1px solid var(--cti-border); border-radius: .6rem;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, .45);
+      display: flex; flex-direction: column; max-height: 360px;
+    }
+    .label-filter-search-wrap { padding: .5rem; border-bottom: 1px solid var(--cti-border); }
+    .label-filter-list { overflow-y: auto; padding: .35rem .25rem; flex: 1 1 auto; }
+    .label-filter-item {
+      display: flex; align-items: center; gap: .5rem; padding: .32rem .5rem;
+      border-radius: .4rem; cursor: pointer; font-size: .88rem; margin: 0;
+    }
+    .label-filter-item:hover { background: #16283a; }
+    .label-filter-item input { cursor: pointer; flex: 0 0 auto; }
+    .label-filter-item span.name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .label-filter-item span.count { margin-left: auto; color: var(--cti-muted); font-size: .76rem; flex: 0 0 auto; }
+    .label-filter-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .5rem .6rem; border-top: 1px solid var(--cti-border);
+    }
+    .label-filter-empty { padding: .75rem; color: var(--cti-muted); font-size: .85rem; text-align: center; }
+
+    /* EDL 階梯式判定篩選（僅 EDL 阻斷清單頁籤顯示） */
+    .tier-filter-check {
+      display: inline-flex; align-items: center; gap: .4rem; cursor: pointer;
+      margin: 0 1rem .25rem 0; font-size: .88rem; user-select: none;
+    }
+    .tier-filter-check input { cursor: pointer; }
+    .edl-filter-bar { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+    .edl-filter-divider {
+      width: 1px; align-self: stretch; background: var(--cti-border); margin: 0 .25rem;
+    }
+    .sector-pill-group { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .sector-pill {
+      display: inline-block; font-size: .78rem; padding: .28rem .75rem;
+      border-radius: 999px; border: 1px solid var(--cti-border); background: #0e141f;
+      color: var(--cti-muted); cursor: pointer; user-select: none; white-space: nowrap;
+    }
+    .sector-pill:hover { color: #dbe5f0; border-color: var(--cti-accent); }
+    .sector-pill.active {
+      background: var(--cti-accent); color: #04202a; border-color: var(--cti-accent); font-weight: 700;
+    }
+
+    /* 產業別規則頁籤 */
+    .sectors-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;
+    }
+    .sector-card {
+      background: var(--cti-panel); border: 1px solid var(--cti-border); border-radius: .7rem;
+      padding: 1.1rem; display: flex; flex-direction: column; gap: .65rem;
+    }
+    /* 靜態規則頁籤（產業別規則/公用設施白名單/EDL判定規則）卡片頂部飾條
+       + 邊框微光，呼應頂部 Tab 與各通道的主題色；背景維持深色系不變 */
+    .sector-card-amber { border-top: 2px solid #f59e0b; box-shadow: 0 0 0 1px rgba(245, 158, 11, .14); }
+    .sector-card-emerald { border-top: 2px solid #10b981; box-shadow: 0 0 0 1px rgba(16, 185, 129, .14); }
+    .sector-card-crimson { border-top: 2px solid #dc2626; box-shadow: 0 0 0 1px rgba(220, 38, 38, .14); }
+    .sector-card-violet { border-top: 2px solid #8b5cf6; box-shadow: 0 0 0 1px rgba(139, 92, 246, .14); }
+    .sector-card-cyan { border-top: 2px solid var(--cti-accent); box-shadow: 0 0 0 1px rgba(34, 211, 238, .14); }
+    .tag-emerald { background: rgba(2, 44, 34, .6); color: #6ee7b7; border-color: rgba(6, 95, 70, .8); }
+    .tag-amber { background: rgba(69, 39, 7, .5); color: #fbbf24; border-color: rgba(180, 83, 9, .5); }
+    .sector-card-title { font-weight: 700; font-size: 1.05rem; color: #fff; }
+    .sector-card-id { font-weight: 400; margin-left: .4rem; font-family: ui-monospace, Consolas, monospace; }
+    .sector-card-label {
+      display: block; font-size: .7rem; text-transform: uppercase; letter-spacing: .07em;
+      color: var(--cti-muted); margin-bottom: .35rem;
+    }
+    .sector-card-badges { display: flex; flex-wrap: wrap; gap: .3rem; }
+    .badge-target {
+      background: rgba(34,211,238,.14); color: #67e8f9; border: 1px solid rgba(34,211,238,.35);
+      border-radius: .35rem; padding: .14rem .55rem; font-size: .76rem;
+    }
+    .sector-card-summary {
+      font-size: .85rem; color: var(--cti-muted);
+      border-top: 1px solid var(--cti-border); padding-top: .6rem;
+    }
+    .sector-prompt-ref {
+      background: #0e141f; border: 1px solid var(--cti-border); border-radius: .5rem;
+      padding: .9rem 1rem; font-size: .82rem; line-height: 1.6; color: #dbe5f0;
+      white-space: pre-wrap; word-break: break-word; margin: 0;
+      font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    }
+    .cidr-codebox {
+      background: #0e141f; border: 1px solid var(--cti-border); border-radius: .5rem;
+      padding: .75rem 1rem; font-size: .8rem; line-height: 1.6; color: #dbe5f0;
+      font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+      white-space: pre; margin: 0; max-height: 220px; overflow-y: auto;
+    }
+
+    /* 頁籤 */
+    .cti-tabs { border-bottom: 1px solid var(--cti-border); }
+    .cti-tabs .nav-link {
+      color: var(--cti-muted); border: none; border-bottom: 2px solid transparent;
+      background: transparent; padding: .6rem 1rem; font-size: .95rem; border-radius: 0;
+      transition: color .15s ease, border-color .15s ease, box-shadow .15s ease;
+    }
+    .cti-tabs .nav-link:hover { color: #dbe5f0; }
+    .cti-tabs .nav-link.active {
+      color: #fff; border-bottom-color: var(--cti-accent); background: transparent;
+    }
+
+    /* 三個靜態規則頁籤的主題色：產業別規則=琥珀金 / 公用設施白名單=翡翠綠 /
+       EDL判定規則=科技青藍（沿用既有 --cti-accent），強化彼此辨識度 */
+    .cti-tabs .nav-link-amber:hover { color: #fbbf24; }
+    .cti-tabs .nav-link-amber.active {
+      color: #fbbf24; border-bottom-color: #f59e0b;
+      box-shadow: 0 2px 8px -1px rgba(245, 158, 11, .45);
+    }
+    .cti-tabs .nav-link-emerald:hover { color: #34d399; }
+    .cti-tabs .nav-link-emerald.active {
+      color: #34d399; border-bottom-color: #10b981;
+      box-shadow: 0 2px 8px -1px rgba(16, 185, 129, .45);
+    }
+    .cti-tabs .nav-link-cyan:hover { color: #22d3ee; }
+    .cti-tabs .nav-link-cyan.active {
+      color: #22d3ee; border-bottom-color: var(--cti-accent);
+      box-shadow: 0 2px 8px -1px rgba(34, 211, 238, .45);
+    }
+
+    .badge-amber {
+      background: rgba(245, 158, 11, .16); color: #fcd34d;
+      border: 1px solid rgba(245, 158, 11, .5);
+    }
+    .badge-emerald {
+      background: rgba(16, 185, 129, .16); color: #6ee7b7;
+      border: 1px solid rgba(16, 185, 129, .5);
+      box-shadow: 0 0 6px rgba(16, 185, 129, .4);
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-cti sticky-top">
+  <div class="container-fluid px-4 py-2">
+    <span class="navbar-brand d-flex align-items-center gap-2 mb-0">
+      <span class="brand-dot"></span>
+      <span class="fw-bold">CTI 情資收斂與 EDL 聯防平台</span>
+      <span class="badge text-bg-secondary ms-1">Luminar STIX 2.1</span>
+    </span>
+    <div class="d-flex flex-column align-items-center gap-1">
+      <div class="d-flex gap-2">
+        <a id="edlLink" class="btn btn-edl btn-sm px-3" href="#" download>
+          ⬇ 下載 Firewall EDL 清單
+        </a>
+        <button id="edlCsvExportBtn" type="button" class="btn btn-outline-light btn-sm px-3" hidden>
+          ⬇ 匯出 IOC 情資
+        </button>
+      </div>
+      <small id="edlExportMetaHint" class="edl-export-hint text-muted" hidden></small>
+    </div>
+  </div>
+</nav>
+
+<main class="container-fluid px-4 py-4">
+
+  <!-- 頁籤：核心防禦業務優先排列，預設進入頁為 EDL 阻斷清單 -->
+  <ul class="nav nav-tabs cti-tabs mb-3" id="dataTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="tabEdlBtn" type="button" data-tab="edl">
+        EDL 阻斷清單 <span class="badge bg-warning text-dark ms-1" id="tabEdlBadge">0</span>
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tabPublicInfraBtn" type="button" data-tab="publicInfra">
+        雲端公用清單 <span class="badge bg-secondary ms-1" id="tabPublicInfraBadge">0</span>
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tabAllBtn" type="button" data-tab="all">
+        全部情資庫 <span class="badge bg-secondary ms-1" id="tabAllBadge">0</span>
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tabDailyBtn" type="button" data-tab="daily">
+        今日最新發現 <span class="badge bg-danger ms-1" id="tabDailyBadge">0</span>
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link nav-link-emerald" id="tabWhitelistBtn" type="button" data-tab="whitelist">
+        公用設施白名單 <span class="badge badge-emerald ms-1" id="tabWhitelistBadge">6</span>
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link nav-link-amber" id="tabSectorsBtn" type="button" data-tab="sectors">
+        產業別規則 <span class="badge badge-amber ms-1" id="tabSectorsBadge">6</span>
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link nav-link-cyan" id="tabEdlRulesBtn" type="button" data-tab="edlRules">
+        EDL 判定規則
+      </button>
+    </li>
+  </ul>
+
+  <!-- 統計卡片（EDL 阻斷清單頁籤不顯示，改用下方精簡版同步時間）-->
+  <div class="row g-3 mb-4" id="statsRow">
+    <div class="col-6 col-lg">
+      <div class="stat-card">
+        <div class="stat-label" id="statTotalLabel">收錄總 IP 數</div>
+        <div class="stat-value" id="statTotal">—</div>
+        <div class="muted small" id="statFiltered">&nbsp;</div>
+      </div>
+    </div>
+    <div class="col-6 col-lg">
+      <div class="stat-card">
+        <div class="stat-label">最後同步時間 (UTC+8)</div>
+        <div class="stat-value" style="font-size:1.25rem" id="statSync">—</div>
+        <div class="muted small" id="statSyncLocal">&nbsp;</div>
+      </div>
+    </div>
+    <div class="col-6 col-lg">
+      <div class="stat-card">
+        <div class="stat-label">不重複標籤數</div>
+        <div class="stat-value text-info" id="statLabels">—</div>
+        <div class="muted small">labels 完整保留，未做 IP Defanging</div>
+      </div>
+    </div>
+    <div class="col-6 col-lg">
+      <div class="stat-card">
+        <div class="stat-label">EDL 建議阻斷數</div>
+        <div class="stat-value text-danger" id="statEdl">—</div>
+        <div class="muted small">階梯式判定：高危直通 / 頑固累計</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 精簡版同步時間（僅 EDL 阻斷清單頁籤顯示，取代上方整排統計卡片）-->
+  <div class="muted small mb-3" id="edlSyncCompact" hidden>
+    最後同步時間 (UTC+8)：<span id="statSyncEdl">—</span>
+  </div>
+
+  <!-- EDL 判定條件說明（僅 EDL 阻斷清單頁籤顯示）-->
+  <div class="panel p-3 mb-3" id="edlCriteriaPanel" hidden>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="tier-block tier-block-a">
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <span class="tag tag-tier-a">高危直通</span>
+            <span class="fw-bold small">條件 A</span>
+          </div>
+          <div class="muted small">
+            最後活躍時間在 24 小時內
+            <span class="text-light">且</span> 標籤命中實質危害關鍵字（c2 / cnc / botnet /
+            ransomware / trojan / apt / exploit / stealer / backdoor / rce 等）
+            <span class="text-light">且</span> 威脅分數 ≥ 85
+            （即使同時含掃描類標籤也不受影響，即使僅出現 1 次也收錄）。
+            若同時符合頻繁探測或高確信特徵，判定說明將標註 <b>[複合高危]</b>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="tier-block tier-block-b">
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <span class="tag tag-tier-b">頑固威脅</span>
+            <span class="fw-bold small">條件 B</span>
+          </div>
+          <div class="muted small">
+            未命中條件 A 時：最後活躍在 <b>7 天內</b>
+            <span class="text-light">且</span> 近 14 天累積出現次數 <b>≥ 5 次</b>
+            <span class="text-light">且</span> 威脅分數 <b>≥ 88 分</b>
+            <span class="text-light">且</span> 信心值 <b>≥ 80</b>
+            （定位：以量補質。鎖定 14 天內頻繁刺探且近 7 天仍在活動的頑固威脅，排除已休眠超過 8 天的過期 IP）
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="tier-block tier-block-c">
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <span class="tag tag-tier-c">高確信</span>
+            <span class="fw-bold small">條件 C</span>
+          </div>
+          <div class="muted small">
+            未命中條件 A 時：最後活躍在 <b>24 小時內</b>
+            <span class="text-light">且</span> 近 7 天累積出現次數 <b>≥ 3 次</b>
+            <span class="text-light">且</span> 威脅分數 <b>≥ 99 分</b>
+            <span class="text-light">且</span> 信心值 <b>≥ 90</b>
+            （定位：以質補量。多方情資判定達 99 分極高危險者，無須等待累積至第 4 天，活躍 ≥ 3 次即提前破格入榜）
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--
+      2026-10-22第三輪更新：這段文字現在改由app.js的
+      renderEdlCriteriaFootnote()在docs/data/edl_rules.json（pipeline.py
+      的build_edl_rules_snapshot()新增的edl_tab_summary欄位）載入成功後
+      動態覆寫，不再是唯一來源——但這裡的靜態文字仍然是「資料載入前／
+      載入失敗時」的fallback，必須自行保持與程式實際行為一致（不能只
+      依賴動態覆寫就放著不管），內容請參照pipeline.py裡edl_tab_summary
+      的文字維護。
+    -->
+    <div class="muted small mt-2 pt-2" id="edlCriteriaFootnote" style="border-top: 1px solid var(--cti-border);">
+      符合任一條件即收錄進 EDL 阻斷清單；命中純掃描雜訊標籤或落在組播/私有/保留網段者一律排除。
+      候選IP命中公用雲端/CDN 白名單者，不論落在哪個通道，一律於候選階段強制排除於EDL之外。
+      同一 C 類子網（/24）內候選惡意 IP 達 5 筆以上時，須先通過安全檢查（確認候選成員本身與
+      整個網段範圍皆未與受保護範圍重疊）才會收斂為單一 CIDR 條目；白名單設定檔無法讀取、無法
+      解析，或安全檢查本身無法可靠完成驗證時，一律視為不安全、不允許該次聚合通過安全檢查，改為
+      維持輸出網段內各個別IP。條件 B、條件 C 合併計算，同一 ASN 最多保留分數最高、最後活躍
+      時間最新的前 5 筆，未通過CIDR安全檢查而退回的個別IP一樣受此節流規則約束（條件 A 高危
+      直通不受此限，同一 ASN 超過 5 筆也全數收錄）。其餘情資保留在「全部情資庫」供查詢，
+      不列入阻斷。
+    </div>
+  </div>
+
+  <!-- 查詢列（搜尋 / 標籤 / 排序 / 清除條件，EDL 阻斷清單頁籤不提供，只用階梯式判定篩選；
+       產業別規則／公用設施白名單頁籤完全不需要，整個容器隱藏，避免留下空白橫條）-->
+  <div class="panel p-3 mb-3" id="queryBarPanel">
+    <div class="row g-2 align-items-center" id="searchRow">
+      <div class="col-12 col-lg-5">
+        <input id="searchBox" type="search" class="form-control"
+               placeholder="搜尋 IP / 標籤 / 網域 / ASN …  (按 / 快速聚焦)" autocomplete="off" />
+      </div>
+      <div class="col-6 col-lg-3" id="labelFilterCol">
+        <div class="label-filter" id="labelFilterWrap">
+          <button type="button" class="btn label-filter-btn w-100 d-flex justify-content-between align-items-center" id="labelFilterBtn">
+            <span id="labelFilterBtnText" class="label-filter-btn-text">全部標籤 (labels)</span>
+            <span class="label-filter-caret">▾</span>
+          </button>
+          <div class="label-filter-menu" id="labelFilterMenu" hidden>
+            <div class="label-filter-search-wrap">
+              <input type="search" id="labelFilterSearch" class="form-control form-control-sm"
+                     placeholder="搜尋標籤…" autocomplete="off" />
+            </div>
+            <div id="labelFilterList" class="label-filter-list"></div>
+            <div class="label-filter-footer">
+              <button type="button" class="btn btn-sm btn-outline-secondary" id="labelFilterClear">清除選取</button>
+              <span class="muted small" id="labelFilterSelectedCount">&nbsp;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-2" id="sortSelectCol">
+        <select id="sortSelect" class="form-select">
+          <option value="threat_score">依威脅分數排序</option>
+          <option value="last_seen">依最後出現排序</option>
+          <option value="seen_count">依出現次數排序</option>
+          <option value="ip">依 IP 排序</option>
+        </select>
+      </div>
+      <div class="col-12 col-lg-2 text-lg-end">
+        <button id="btnReset" class="btn btn-outline-secondary btn-sm w-100 w-lg-auto px-3">清除條件</button>
+      </div>
+    </div>
+    <div class="row g-2 align-items-center mt-1" id="edlTierFilterRow" hidden>
+      <div class="col-12 edl-filter-bar">
+        <span class="muted small me-1">階梯式判定篩選：</span>
+        <label class="tier-filter-check mb-0" for="tierFilterA">
+          <input type="checkbox" id="tierFilterA" checked />
+          <span class="tag tag-tier-a">高危直通 (A)</span>
+        </label>
+        <label class="tier-filter-check mb-0" for="tierFilterB">
+          <input type="checkbox" id="tierFilterB" checked />
+          <span class="tag tag-tier-b">頑固威脅 (B)</span>
+        </label>
+        <label class="tier-filter-check mb-0" for="tierFilterC">
+          <input type="checkbox" id="tierFilterC" checked />
+          <span class="tag tag-tier-c">高確信 (C)</span>
+        </label>
+        <span class="edl-filter-divider"></span>
+        <label class="tier-filter-check mb-0" for="tierFilterTodayNew">
+          <input type="checkbox" id="tierFilterTodayNew" />
+          <span class="tag tag-today-new">僅看今日/本次新增</span>
+        </label>
+        <span class="edl-filter-divider"></span>
+        <div class="sector-pill-group" id="sectorPillGroup">
+          <span class="sector-pill active" data-sector="">全部 (All)</span>
+        </div>
+        <span class="muted small ms-auto" id="edlTierFilterCount">&nbsp;</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 產業別規則（僅本頁籤顯示，靜態服務領域對照表，不隨 IOC 資料變動）-->
+  <div id="sectorsPanel" hidden>
+    <p class="muted small mb-3">
+      以下 6 大領域為目前服務範疇的威脅情資分類規則，決定 EDL 阻斷清單頁籤的「領域快篩」如何比對標籤 (labels)。
+    </p>
+    <div class="sectors-grid" id="sectorsGrid"></div>
+
+    <div class="panel p-3 mt-4">
+      <div class="fw-bold mb-2">新增產業別時的需求格式參考</div>
+      <p class="muted small mb-2">
+        以下是當初用來定義這 6 個產業規則的原始需求格式，之後要請求新增第 7 個（以後）產業別時，
+        比照這個格式描述即可，讓實作時欄位（防護標的／關鍵標籤／威脅重點）不會漏掉。
+        為符合資安去敏化規範與客戶 NDA 要求，範例一律使用去敏後的領域範疇描述，不得填入真實客戶名稱。
+      </p>
+      <pre class="sector-prompt-ref">N. **領域中文名稱 (`英文代號_id`)**：
+   - 防護標的：去敏化後的系統/場景描述A、描述B（嚴禁填入真實客戶名稱）
+   - 關鍵標籤：tag1, tag2, tag3, tag4, tag5（對應 EDL 清單中 IP 的 labels，用來做領域快篩比對）
+
+範例（實際採用的第 1 個領域）：
+1. **國安與政府機關 (`gov_defense`)**：
+   - 防護標的：中央公務機關、公務個資資料庫、國防科研專案
+   - 關鍵標籤：apt, espionage, c2, wiper, exploit, phishing</pre>
+    </div>
+  </div>
+
+    <!-- 公用設施白名單（僅本頁籤顯示，靜態規則定義卡片，決定「雲端公用清單」
+       頁籤如何從 EDL 判定中剔除公用雲端/CDN/DNS）-->
+  <div id="whitelistPanel" hidden>
+    <div class="panel p-3 mb-3">
+      <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-1">
+        <div class="fw-bold">公用設施與 CDN 誤阻斷防護基準 (Anti-Collateral Damage)</div>
+        <div class="d-flex align-items-center gap-2">
+          <div class="muted small text-nowrap" id="whitelistSyncTime">&nbsp;</div>
+          <a id="btnManualSyncWhitelist" class="btn btn-edl btn-sm px-3 text-nowrap" href="https://github.com/chenchunhsien/cti-auto-platform/actions/workflows/sync-public-infra-whitelist.yml" target="_blank" rel="noopener noreferrer" hidden>
+            ↻ 手動更新白名單
+          </a>
+        </div>
+      </div>
+      <div class="muted small">
+        為避免防火牆 L3/L4 EDL 誤封鎖共用 IP 導致企業內部合法業務或 SaaS 服務中斷，本平台導入公用基礎設施
+        排除機制。凡命中本頁定義之知名 ASN、公用 DNS 或官方 CIDR 網段者，強制自防火牆阻斷清單剔除，並轉移至
+        「雲端公用清單」建議改以 Domain/URL 聯防。
+      </div>
+    </div>
+    <div class="sectors-grid" id="whitelistGrid"></div>
+    <div class="panel p-3 mt-4">
+      <div class="muted small">
+        本白名單網段整合 GitHub Actions 定期排程，每週一凌晨自動向官方權威 API 同步更新，並內建資料完整性
+        校驗門檻，異常時自動中止並保留原有資料，不會寫入損壞內容。
+      </div>
+    </div>
+  </div>
+
+  <!-- EDL 判定規則（僅本頁籤顯示，資料直接來自 pipeline.py 產生的
+       docs/data/edl_rules.json，確保網頁顯示的門檻永遠跟程式碼一致，
+       不會像手刻文字說明那樣在調整門檻後忘記同步更新）-->
+  <div id="edlRulesPanel" hidden>
+    <div class="panel p-3 mb-3">
+      <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-1">
+        <div class="fw-bold">EDL 判定規則（四階過濾漏斗）</div>
+        <div class="muted small text-nowrap" id="edlRulesSyncTime">&nbsp;</div>
+      </div>
+      <div class="muted small">
+        本頁內容直接讀取 pipeline.py 最近一次執行當下實際套用的門檻常數，調整程式碼重新同步後會自動更新，
+        網頁與實際判定邏輯保證一致，方便後續檢視與調整參數。
+      </div>
+    </div>
+    <div id="edlRulesContent"></div>
+  </div>
+
+<!-- 雲端公用清單說明（僅本頁籤顯示）-->
+  <div class="panel p-3 mb-3" id="publicInfraPanel" hidden>
+    <div class="d-flex flex-wrap align-items-center gap-3">
+      <div class="muted small flex-grow-1">
+        ⚠️ 本清單之 IP 隸屬於 Cloudflare、Akamai、微軟、Google 等公用設施，已自防火牆 L3/L4 EDL
+        阻斷清單中剔除，避免引發正常服務中斷。
+      </div>
+      <button id="btnExportPublicInfraDomains" class="btn btn-edl btn-sm px-3 text-nowrap">
+        ⬇ 匯出關聯惡意 Domain (.txt)
+      </button>
+    </div>
+  </div>
+
+  <!-- 雲端公用清單專屬結果表（只保留核心 5 欄，不與其他頁籤共用表格）-->
+  <div class="panel" id="publicInfraResultsPanel" hidden>
+    <div class="table-scroll-hint">↔ 欄位較多時可左右滑動查看完整內容</div>
+    <div class="table-wrap">
+      <table class="table table-hover cti-table align-middle">
+        <thead>
+          <tr>
+            <th data-sort="ip">IP 位址</th>
+            <th>命中公用設施 (廠商/ASN)</th>
+            <th>解析網域 (Domain)</th>
+            <th data-sort="threat_score">威脅分數</th>
+            <th data-sort="last_seen">最後出現時間</th>
+          </tr>
+        </thead>
+        <tbody id="publicInfraTableBody">
+          <tr><td colspan="5" class="text-center py-5 muted">載入中 …</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="d-flex justify-content-between align-items-center px-3 py-2 border-top"
+         style="border-color: var(--cti-border) !important;">
+      <span class="muted small" id="publicInfraRowInfo">&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- 結果表 -->
+  <div class="panel" id="resultsPanel">
+    <div class="table-scroll-hint">↔ 欄位較多時可左右滑動查看完整內容</div>
+    <div class="table-wrap">
+      <table class="table table-hover cti-table align-middle">
+        <thead>
+          <tr>
+            <th data-sort="ip">IP 位址</th>
+            <th data-sort="threat_score">威脅分數</th>
+            <th data-sort="confidence">信心值</th>
+            <th>標籤 (labels)</th>
+            <th data-sort="asn" style="width: 14%;">ASN</th>
+            <th style="width: 22%;">解析網域</th>
+            <th data-sort="first_seen">首次出現</th>
+            <th data-sort="last_seen">最後出現</th>
+            <th data-sort="seen_count">次數</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <tr><td colspan="9" class="text-center py-5 muted">載入中 …</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="d-flex justify-content-between align-items-center px-3 py-2 border-top"
+         style="border-color: var(--cti-border) !important;">
+      <span class="muted small" id="rowInfo">&nbsp;</span>
+      <button id="btnMore" class="btn btn-sm btn-outline-info d-none">載入更多</button>
+    </div>
+  </div>
+
+  <p class="muted small mt-3 mb-0">
+    資料來源：Luminar STIX 2.1 External API ｜ 純規則引擎過濾 ｜
+    EDL 清單可直接供 Palo Alto / FortiGate 等防火牆以 URL 方式拉取。
+  </p>
+</main>
+
+<!-- GitHub Pages 對靜態資源下 Cache-Control: max-age=600，每次更動 app.js
+     都要跟著調整 ?v= 版本號，否則使用者瀏覽器可能在 10 分鐘內吃到舊快取 -->
+<script src="asn_dict.js?v=20261021b"></script>
+<script src="app.js?v=20261022d"></script>
+</body>
+</html>

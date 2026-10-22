@@ -1,0 +1,89 @@
+[
+  {
+    "entry": "115.55.5.249",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:16+08:00",
+    "asn": "AS4837",
+    "asn_org": "China Unicom",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "",
+    "retired_reason": "DROP_ASN_THROTTLED: Excluded by per-ASN retention cap (top 5 ranked entries kept)",
+    "retired_at": "2026-10-22T10:45:14+08:00"
+  },
+  {
+    "entry": "42.227.237.93",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:01+08:00",
+    "asn": "AS4837",
+    "asn_org": "China Unicom",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "authbypass",
+      "commandinjection",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "",
+    "retired_reason": "DROP_ASN_THROTTLED: Excluded by per-ASN retention cap (top 5 ranked entries kept)",
+    "retired_at": "2026-10-22T10:45:14+08:00"
+  },
+  {
+    "entry": "153.117.15.183",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:03+08:00",
+    "asn": "AS9541",
+    "asn_org": "CYBERNET-AP",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "commandinjection",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "",
+    "retired_reason": "DROP_ASN_THROTTLED: Excluded by per-ASN retention cap (top 5 ranked entries kept)",
+    "retired_at": "2026-10-22T10:45:14+08:00"
+  },
+  {
+    "entry": "153.117.38.98",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:03+08:00",
+    "asn": "AS9541",
+    "asn_org": "CYBERNET-AP",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "",
+    "retired_reason": "DROP_ASN_THROTTLED: Excluded by per-ASN retention cap (top 5 ranked entries kept)",
+    "retired_at": "2026-10-22T10:45:14+08:00"
+  }
+]

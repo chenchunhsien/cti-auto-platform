@@ -1,0 +1,103 @@
+{
+  "generated_at": "2026-10-22T02:45:15Z",
+  "stage1_ip_filter": {
+    "name": "RFC 合規與 Bogon 清洗",
+    "description": "依據 RFC 6890 / 5735 規範，嚴格剔除私有網段（RFC 1918）、組播（RFC 5771, 224.0.0.0/4）、環回位址（127.0.0.0/8）、Link-Local 及保留位址，確保清單僅包含具備實際路由效力之公網單播位址。"
+  },
+  "stage2_tags": {
+    "must_have_tags": [
+      "apt",
+      "backdoor",
+      "botnet",
+      "bruteforce",
+      "c2",
+      "cnc",
+      "cobalt-strike",
+      "command-and-control",
+      "exploit",
+      "infostealer",
+      "ransomware",
+      "rce",
+      "stealer",
+      "trojan"
+    ],
+    "must_have_tags_description": "實質危害標籤：命中任一項，具備「不被雜訊標籤剃除」的豁免權。",
+    "scanner_noise_tags": [
+      "binaryedge",
+      "censys",
+      "crawler",
+      "net-systems-research",
+      "probe",
+      "reconnaissance",
+      "scan",
+      "scanner",
+      "shadowserver",
+      "shodan"
+    ],
+    "scanner_noise_tags_description": "純探測/測繪雜訊標籤：未命中 must_have_tags 時，命中任一項即直接剃除。"
+  },
+  "stage3_channels": {
+    "A": {
+      "name": "即時實質危害",
+      "tier": "A",
+      "window_hours": 24,
+      "min_score": 85,
+      "requires": "labels ∩ must_have_tags ≠ ∅",
+      "min_seen_count": 1,
+      "min_confidence": null,
+      "description": "命中 must_have_tags 任一項，即使同時命中 scanner_noise_tags 也不剃除；score >= 85 即收錄，出現 1 次也算數，不限最後活躍時間窗以外的其他條件。"
+    },
+    "B": {
+      "name": "頑固攻擊者收斂通道",
+      "tier": "B",
+      "window_hours": 168,
+      "min_score": 88,
+      "min_confidence": 80,
+      "min_seen_count": 5,
+      "description": "未命中條件 A 時：最後活躍在 7 天內 且 近 14 天累積出現次數 >= 5 次 且 威脅分數 >= 88 分（不設上限）且 信心值 >= 80 分（定位：以量補質。頻次累積視窗（14天）比時效窗口（7天）更長，鎖定單日分數未達頂級、但近14天內頻繁刺探 >= 5 次、且最後活躍仍在近7天內的真正頑固 IP；若最後活躍已經是8天以上前，代表近期已無實際動作，會被視為退場，不再死纏爛打式地卡在通道B）。"
+    },
+    "C": {
+      "name": "高確信威脅",
+      "tier": "C",
+      "window_hours": 24,
+      "min_score": 99,
+      "min_confidence": 90,
+      "min_seen_count": 3,
+      "description": "未命中條件 A 時：最後活躍在 24 小時內 且 近 7 天累積出現次數 >= 3 次 且 威脅分數 >= 99 分 且 信心值 >= 90 分（定位：以質補量。多方情資判定達 99 分極高危險者，無須等待累積至第 5 天，活躍 >= 3 次即提前破格入榜）。"
+    }
+  },
+  "stage3b_whitelist_exclusion": {
+    "name": "公用雲端/CDN 白名單排除",
+    "order": "於 A/B/C 通道判定之後、CIDR 聚合與 ASN 節流之前套用",
+    "applies_to": [
+      "A",
+      "B",
+      "C"
+    ],
+    "source": "docs/data/public_infra_rules.json",
+    "description": "候選IP只要命中公用雲端/CDN白名單（完全比對IP、ASN，或落在官方公告的CDN CIDR網段），無論原本落在通道A、B或C，一律強制排除於EDL阻斷清單之外，不會以任何形式（個別IP或CIDR聚合條目）出現在blocklist_edl.txt；僅保留命中紀錄供稽核（edl_whitelist_match / edl_whitelist_excluded_tier），並轉移至「雲端公用清單」頁籤建議改以 Domain/URL 聯防，以免誤封鎖共用基礎設施導致合法業務中斷。"
+  },
+  "stage4_convergence": {
+    "cidr_rollup": {
+      "threshold": 5,
+      "whitelist_protected": true,
+      "order": 1,
+      "description": "（優先於 ASN 節流執行）同一 C 類子網（/24）內候選惡意 IP 達 5 筆以上時，先初步判定可收斂為單一 CIDR 條目；正式聚合前另有一道安全檢查（verify_cidr_safe_for_aggregation）：只要該網段內任一候選成員IP本身命中白名單，或整個 /24 範圍與已知公用雲端/CDN CIDR（docs/data/public_infra_rules.json 的 cdn_cidrs）有重疊——即使沒有任何候選IP本身被列在白名單裡，也會判定不安全；若白名單設定檔讀取失敗或CIDR格式無法解析而無法驗證，一律保守視為不安全（fail-closed）。只要觸發以上任一項，該網段即不聚合，改為維持輸出網段內各候選IP的原貌（其中命中白名單的成員IP本身會依「公用雲端/CDN白名單排除」規則整體排除於EDL之外，不會以個別IP形式出現；其餘未命中白名單的候選IP則正常以個別IP條目輸出）。"
+    },
+    "asn_throttle": {
+      "max_per_asn": 5,
+      "applies_to": [
+        "B",
+        "C"
+      ],
+      "exempt": [
+        "A"
+      ],
+      "order": 2,
+      "description": "（在 C 類子網聚合「之後」執行）條件B、條件C 合併計算：同一 ASN 最多保留分數最高、最後活躍時間最新的前 5 筆，其餘剔除；條件A（高危直通）完全不受此限制，同一 ASN 即使超過上限也全數收錄。一個聚合後的CIDR 條目只占用 1 個節流名額，不論背後涵蓋多少個別 IP，避免同網段主機浪費掉本該保留給其他網段的節流額度。"
+    },
+    "dedup": {
+      "description": "寫入 blocklist_edl.txt 前以 dict.fromkeys() 明確去重，確保條目唯一。"
+    }
+  }
+}

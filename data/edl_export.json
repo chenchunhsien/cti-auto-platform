@@ -1,0 +1,6925 @@
+[
+  {
+    "entry": "1.27.251.252",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 2,
+    "first_seen": "2026-10-18T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS4837",
+    "asn_org": "China Unicom",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "5.42.64.2",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-22T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS39493",
+    "asn_org": "RU-KSTV",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc, trojan] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "5.42.64.10",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-22T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS39493",
+    "asn_org": "RU-KSTV",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "ransomware",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc, ransomware, trojan] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "5.134.118.108",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:53+08:00",
+    "asn": "AS59432",
+    "asn_org": "GINERNET",
+    "domains": [
+      "fungame.duckdns.org"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "9.85.151.147",
+    "channel": "B",
+    "threat_score": 98.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-19T02:00:04+08:00",
+    "asn": "AS163",
+    "asn_org": "IBM-RESEARCH-AS",
+    "domains": [
+      "enterp-risecorex.sbs"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 98, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "23.25.39.164",
+    "channel": "B",
+    "threat_score": 98.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-19T11:00:02+08:00",
+    "asn": "AS7922",
+    "asn_org": "COMCAST-7922",
+    "domains": [
+      "zazuzimakuminvestments.sbs"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 98, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "23.80.110.133",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T11:00:03+08:00",
+    "asn": "AS395954",
+    "asn_org": "LEASEWEB-USA-LAX",
+    "domains": [
+      "xjysyc.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "23.104.160.116",
+    "channel": "A",
+    "threat_score": 96.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:02+08:00",
+    "asn": "AS395954",
+    "asn_org": "LEASEWEB-USA-LAX",
+    "domains": [],
+    "labels": [
+      "backdoor",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Matched tag [backdoor] with score 96 | Observed 5 hits within 14d, score 96, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "23.132.164.57",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:52+08:00",
+    "asn": "AS401626",
+    "asn_org": "NETIFACE-TORONTO",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 5 hits in 7d, conf 99 | Observed 5 hits within 14d, score 100, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "27.109.3.149",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 4,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS17625",
+    "asn_org": "BLAZENET-IN-AP",
+    "domains": [
+      "erp.vivogujarat.com",
+      "payroll.vivogujarat.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 4 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "27.155.92.28",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 2,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T11:00:04+08:00",
+    "asn": "AS133774",
+    "asn_org": "CHINATELECOM-FUJIAN-FUZHOU-IDC1",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "31.28.9.212",
+    "channel": "A",
+    "threat_score": 98.0,
+    "confidence": 95.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:02+08:00",
+    "asn": "AS29076",
+    "asn_org": "CITYTELECOM-AS",
+    "domains": [],
+    "labels": [
+      "exploit",
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "smb"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [exploit] with score 98",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "31.56.19.166",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-19T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:02+08:00",
+    "asn": "AS403005",
+    "asn_org": "BLATANTHOST",
+    "domains": [
+      "ebuxsfresh.duckdns.org"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "31.57.216.27",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS197769",
+    "asn_org": "VPSDEDICATED-AS",
+    "domains": [],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "36.133.163.5",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:52+08:00",
+    "asn": "AS9808",
+    "asn_org": "China Mobile",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "37.49.228.204",
+    "channel": "A",
+    "threat_score": 98.0,
+    "confidence": 95.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:01+08:00",
+    "asn": "AS61254",
+    "asn_org": "ESTOXY-OU",
+    "domains": [],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [trojan] with score 98",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "37.221.162.57",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:03+08:00",
+    "asn": "AS3223",
+    "asn_org": "VOXILITY",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "37.237.158.177",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:02+08:00",
+    "asn": "AS203214",
+    "asn_org": "HulumTele",
+    "domains": [
+      "yoyoyo12345.no-ip.biz"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "37.247.35.149",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 4,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS25459",
+    "asn_org": "NEDZONE-AS",
+    "domains": [
+      "mail.djhost.nl"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 4 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "38.33.99.245",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T11:00:04+08:00",
+    "asn": "AS398823",
+    "asn_org": "PEG-LA",
+    "domains": [
+      "cdjxyb.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "38.38.113.232",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:03+08:00",
+    "asn": "AS398823",
+    "asn_org": "PEG-LA",
+    "domains": [
+      "waphnw.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "38.58.182.228",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS26042",
+    "asn_org": "FIBERSTATE",
+    "domains": [
+      "test.syslicense.net"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "38.60.235.109",
+    "channel": "B",
+    "threat_score": 98.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-18T23:00:01+08:00",
+    "asn": "AS138915",
+    "asn_org": "KAOPU-HK",
+    "domains": [
+      "driveattachment-mofa.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 98, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "38.60.253.101",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS154177",
+    "asn_org": "LIGHT4-AS-AP - LIGHT NODE LIMITED",
+    "domains": [
+      "keyauth.devnguvcl.dev",
+      "tool.devnguvcl.dev"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "38.63.217.6",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-19T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:02+08:00",
+    "asn": "AS174",
+    "asn_org": "COGENT-174",
+    "domains": [
+      "51steel.org"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "38.85.210.14",
+    "channel": "B",
+    "threat_score": 96.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-19T23:00:02+08:00",
+    "asn": "AS174",
+    "asn_org": "COGENT-174",
+    "domains": [
+      "wannanxi.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 96, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "38.124.74.82",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:16+08:00",
+    "asn": "AS21788",
+    "asn_org": "HIPOINT-US",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "downloader",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "38.124.74.232",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:16+08:00",
+    "asn": "AS21788",
+    "asn_org": "HIPOINT-US",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "downloader",
+      "malicious-activity",
+      "malware"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "38.124.75.146",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:16+08:00",
+    "asn": "AS21788",
+    "asn_org": "HIPOINT-US",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "downloader",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "38.124.169.187",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-20T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:52+08:00",
+    "asn": "AS263157",
+    "asn_org": "AS263157",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "downloader",
+      "malicious-activity"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "38.173.194.149",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 97.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS54600",
+    "asn_org": "PEG-SV",
+    "domains": [
+      "1dcvh6k.hulkhulk.cn",
+      "edcvglbdrxzf.hulkhulk.cn",
+      "forulhnt.hulkhulk.cn",
+      "hulkhulk.cn",
+      "psimnsvl.hulkhulk.cn"
+    ],
+    "labels": [
+      "fraud",
+      "malicious-activity",
+      "phishing",
+      "splithost"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 5 hits in 7d, conf 97",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "38.174.236.92",
+    "channel": "B",
+    "threat_score": 98.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-19T20:00:03+08:00",
+    "asn": "AS398823",
+    "asn_org": "PEG-LA",
+    "domains": [
+      "srjqxzz.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 98, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "38.180.56.98",
+    "channel": "B",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-19T17:00:02+08:00",
+    "asn": "AS9009",
+    "asn_org": "M247",
+    "domains": [
+      "cdn3.ru"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 100, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "38.180.166.141",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:52+08:00",
+    "asn": "AS28753",
+    "asn_org": "LEASEWEB-DE-FRA-10",
+    "domains": [
+      "googleforshares.publicvm.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "41.38.160.161",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS8452",
+    "asn_org": "TE-AS",
+    "domains": [],
+    "labels": [
+      "commandinjection",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "41.216.183.61",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 4,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:14+08:00",
+    "asn": "AS327980",
+    "asn_org": "ORG-FL4-AFRINIC",
+    "domains": [
+      "softwarefile.cc"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [trojan] with score 100 | Score 100 with 4 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "41.216.188.215",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:54+08:00",
+    "asn": "AS30823",
+    "asn_org": "AUROLOGIC",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "42.228.225.246",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:08+08:00",
+    "asn": "AS4837",
+    "asn_org": "China Unicom",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "43.224.125.54",
+    "channel": "A",
+    "threat_score": 94.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS132124",
+    "asn_org": "ICTA-LK",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 94",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "43.225.157.146",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:03+08:00",
+    "asn": "AS142403",
+    "asn_org": "YISUCLOUDLTD-HK",
+    "domains": [
+      "backup0003.ddnsfree.com",
+      "backup002.ddnsgeek.com"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "splithost"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "43.249.38.36",
+    "channel": "A",
+    "threat_score": 92.0,
+    "confidence": 95.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS59253",
+    "asn_org": "LEASEWEB-APAC-SIN-11",
+    "domains": [],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [trojan] with score 92",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "45.9.20.13",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:14+08:00",
+    "asn": "AS212109",
+    "asn_org": "SQUIRREL",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "45.61.137.107",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:02+08:00",
+    "asn": "AS399629",
+    "asn_org": "BLNWX",
+    "domains": [
+      "sacksolution.info"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "45.61.138.61",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS399629",
+    "asn_org": "BLNWX",
+    "domains": [
+      "remnett.shop"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "45.66.248.2",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:52+08:00",
+    "asn": "AS62005",
+    "asn_org": "BV-EU-AS",
+    "domains": [
+      "trimnt.com"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "phishing",
+      "spam"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "45.74.252.195",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 4,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:03+08:00",
+    "asn": "AS397081",
+    "asn_org": "VALKYRIE-HOSTING",
+    "domains": [
+      "lauvidaguren.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "spam"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 4 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "45.81.23.0/24",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": "",
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:02+08:00",
+    "asn": "AS49870",
+    "asn_org": "AS49870-BV",
+    "domains": [
+      "app.silk-gen.com",
+      "cdn.silk-gen.com",
+      "dashboard.silk-gen.com",
+      "dev.silk-gen.com",
+      "docs.silk-gen.com",
+      "eu.silk-gen.com",
+      "fr.silk-gen.com",
+      "images.silk-gen.com",
+      "sandbox.silk-gen.com",
+      "uk.silk-gen.com",
+      "vpn.silk-gen.com"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "stealer",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Subnet rollup triggered by malicious entries in /24 block (representative_channel=A)",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "45.87.147.83",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 4,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS12494",
+    "asn_org": "ASN-POSTLTD",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 4 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "45.88.90.17",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:14+08:00",
+    "asn": "AS41798",
+    "asn_org": "TTC-AS",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "45.94.31.196",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:03+08:00",
+    "asn": "AS210558",
+    "asn_org": "services-1337-gmbh",
+    "domains": [
+      "ghoostmood.live"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "45.115.26.0/24",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": "",
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS199457",
+    "asn_org": "SolidCore",
+    "domains": [
+      "brightvector.uk",
+      "cosyvaleow.pro",
+      "freshshadedy.name",
+      "leafylaketz.me",
+      "sharppalmrg.cc",
+      "solidburroweu.name"
+    ],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "spam",
+      "splithost",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Subnet rollup triggered by malicious entries in /24 block (representative_channel=A)",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "45.142.182.104",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:02+08:00",
+    "asn": "AS44592",
+    "asn_org": "SkyLink",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc, trojan] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "45.153.34.187",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 4,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:01+08:00",
+    "asn": "AS197170",
+    "asn_org": "TECHTIES-AS",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "honeypot",
+      "malicious-activity",
+      "malware"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 4 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "45.156.129.120",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS211680",
+    "asn_org": "AS-BITSIGHT",
+    "domains": [],
+    "labels": [
+      "exploitattempt:bluekeep",
+      "honeypot",
+      "invalidfileaccess",
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "rdp",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "45.156.129.136",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:03+08:00",
+    "asn": "AS211680",
+    "asn_org": "AS-BITSIGHT",
+    "domains": [],
+    "labels": [
+      "commandinjection",
+      "exploitattempt:bluekeep",
+      "honeypot",
+      "malicious-activity",
+      "phishing",
+      "rdp",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "45.158.8.240",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 2,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:02+08:00",
+    "asn": "AS272547",
+    "asn_org": "ASN272547",
+    "domains": [],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "spam",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [trojan] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "45.239.240.126",
+    "channel": "B",
+    "threat_score": 100.0,
+    "confidence": 98.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T02:00:01+08:00",
+    "asn": "AS268377",
+    "asn_org": "ASN268377",
+    "domains": [
+      "monitor.localnet.srv.br",
+      "mwapi.localnet.srv.br",
+      "mwsistema.localnet.srv.br",
+      "portainer.localnet.srv.br",
+      "questdb.localnet.srv.br",
+      "zabbix.localnet.srv.br"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 100, conf 98",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "51.39.230.132",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:02+08:00",
+    "asn": "AS43766",
+    "asn_org": "MTC-KSA-AS",
+    "domains": [
+      "luvxc1de.ddns.net"
+    ],
+    "labels": [
+      "exploit",
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "smb"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [exploit] with score 100 | Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "51.254.181.122",
+    "channel": "A",
+    "threat_score": 94.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-17T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:02+08:00",
+    "asn": "AS16276",
+    "asn_org": "OVHcloud",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 94",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "59.30.229.100",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T11:00:03+08:00",
+    "asn": "AS4766",
+    "asn_org": "Korea Telecom (KT",
+    "domains": [
+      "woochris1.kro.kr"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "61.56.193.111",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:02+08:00",
+    "asn": "AS9919",
+    "asn_org": "NCIC-TW",
+    "domains": [],
+    "labels": [
+      "exploit",
+      "exploitattempt:eternalchampion",
+      "malicious-activity",
+      "phishing",
+      "smb",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [exploit] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "61.143.12.198",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 2,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS136199",
+    "asn_org": "ChinaNet-Guangdong-Yuedong-MAN",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "61.147.75.89",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:03+08:00",
+    "asn": "AS137697",
+    "asn_org": "CHINATELECOM-JiangSu-YangZhou-IDC",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "61.173.162.42",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:01+08:00",
+    "asn": "AS4812",
+    "asn_org": "CHINANET-SH-AP",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "authbypass",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "62.60.130.103",
+    "channel": "A",
+    "threat_score": 98.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:54+08:00",
+    "asn": "AS215930",
+    "asn_org": "COD",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "dataleakage",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 98",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "62.173.152.140",
+    "channel": "B",
+    "threat_score": 98.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-18T08:00:02+08:00",
+    "asn": "AS34300",
+    "asn_org": "SPACENET-AS",
+    "domains": [
+      "stats.michelleanneclements.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 98, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "64.118.130.234",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 97.0,
+    "frequency": 2,
+    "first_seen": "2026-10-20T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:02+08:00",
+    "asn": "AS138997",
+    "asn_org": "EDCL-AS-AP",
+    "domains": [
+      "3.zhzy999.net",
+      "scan.jiancai008.com",
+      "site.vietnam852.com",
+      "w.zhzy999.net",
+      "ww.zhzy999.net"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "splithost"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "64.188.64.106",
+    "channel": "B",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-19T11:00:04+08:00",
+    "asn": "AS215439",
+    "asn_org": "PLAY2GO-NET",
+    "domains": [
+      "poygon-notifications.cfd"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 100, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "64.188.117.18",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS213877",
+    "asn_org": "U1DS-AS",
+    "domains": [
+      "nl1.cdn.bummerrust.com"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "66.36.173.111",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 98.0,
+    "frequency": 2,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:03+08:00",
+    "asn": "AS14265",
+    "asn_org": "US-TELEPACIFIC",
+    "domains": [
+      "e6xu0p2cfrssldlq.hard-grooves.com",
+      "hard-grooves.com"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "splithost"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "66.216.47.27",
+    "channel": "A",
+    "threat_score": 90.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:03+08:00",
+    "asn": "AS19151",
+    "asn_org": "BBO-1",
+    "domains": [
+      "ns1.maximtechinc.com"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 90",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "67.218.118.62",
+    "channel": "A",
+    "threat_score": 94.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:01+08:00",
+    "asn": "AS11404",
+    "asn_org": "AS-WAVE-1",
+    "domains": [
+      "irc.prison.net"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "portscanning"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 94",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "67.222.201.61",
+    "channel": "A",
+    "threat_score": 94.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-17T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:53+08:00",
+    "asn": "AS16604",
+    "asn_org": "FWB-NE",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 94",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "69.5.21.194",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:03+08:00",
+    "asn": "AS150436",
+    "asn_org": "BYTEPLUS-AS-AP",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "69.50.164.54",
+    "channel": "A",
+    "threat_score": 96.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-20T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:16+08:00",
+    "asn": "AS23112",
+    "asn_org": "FLUIDSTACK-NET",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "downloader",
+      "malicious-activity"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Matched tag [cnc] with score 96",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "70.38.124.97",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:03+08:00",
+    "asn": "AS32613",
+    "asn_org": "IWEB-AS",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "71.126.135.22",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:03+08:00",
+    "asn": "AS701",
+    "asn_org": "UUNET",
+    "domains": [
+      "hermes.gams.biz"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "72.255.33.39",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-17T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS9541",
+    "asn_org": "CYBERNET-AP",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "commandinjection",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "77.68.49.160",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 96.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:03+08:00",
+    "asn": "AS8560",
+    "asn_org": "IONOS-AS",
+    "domains": [
+      "cpanel.nix2twink.gay",
+      "devops.nix2twink.gay",
+      "nix2twink.gay",
+      "phpmyadmin.nix2twink.gay"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "splithost"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "77.73.132.5",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-17T08:00:00+08:00",
+    "last_seen": "2026-10-21T11:00:02+08:00",
+    "asn": "AS210976",
+    "asn_org": "TWC-EU",
+    "domains": [
+      "3163843-pavelboyazov.webtm.ru"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "77.83.38.83",
+    "channel": "A",
+    "threat_score": 94.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:54+08:00",
+    "asn": "AS213737",
+    "asn_org": "DexDC",
+    "domains": [
+      "vod91.prawecraciyumlp1dofradrithitruzebrico.mytunnel.org"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 94",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "77.104.206.150",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:52+08:00",
+    "asn": "AS39906",
+    "asn_org": "COPROSYS",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "77.239.124.35",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS198364",
+    "asn_org": "BANATSYNC-SRL",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 100 | Score 100 with 3 hits in 7d, conf 90",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "77.239.124.65",
+    "channel": "A",
+    "threat_score": 98.0,
+    "confidence": 90.0,
+    "frequency": 2,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:02+08:00",
+    "asn": "AS198364",
+    "asn_org": "BANATSYNC-SRL",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 98",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "77.239.124.73",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 2,
+    "first_seen": "2026-10-20T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS198364",
+    "asn_org": "BANATSYNC-SRL",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Matched tag [bruteforce] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "77.239.124.146",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 2,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS198364",
+    "asn_org": "BANATSYNC-SRL",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "78.17.55.102",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS213459",
+    "asn_org": "SNOWD",
+    "domains": [
+      "ballin.tallison.com"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "78.40.108.39",
+    "channel": "A",
+    "threat_score": 92.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:02+08:00",
+    "asn": "AS48716",
+    "asn_org": "PSKZ-ALA",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 92",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "78.40.117.227",
+    "channel": "A",
+    "threat_score": 98.0,
+    "confidence": 95.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS42007",
+    "asn_org": "BIG-AS",
+    "domains": [],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [trojan] with score 98",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "79.101.2.254",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:16+08:00",
+    "asn": "AS8400",
+    "asn_org": "TELEKOM-AS",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "80.96.33.229",
+    "channel": "B",
+    "threat_score": 96.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-19T05:00:04+08:00",
+    "asn": "AS50939",
+    "asn_org": "SPACE-AS",
+    "domains": [
+      "ecoprime.ro"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 96, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "82.97.250.72",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:03+08:00",
+    "asn": "AS9123",
+    "asn_org": "TimeWeb-AS",
+    "domains": [
+      "iiko-control.tab.webtm.ru",
+      "tab.webtm.ru",
+      "zabbix.tab.webtm.ru"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "82.97.250.211",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-20T08:00:00+08:00",
+    "last_seen": "2026-10-21T11:00:04+08:00",
+    "asn": "AS9123",
+    "asn_org": "TimeWeb-AS",
+    "domains": [
+      "ustroy-api.webtm.ru",
+      "ustroy-app.webtm.ru",
+      "ustroy-crm.webtm.ru"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "82.163.22.48",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 4,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:16+08:00",
+    "asn": "AS55720",
+    "asn_org": "GIGABIT-MY",
+    "domains": [
+      "aaslooria.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 4 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "82.200.178.70",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 2,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS9198",
+    "asn_org": "KAZTELECOM-AS",
+    "domains": [],
+    "labels": [
+      "exploit",
+      "exploitattempt:doublepulsar",
+      "malicious-activity",
+      "smb",
+      "spam",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [exploit] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "83.97.73.129",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-20T08:00:00+08:00",
+    "last_seen": "2026-10-21T11:00:05+08:00",
+    "asn": "",
+    "asn_org": "",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc, trojan] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "85.192.40.153",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T11:00:04+08:00",
+    "asn": "AS210644",
+    "asn_org": "AEZA-AS",
+    "domains": [
+      "sun1.space"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "85.202.169.69",
+    "channel": "B",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-19T11:00:04+08:00",
+    "asn": "AS3758",
+    "asn_org": "SINGNET",
+    "domains": [
+      "bigrussianfloppa.duckdns.org"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 100, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "85.214.24.71",
+    "channel": "A",
+    "threat_score": 94.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-19T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:54+08:00",
+    "asn": "AS6724",
+    "asn_org": "STRATO",
+    "domains": [
+      "orderbridge.net"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 94",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "85.214.67.203",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:02+08:00",
+    "asn": "AS6724",
+    "asn_org": "STRATO",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "85.214.108.124",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-20T08:00:00+08:00",
+    "last_seen": "2026-10-21T11:00:03+08:00",
+    "asn": "AS6724",
+    "asn_org": "STRATO",
+    "domains": [
+      "kipshagen-ol.de"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "85.214.133.237",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:03+08:00",
+    "asn": "AS6724",
+    "asn_org": "STRATO",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "85.255.113.237",
+    "channel": "A",
+    "threat_score": 96.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-20T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:16+08:00",
+    "asn": "AS49074",
+    "asn_org": "TECHNOLOGICAL",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "downloader",
+      "malicious-activity"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Matched tag [cnc] with score 96",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "85.255.118.2",
+    "channel": "A",
+    "threat_score": 96.0,
+    "confidence": 99.0,
+    "frequency": 5,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:16+08:00",
+    "asn": "AS50437",
+    "asn_org": "TECHNOLOGICAL",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "downloader",
+      "malicious-activity"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Matched tag [cnc] with score 96 | Observed 5 hits within 14d, score 96, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "86.106.143.132",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:53+08:00",
+    "asn": "AS9009",
+    "asn_org": "M247",
+    "domains": [
+      "svhost56.duckdns.org"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "87.58.217.225",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:16+08:00",
+    "asn": "AS26383",
+    "asn_org": "ASNET",
+    "domains": [
+      "pashig.barabesta.is"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "spam"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "87.244.175.114",
+    "channel": "A",
+    "threat_score": 94.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:02+08:00",
+    "asn": "AS21310",
+    "asn_org": "ASN-SATELLITE",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 94",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "89.40.204.49",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:03+08:00",
+    "asn": "AS198610",
+    "asn_org": "BEGET-AS",
+    "domains": [
+      "free.ldop.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "spam"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "89.111.165.189",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 4,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:02+08:00",
+    "asn": "AS39494",
+    "asn_org": "RU-CENTER-AS",
+    "domains": [
+      "mh-service.ru"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 4 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "91.86.53.244",
+    "channel": "A",
+    "threat_score": 98.0,
+    "confidence": 95.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS47377",
+    "asn_org": "Orange_Belgium_SA",
+    "domains": [],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [trojan] with score 98",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "91.90.225.4",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS24589",
+    "asn_org": "TELENETSIA-AS",
+    "domains": [
+      "f16.maxicom.lv"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "91.92.243.160",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS202412",
+    "asn_org": "OMEGATECH-AS",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "91.192.10.20",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T11:00:04+08:00",
+    "asn": "AS213250",
+    "asn_org": "ITP-SOLUTIONS",
+    "domains": [
+      "albguardmail.filbun.pro",
+      "cbsolt.filbun.pro",
+      "cciasi.filbun.pro",
+      "ccint.filbun.pro",
+      "com.filbun.pro",
+      "commercialsewing.com.filbun.pro",
+      "filbun.pro",
+      "laubinger-rickmann.filbun.pro",
+      "polskiesadownictwo.filbun.pro"
+    ],
+    "labels": [
+      "fraud",
+      "malicious-activity",
+      "phishing",
+      "spam",
+      "splithost"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 90",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "91.195.12.187",
+    "channel": "A",
+    "threat_score": 94.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:02+08:00",
+    "asn": "AS61251",
+    "asn_org": "HOST4BIZ-AS",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 94",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "91.211.17.201",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:16+08:00",
+    "asn": "",
+    "asn_org": "",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "downloader",
+      "malicious-activity",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 5 hits in 7d, conf 99 | Observed 5 hits within 14d, score 100, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "91.219.29.55",
+    "channel": "A",
+    "threat_score": 92.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-17T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:02+08:00",
+    "asn": "AS196682",
+    "asn_org": "INVERTA-AS",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 92",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "91.219.30.254",
+    "channel": "A",
+    "threat_score": 92.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:01+08:00",
+    "asn": "AS196682",
+    "asn_org": "INVERTA-AS",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 92",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "91.245.255.4",
+    "channel": "A",
+    "threat_score": 92.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-20T08:00:00+08:00",
+    "last_seen": "2026-10-21T11:00:05+08:00",
+    "asn": "AS9009",
+    "asn_org": "M247",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 92",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "92.53.99.208",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-21T11:00:04+08:00",
+    "asn": "AS9123",
+    "asn_org": "TimeWeb-AS",
+    "domains": [
+      "1460625-imunify.webtm.ru"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "92.60.39.186",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:01+08:00",
+    "asn": "AS197540",
+    "asn_org": "netcup-AS",
+    "domains": [
+      "mail.pheanex.de",
+      "manna.uno",
+      "pheanex.de"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "splithost"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "92.63.197.190",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:01+08:00",
+    "asn": "AS209641",
+    "asn_org": "I-SERVERS-EAST",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "93.88.76.241",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T11:00:04+08:00",
+    "asn": "AS57487",
+    "asn_org": "MIXTELECOM-AS",
+    "domains": [
+      "admin.sms-workflow.com",
+      "sms-workflow.com"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "splithost"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "94.26.106.229",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:02+08:00",
+    "asn": "AS197170",
+    "asn_org": "TECHTIES-AS",
+    "domains": [
+      "expltsq.zzux.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "splithost"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "94.154.107.172",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:52+08:00",
+    "asn": "AS56843",
+    "asn_org": "CNT-ISP-AS",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "94.228.121.144",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:54+08:00",
+    "asn": "AS9123",
+    "asn_org": "TimeWeb-AS",
+    "domains": [
+      "627841-cy54908.webtm.ru"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "94.242.57.45",
+    "channel": "A",
+    "threat_score": 94.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:02+08:00",
+    "asn": "AS43317",
+    "asn_org": "VEESP-AS",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 94",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "101.96.225.252",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:53+08:00",
+    "asn": "AS137718",
+    "asn_org": "VOLCANO-ENGINE",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "spam",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "101.205.144.208",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-21T11:00:03+08:00",
+    "asn": "AS4837",
+    "asn_org": "China Unicom",
+    "domains": [
+      "cdjph.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "102.117.169.11",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS23889",
+    "asn_org": "ORG-mA21-AFRINIC",
+    "domains": [
+      "erp.iconservices.biz"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "102.220.161.139",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-18T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS197769",
+    "asn_org": "VPSDEDICATED-AS",
+    "domains": [],
+    "labels": [
+      "invalidfileaccess",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "103.41.204.169",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:02+08:00",
+    "asn": "AS58397",
+    "asn_org": "INFINYS-AS-ID",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "103.77.246.163",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 2,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:16+08:00",
+    "asn": "AS140810",
+    "asn_org": "MEGACORE-AS-VN",
+    "domains": [
+      "iotmiraibotnet.duckdns.org"
+    ],
+    "labels": [
+      "exploit",
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "smb"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [exploit] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "103.82.121.195",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:01+08:00",
+    "asn": "AS141342",
+    "asn_org": "FIBERISHPVTLTD-AS-AP",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "authbypass",
+      "commandinjection",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "103.82.121.224",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:53+08:00",
+    "asn": "AS141342",
+    "asn_org": "FIBERISHPVTLTD-AS-AP",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "commandinjection",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "103.83.87.34",
+    "channel": "A",
+    "threat_score": 98.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:01+08:00",
+    "asn": "AS44382",
+    "asn_org": "WhiteLabel",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 98",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "103.83.87.185",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 2,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS44382",
+    "asn_org": "WhiteLabel",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "honeypot",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "103.85.95.5",
+    "channel": "A",
+    "threat_score": 98.0,
+    "confidence": 95.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS136077",
+    "asn_org": "IDNIC-UNSRAT-AS-ID",
+    "domains": [],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [trojan] with score 98",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "103.85.100.163",
+    "channel": "A",
+    "threat_score": 91.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:03+08:00",
+    "asn": "AS135788",
+    "asn_org": "VEDANT-AS-IN",
+    "domains": [],
+    "labels": [
+      "exploit",
+      "exploitattempt:doublepulsar",
+      "malicious-activity",
+      "smb",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [exploit] with score 91",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "103.152.159.104",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-17T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS135761",
+    "asn_org": "ULNPLSUM-AS",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "commandinjection",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "103.159.2.113",
+    "channel": "A",
+    "threat_score": 96.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:03+08:00",
+    "asn": "AS63961",
+    "asn_org": "BDREN-UGC-AS-AP",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 96",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "103.160.5.123",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 2,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:14+08:00",
+    "asn": "AS140764",
+    "asn_org": "CSDGROUP-AS-VN",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "spam",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "103.176.79.191",
+    "channel": "B",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-19T05:00:01+08:00",
+    "asn": "AS136052",
+    "asn_org": "IDNIC-IDCLOUDHOST-AS-ID",
+    "domains": [
+      "dotpay.id"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 100, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "103.194.93.180",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS141342",
+    "asn_org": "FIBERISHPVTLTD-AS-AP",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "103.224.82.105",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS55933",
+    "asn_org": "CLOUDIE-AS-AP",
+    "domains": [
+      "1112.688608.xyz"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "103.239.142.11",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:03+08:00",
+    "asn": "AS59162",
+    "asn_org": "UPCSPL-AS-IN",
+    "domains": [],
+    "labels": [
+      "exploit",
+      "exploitattempt:doublepulsar",
+      "malicious-activity",
+      "phishing",
+      "smb",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [exploit] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "104.143.46.79",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T11:00:04+08:00",
+    "asn": "AS140227",
+    "asn_org": "HKCICL-AS-AP",
+    "domains": [
+      "nfcappnew.com"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "104.145.210.148",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:16+08:00",
+    "asn": "AS398256",
+    "asn_org": "AS-ULTAHOST",
+    "domains": [
+      "2026op.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "104.192.227.250",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:02+08:00",
+    "asn": "AS63018",
+    "asn_org": "DEDICATED",
+    "domains": [
+      "api.telegra.ph"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "105.116.13.105",
+    "channel": "B",
+    "threat_score": 98.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-18T20:00:04+08:00",
+    "asn": "AS36873",
+    "asn_org": "ORG-VNL1-AFRINIC",
+    "domains": [
+      "sirlegacy.duckdns.org"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 98, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "105.198.0.2",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS36935",
+    "asn_org": "ORG-RT2-AFRINIC",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "authbypass",
+      "commandinjection",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "105.224.5.162",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:03+08:00",
+    "asn": "AS37457",
+    "asn_org": "ORG-TSL2-AFRINIC",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "authbypass",
+      "commandinjection",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "107.150.31.228",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:54+08:00",
+    "asn": "AS36352",
+    "asn_org": "AS-COLOCROSSING",
+    "domains": [
+      "arbi.tcsecurity.top",
+      "joshua2026.tcsecurity.top"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "107.163.241.181",
+    "channel": "A",
+    "threat_score": 98.0,
+    "confidence": 95.0,
+    "frequency": 4,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS18978",
+    "asn_org": "ENZUINC-US",
+    "domains": [],
+    "labels": [
+      "backdoor",
+      "malicious-activity",
+      "malware",
+      "patcher",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Matched tag [backdoor] with score 98",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "107.175.247.199",
+    "channel": "A",
+    "threat_score": 92.0,
+    "confidence": 95.0,
+    "frequency": 2,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:03+08:00",
+    "asn": "AS36352",
+    "asn_org": "AS-COLOCROSSING",
+    "domains": [],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [trojan] with score 92",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "109.160.32.171",
+    "channel": "A",
+    "threat_score": 98.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:03+08:00",
+    "asn": "AS198364",
+    "asn_org": "BANATSYNC-SRL",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 98",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "109.199.231.116",
+    "channel": "A",
+    "threat_score": 92.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:02+08:00",
+    "asn": "AS25374",
+    "asn_org": "ESCOMBG-AS",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 92",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "109.237.111.168",
+    "channel": "A",
+    "threat_score": 96.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:54+08:00",
+    "asn": "AS57494",
+    "asn_org": "ADMAN-AS",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 96",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "110.42.4.180",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-20T08:00:00+08:00",
+    "last_seen": "2026-10-21T11:00:02+08:00",
+    "asn": "AS136188",
+    "asn_org": "CHINATELECOM-ZHEJIANG-NINGBO-IDC",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "111.10.228.132",
+    "channel": "A",
+    "threat_score": 94.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:03+08:00",
+    "asn": "AS9808",
+    "asn_org": "China Mobile",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 94",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "111.29.52.71",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 2,
+    "first_seen": "2026-10-19T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS9808",
+    "asn_org": "China Mobile",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "111.93.231.118",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS45820",
+    "asn_org": "TTSL-MEISISP",
+    "domains": [],
+    "labels": [
+      "exploit",
+      "exploitattempt:doublepulsar",
+      "malicious-activity",
+      "phishing",
+      "smb",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [exploit] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "113.98.254.50",
+    "channel": "A",
+    "threat_score": 96.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS4134",
+    "asn_org": "ChinaNet",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 96",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "115.63.49.100",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:03+08:00",
+    "asn": "AS4837",
+    "asn_org": "China Unicom",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "commandinjection",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "115.94.70.162",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:03+08:00",
+    "asn": "AS3786",
+    "asn_org": "LGDACOM-KR",
+    "domains": [
+      "down.ftp21.cc"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "117.33.242.50",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:08+08:00",
+    "asn": "AS134768",
+    "asn_org": "CHINANET-SHAANXI-CLOUD-BASE",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 100 | Score 100 with 3 hits in 7d, conf 90",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "117.72.146.14",
+    "channel": "A",
+    "threat_score": 98.0,
+    "confidence": 90.0,
+    "frequency": 2,
+    "first_seen": "2026-10-17T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:02+08:00",
+    "asn": "AS141679",
+    "asn_org": "CHINATELECOM-IDC-BTHBD-AP",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 98",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "117.146.38.99",
+    "channel": "A",
+    "threat_score": 91.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:02+08:00",
+    "asn": "AS9808",
+    "asn_org": "China Mobile",
+    "domains": [],
+    "labels": [
+      "exploit",
+      "exploitattempt:doublepulsar",
+      "malicious-activity",
+      "smb",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [exploit] with score 91",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "119.6.56.254",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:02+08:00",
+    "asn": "AS4837",
+    "asn_org": "China Unicom",
+    "domains": [
+      "bianhe.pute.cn",
+      "portal.pute.cn"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "119.73.8.133",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS58470",
+    "asn_org": "JPL-PK-Peering-AS-PK",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "authbypass",
+      "commandinjection",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "120.85.118.179",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS17622",
+    "asn_org": "CNCGROUP-GZ",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "authbypass",
+      "commandinjection",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "120.240.178.196",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:03+08:00",
+    "asn": "AS9808",
+    "asn_org": "China Mobile",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "honeypot",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "121.29.89.167",
+    "channel": "A",
+    "threat_score": 96.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:02+08:00",
+    "asn": "AS4837",
+    "asn_org": "China Unicom",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 96",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "121.228.250.70",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS4134",
+    "asn_org": "ChinaNet",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "scanner"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "122.194.9.173",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS4837",
+    "asn_org": "China Unicom",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "commandinjection",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "124.29.221.214",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS9541",
+    "asn_org": "CYBERNET-AP",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "authbypass",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "124.194.46.204",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 2,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:01+08:00",
+    "asn": "AS3786",
+    "asn_org": "LGDACOM-KR",
+    "domains": [],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [trojan] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "128.90.105.55",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS40861",
+    "asn_org": "PARAD-40-ASN",
+    "domains": [
+      "comienzo.ydns.eu",
+      "hawai.ydns.eu"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "splithost"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "128.201.76.252",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:03+08:00",
+    "asn": "AS266623",
+    "asn_org": "AS266623 - 18.843.555 LTDA",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "130.12.182.175",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS197769",
+    "asn_org": "VPSDEDICATED-AS",
+    "domains": [],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "139.135.45.144",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS9541",
+    "asn_org": "CYBERNET-AP",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "malicious-activity",
+      "phishing",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "139.214.251.75",
+    "channel": "A",
+    "threat_score": 94.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:02+08:00",
+    "asn": "AS4837",
+    "asn_org": "China Unicom",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 94",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "141.195.112.109",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-17T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:54+08:00",
+    "asn": "AS152179",
+    "asn_org": "GCNL-AS-AP",
+    "domains": [
+      "aswxvabnui56.t.mydomain.zone",
+      "radcwasdfas09.t.mydomain.zone",
+      "s1137848.ha016.t.mydomain.zone"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "143.92.43.246",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:02+08:00",
+    "asn": "AS152194",
+    "asn_org": "CTGSERVERLIMITED-AS-AP",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "144.225.8.54",
+    "channel": "A",
+    "threat_score": 96.0,
+    "confidence": 90.0,
+    "frequency": 3,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS7488",
+    "asn_org": "CNSERVER-AP-AS",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 96",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "147.45.47.35",
+    "channel": "A",
+    "threat_score": 92.0,
+    "confidence": 95.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:03+08:00",
+    "asn": "AS218568",
+    "asn_org": "SGP22-AS Shabalov Grigoriy Pavlovich",
+    "domains": [],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [trojan] with score 92",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "147.45.143.108",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS9123",
+    "asn_org": "TimeWeb-AS",
+    "domains": [
+      "pegasustour.ru"
+    ],
+    "labels": [
+      "apt",
+      "cnc",
+      "injector",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [apt, cnc] with score 100 | Score 100 with 5 hits in 7d, conf 99 | Observed 5 hits within 14d, score 100, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "147.124.208.228",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS396073",
+    "asn_org": "MAJESTIC-HOSTING-01",
+    "domains": [
+      "relays.idanburuku.sbs"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "149.33.40.15",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS58061",
+    "asn_org": "SCALAXY-AS",
+    "domains": [
+      "amnode.dwkch.ru",
+      "ampay.dwkch.ru"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "149.104.1.245",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 4,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS932",
+    "asn_org": "XNNET",
+    "domains": [
+      "8005.twilight.zip",
+      "8848.twilight.zip",
+      "ti.twilight.zip",
+      "ti3.twilight.zip"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 4 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "151.197.141.200",
+    "channel": "B",
+    "threat_score": 98.0,
+    "confidence": 95.0,
+    "frequency": 6,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-19T20:00:02+08:00",
+    "asn": "AS701",
+    "asn_org": "UUNET",
+    "domains": [
+      "micrcscft.cyou"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 6 hits within 14d, score 98, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "151.241.216.49",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 4,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS57043",
+    "asn_org": "HOSTKEY-AS",
+    "domains": [
+      "es1.cdn.bummerrust.com"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 4 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "152.32.186.39",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:01+08:00",
+    "asn": "AS135377",
+    "asn_org": "UCLOUD-HK-AS-AP",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "spam",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "153.117.67.192",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS9541",
+    "asn_org": "CYBERNET-AP",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "authbypass",
+      "commandinjection",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "154.9.233.186",
+    "channel": "B",
+    "threat_score": 96.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T11:00:03+08:00",
+    "asn": "AS979",
+    "asn_org": "NETLAB-SDN",
+    "domains": [
+      "div137.tk5.top"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Observed 5 hits within 14d, score 96, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "154.19.84.237",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS174",
+    "asn_org": "COGENT-174",
+    "domains": [
+      "microsoft-info.org"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "154.83.15.221",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:02+08:00",
+    "asn": "AS142403",
+    "asn_org": "YISUCLOUDLTD-HK",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "154.197.200.102",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 4,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:03+08:00",
+    "asn": "AS135097",
+    "asn_org": "MYCLOUD-AS-AP",
+    "domains": [
+      "roomanerp.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "spam"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 4 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "154.197.203.54",
+    "channel": "B",
+    "threat_score": 98.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:02+08:00",
+    "asn": "AS135097",
+    "asn_org": "MYCLOUD-AS-AP",
+    "domains": [
+      "secocontrols.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Observed 5 hits within 14d, score 98, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "154.222.18.19",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS401701",
+    "asn_org": "COGNETCLOUD-2",
+    "domains": [
+      "arowwfreight.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "155.103.69.111",
+    "channel": "A",
+    "threat_score": 96.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS44382",
+    "asn_org": "WhiteLabel",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 96",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "156.231.112.191",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-17T08:00:00+08:00",
+    "last_seen": "2026-10-21T11:00:05+08:00",
+    "asn": "AS61112",
+    "asn_org": "AkileCloud",
+    "domains": [
+      "ssh.4i7i.com",
+      "wmi.4i7i.com"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "156.250.170.93",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:53+08:00",
+    "asn": "AS132839",
+    "asn_org": "POWERLINE-AS-AP",
+    "domains": [
+      "binancepl.hl.cn"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "157.173.114.35",
+    "channel": "A",
+    "threat_score": 94.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:02+08:00",
+    "asn": "AS51167",
+    "asn_org": "Contabo GmbH",
+    "domains": [
+      "ece-acc-api.tyr.eynsof.net",
+      "ece-stage-api.tyr.eynsof.net",
+      "metrics.tyr.eynsof.net",
+      "smtp.eynsof.net",
+      "tyr.eynsof.net"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "splithost"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 94",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "157.173.114.57",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 91.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:02+08:00",
+    "asn": "AS51167",
+    "asn_org": "Contabo GmbH",
+    "domains": [
+      "dns.eynsof.net",
+      "frigate.njordr.eynsof.net",
+      "njordr.eynsof.net",
+      "traefik.njordr.eynsof.net",
+      "valaskjalf.njordr.eynsof.net"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "158.94.209.52",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:54+08:00",
+    "asn": "AS202412",
+    "asn_org": "OMEGATECH-AS",
+    "domains": [
+      "fiklokasilupafas.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "160.30.136.87",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 2,
+    "first_seen": "2026-10-17T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS150895",
+    "asn_org": "EZTECH-VN",
+    "domains": [
+      "crab-smtp.top"
+    ],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "scanner",
+      "spam",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "160.124.196.78",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:03+08:00",
+    "asn": "AS132839",
+    "asn_org": "POWERLINE-AS-AP",
+    "domains": [
+      "appdiscapacidad.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "160.187.146.137",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:01+08:00",
+    "asn": "AS151858",
+    "asn_org": "INTERDIGI-VN",
+    "domains": [
+      "thaison1995.pro"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "162.4.84.239",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:02+08:00",
+    "asn": "AS154653",
+    "asn_org": "PARKLOGICPTYLTD-AS-AP - ParkLogic Pty Ltd",
+    "domains": [
+      "0123movie.art",
+      "1.default2024.uk",
+      "1wkwfb.life",
+      "aiblog.tv",
+      "allfile.me"
+    ],
+    "labels": [
+      "cnc",
+      "fraud",
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "spam",
+      "splithost"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "163.53.201.45",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 3,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:02+08:00",
+    "asn": "AS132770",
+    "asn_org": "GAZON-AS-IN",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 100 | Score 100 with 3 hits in 7d, conf 90",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "165.154.182.174",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS135377",
+    "asn_org": "UCLOUD-HK-AS-AP",
+    "domains": [],
+    "labels": [
+      "exploit",
+      "malicious-activity",
+      "pentestingtool",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [exploit, trojan] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "167.148.201.52",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS135392",
+    "asn_org": "MILLENIALHOSTLIMITED-AS-GB",
+    "domains": [
+      "mheusa03.xyz"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "168.222.254.80",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:53+08:00",
+    "asn": "AS198550",
+    "asn_org": "nodehost-as",
+    "domains": [
+      "rat.bio"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "169.58.104.58",
+    "channel": "B",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-20T02:00:02+08:00",
+    "asn": "AS51167",
+    "asn_org": "Contabo GmbH",
+    "domains": [
+      "data.moodtv.xyz"
+    ],
+    "labels": [
+      "android",
+      "behavior_app_lookups",
+      "malicious-activity",
+      "malware",
+      "network:directtcpconnection",
+      "network:dnsrequest",
+      "network:httpget",
+      "network:httppost",
+      "phishing",
+      "systemcall:executecommand",
+      "systemcall:hardwareinformation",
+      "ui:nouserinterface",
+      "ui:webview"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 100, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "169.197.104.166",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:03+08:00",
+    "asn": "AS21859",
+    "asn_org": "ZEN-ECN",
+    "domains": [
+      "0008a09c.integratedtowandrecovery.com",
+      "00672996.integratedtowandrecovery.com",
+      "007219ea.integratedtowandrecovery.com",
+      "007429d0.integratedtowandrecovery.com",
+      "008ded2b.integratedtowandrecovery.com",
+      "01a0b3a5.integratedtowandrecovery.com",
+      "055a7a3e.integratedtowandrecovery.com",
+      "09abfb28.integratedtowandrecovery.com",
+      "09b8f589.integratedtowandrecovery.com",
+      "10fce284.integratedtowandrecovery.com",
+      "1564f654.integratedtowandrecovery.com",
+      "8f61d640.integratedtowandrecovery.com",
+      "d1d86abe.integratedtowandrecovery.com",
+      "newsletter.integratedtowandrecovery.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "splithost"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 5 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "172.94.15.100",
+    "channel": "B",
+    "threat_score": 96.0,
+    "confidence": 95.0,
+    "frequency": 6,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:03+08:00",
+    "asn": "AS3223",
+    "asn_org": "VOXILITY",
+    "domains": [],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 6 hits within 14d, score 96, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "172.111.242.20",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:01+08:00",
+    "asn": "AS132372",
+    "asn_org": "GBNETWORK-AS-AP",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "175.107.205.132",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS9541",
+    "asn_org": "CYBERNET-AP",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "commandinjection",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "176.97.117.157",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-17T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:02+08:00",
+    "asn": "AS43180",
+    "asn_org": "TRUNKNETWORKS-AS",
+    "domains": [],
+    "labels": [
+      "commandinjection",
+      "exploitattempt:cve-2025-55182",
+      "honeypot",
+      "malicious-activity",
+      "phishing",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "176.101.135.103",
+    "channel": "A",
+    "threat_score": 94.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-19T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:03+08:00",
+    "asn": "AS39507",
+    "asn_org": "IPIVISION-AS",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 94",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "176.108.102.76",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:52+08:00",
+    "asn": "AS39431",
+    "asn_org": "ARGOCOM-AS",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "downloader",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "176.122.27.90",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 2,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS48096",
+    "asn_org": "ITGRAD",
+    "domains": [],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [trojan] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "177.126.132.44",
+    "channel": "A",
+    "threat_score": 96.0,
+    "confidence": 90.0,
+    "frequency": 2,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:01+08:00",
+    "asn": "AS262343",
+    "asn_org": "ASN262343",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 96",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "178.15.163.170",
+    "channel": "A",
+    "threat_score": 94.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-20T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS3209",
+    "asn_org": "VODANET",
+    "domains": [
+      "inv.syserver.net",
+      "kb.syserver.net",
+      "mailstore.syserver.net",
+      "mon54.syserver.net",
+      "sk-mcp54s.syserver.net"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "splithost"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Matched tag [cnc] with score 94",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "178.16.53.110",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS202412",
+    "asn_org": "OMEGATECH-AS",
+    "domains": [
+      "tronscan.at"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "splithost"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 5 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "178.23.148.245",
+    "channel": "B",
+    "threat_score": 98.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-19T02:00:01+08:00",
+    "asn": "AS50928",
+    "asn_org": "SYNTSIB-AS",
+    "domains": [
+      "zecagegoorholdings.sbs"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 98, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "178.79.58.16",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:52+08:00",
+    "asn": "AS8400",
+    "asn_org": "TELEKOM-AS",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "179.199.192.200",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 4,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS400619",
+    "asn_org": "AROSS-AS",
+    "domains": [
+      "lhesh.com"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 4 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "179.199.253.42",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:01+08:00",
+    "asn": "AS400619",
+    "asn_org": "AROSS-AS",
+    "domains": [
+      "loveteamo.com"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "180.101.149.231",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS4134",
+    "asn_org": "ChinaNet",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 100 | Score 100 with 3 hits in 7d, conf 90",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "180.235.132.29",
+    "channel": "A",
+    "threat_score": 92.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:03+08:00",
+    "asn": "AS55639",
+    "asn_org": "ASIAWEB-SERVICE-HK",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 92",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "183.60.227.35",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 6,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:08+08:00",
+    "asn": "AS134763",
+    "asn_org": "CT-DongGuan-IDC",
+    "domains": [
+      "121down-down.xiazaidizhi.cc",
+      "13688dotm3-apk4.3741.xiazaidizhi.cc",
+      "1768300487dotm2-apk1.3741.xiazaidizhi.cc",
+      "1769280785dotgame-apk.3741.xiazaidizhi.cc",
+      "1769694309dothxyou-down.3741.xiazaidizhi.cc",
+      "1769789053dotyouxi83-down.3741.xiazaidizhi.cc",
+      "1769829946dotdnfziliaoptcom-down.3741.xiazaidizhi.cc",
+      "1770897882dotm2-apk3.3741.xiazaidizhi.cc",
+      "1771850963dotm3-apk4.3741.xiazaidizhi.cc",
+      "img.51usz.com"
+    ],
+    "labels": [
+      "android",
+      "api_clipboard_read",
+      "behavior_app_lookups",
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "network:directtcpconnection",
+      "network:dnsrequest",
+      "network:httpget",
+      "network:httppost",
+      "permission_request_standard_perms",
+      "phishing",
+      "splithost",
+      "systemcall:executecommand",
+      "systemcall:hardwareinformation",
+      "systemcall:loaddex",
+      "ui:nouserinterface",
+      "ui:webview"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 6 hits in 7d, conf 99 | Observed 6 hits within 14d, score 100, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "183.78.181.124",
+    "channel": "A",
+    "threat_score": 98.0,
+    "confidence": 90.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:02+08:00",
+    "asn": "AS23724",
+    "asn_org": "CHINANET-IDC-BJ-AP",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Matched tag [bruteforce] with score 98",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "184.107.41.165",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:01+08:00",
+    "asn": "AS32613",
+    "asn_org": "IWEB-AS",
+    "domains": [
+      "test-sonarh.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "185.10.157.98",
+    "channel": "A",
+    "threat_score": 90.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:03+08:00",
+    "asn": "AS42093",
+    "asn_org": "INTERRACKS-AS",
+    "domains": [
+      "ns1.acbict.net"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 90",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "185.15.187.96",
+    "channel": "A",
+    "threat_score": 94.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-20T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:02+08:00",
+    "asn": "AS197252",
+    "asn_org": "COLOBRIDGE-AS",
+    "domains": [
+      "admin-matrix.albogroup.com",
+      "chat-test.albogroup.com",
+      "chat.albogroup.com",
+      "livekit.albogroup.com",
+      "matrix.albogroup.com"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "splithost"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Matched tag [cnc] with score 94",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "185.22.67.27",
+    "channel": "A",
+    "threat_score": 96.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:54+08:00",
+    "asn": "AS48716",
+    "asn_org": "PSKZ-ALA",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 96",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "185.31.33.98",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:16+08:00",
+    "asn": "AS34724",
+    "asn_org": "BAULINK-AS",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "185.80.130.137",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 4,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:52+08:00",
+    "asn": "AS61053",
+    "asn_org": "VPSNET-AS",
+    "domains": [
+      "entertainment.jp.net"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 4 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "185.81.68.147",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:16+08:00",
+    "asn": "AS201738",
+    "asn_org": "UFO-TECHNOLOGIES-LIMITED",
+    "domains": [],
+    "labels": [
+      "backdoor",
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [backdoor, cnc, trojan] with score 100 | Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "185.81.68.156",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:16+08:00",
+    "asn": "AS201738",
+    "asn_org": "UFO-TECHNOLOGIES-LIMITED",
+    "domains": [],
+    "labels": [
+      "backdoor",
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "passwordstealer",
+      "phishing",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [backdoor, cnc, trojan] with score 100 | Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "185.86.148.68",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:02+08:00",
+    "asn": "AS52173",
+    "asn_org": "MAKONIX",
+    "domains": [],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "185.92.183.151",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:01+08:00",
+    "asn": "AS56971",
+    "asn_org": "AS56971",
+    "domains": [
+      "okeyt.tallison.com"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "185.123.13.209",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 2,
+    "first_seen": "2026-10-20T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS57214",
+    "asn_org": "VIDIKON",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Matched tag [bruteforce] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "185.138.90.115",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:02+08:00",
+    "asn": "AS215540",
+    "asn_org": "GCS-AS",
+    "domains": [
+      "smartlauncher.icu"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "185.156.73.98",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:03+08:00",
+    "asn": "AS209641",
+    "asn_org": "I-SERVERS-EAST",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc, trojan] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "185.172.128.5",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:02+08:00",
+    "asn": "AS52008",
+    "asn_org": "NESTER-NET",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc, trojan] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "185.196.8.37",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:02+08:00",
+    "asn": "AS41800",
+    "asn_org": "TROPYNIN-AS",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "185.218.16.176",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 4,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:03+08:00",
+    "asn": "AS400992",
+    "asn_org": "ZHOUYISAT-COMMUNICATIONS",
+    "domains": [
+      "skinsforyou.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 4 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "185.254.97.169",
+    "channel": "B",
+    "threat_score": 98.0,
+    "confidence": 95.0,
+    "frequency": 6,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:08+08:00",
+    "asn": "AS58212",
+    "asn_org": "DATAFOREST",
+    "domains": [
+      "ns4.donotuse.de"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Observed 6 hits within 14d, score 98, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "185.255.94.143",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:03+08:00",
+    "asn": "AS209604",
+    "asn_org": "TWO-E-Telekom",
+    "domains": [
+      "buradabmwking.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "188.231.34.130",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:52+08:00",
+    "asn": "AS44407",
+    "asn_org": "ASN-LINKT",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "downloader",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "189.8.191.98",
+    "channel": "B",
+    "threat_score": 98.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-19T08:00:01+08:00",
+    "asn": "AS52950",
+    "asn_org": "ASN52950",
+    "domains": [
+      "brightpa-rtnerslogic.sbs"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 98, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "189.73.179.91",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:53+08:00",
+    "asn": "AS58658",
+    "asn_org": "DXTL-AS-AP",
+    "domains": [
+      "sogaoo.com"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "192.162.199.186",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 5,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS214351",
+    "asn_org": "FEMOIT",
+    "domains": [],
+    "labels": [
+      "apt",
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "virus"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [apt, cnc] with score 100 | Score 100 with 5 hits in 7d, conf 99 | Observed 5 hits within 14d, score 100, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "192.253.248.181",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS213790",
+    "asn_org": "LimitedNetwork-AS",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "193.32.162.27",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:02+08:00",
+    "asn": "AS47890",
+    "asn_org": "UNMANAGED-DEDICATED-SERVERS",
+    "domains": [],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "spam",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [trojan] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "193.107.111.164",
+    "channel": "A",
+    "threat_score": 92.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:16+08:00",
+    "asn": "AS198958",
+    "asn_org": "APTEKA911-UA",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 92",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "193.178.158.107",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 8,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:08+08:00",
+    "asn": "AS201738",
+    "asn_org": "UFO-TECHNOLOGIES-LIMITED",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "phishing",
+      "rat",
+      "virus"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 8 hits in 7d, conf 99 | Observed 8 hits within 14d, score 100, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "193.182.145.57",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 4,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "AS57169",
+    "asn_org": "EDIS-AS-EU",
+    "domains": [
+      "foreignrelations.us"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 4 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "193.233.208.72",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 4,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:01+08:00",
+    "asn": "AS210644",
+    "asn_org": "AEZA-AS",
+    "domains": [
+      "primetrace.cfd",
+      "shadowlink.cyou"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "splithost"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 4 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "194.102.104.244",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 6,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS48753",
+    "asn_org": "AVAHOHST",
+    "domains": [
+      "rostov-uga.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Score 100 with 6 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "194.106.166.22",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:16+08:00",
+    "asn": "AS6700",
+    "asn_org": "BEOTEL-AS",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 5 hits in 7d, conf 99 | Observed 5 hits within 14d, score 100, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "194.126.178.8",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:02+08:00",
+    "asn": "AS35625",
+    "asn_org": "EUROFIBER-FRANCE",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "honeypot",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "194.146.64.150",
+    "channel": "B",
+    "threat_score": 98.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS12757",
+    "asn_org": "IPTRON",
+    "domains": [
+      "guxoraluexresources.sbs"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Observed 5 hits within 14d, score 98, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "194.247.58.95",
+    "channel": "A",
+    "threat_score": 92.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:03+08:00",
+    "asn": "AS3292",
+    "asn_org": "TDC",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 92",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "195.65.4.46",
+    "channel": "A",
+    "threat_score": 92.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:02+08:00",
+    "asn": "AS3303",
+    "asn_org": "SWISSCOM",
+    "domains": [
+      "rds.neuhof.org",
+      "rds2022.neuhof.org",
+      "remote.neuhof.org"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "splithost"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 92",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "196.251.107.94",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:16+08:00",
+    "asn": "AS214351",
+    "asn_org": "FEMOIT",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "198.13.158.125",
+    "channel": "B",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-19T02:00:03+08:00",
+    "asn": "AS399629",
+    "asn_org": "BLNWX",
+    "domains": [
+      "firazit.com",
+      "servupdt.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "splithost"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 100, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "199.231.235.161",
+    "channel": "B",
+    "threat_score": 96.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-18T20:00:03+08:00",
+    "asn": "AS210083",
+    "asn_org": "Privex",
+    "domains": [
+      "mail-sanly.filecenter.online"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 96, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "201.5.247.205",
+    "channel": "B",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-19T14:00:02+08:00",
+    "asn": "AS134175",
+    "asn_org": "SH2206-AP",
+    "domains": [
+      "hbrjgg.cn"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 100, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "202.181.177.86",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:16+08:00",
+    "asn": "AS210083",
+    "asn_org": "Privex",
+    "domains": [
+      "keepscience.st"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "203.128.10.43",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:03+08:00",
+    "asn": "AS134489",
+    "asn_org": "SBLINKNETWORK-AS-AP",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "authbypass",
+      "commandinjection",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "203.128.10.149",
+    "channel": "B",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 5,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-20T02:00:03+08:00",
+    "asn": "AS134489",
+    "asn_org": "SBLINKNETWORK-AS-AP",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "commandinjection",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 99, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "203.153.216.46",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:01+08:00",
+    "asn": "AS45291",
+    "asn_org": "PTINET-AS-ID",
+    "domains": [],
+    "labels": [
+      "apt",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Matched tag [apt] with score 100 | Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "207.57.248.94",
+    "channel": "B",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-18T20:00:03+08:00",
+    "asn": "AS54801",
+    "asn_org": "ZILLION-NETWORK",
+    "domains": [
+      "wcbxx.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 100, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "209.54.102.139",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:53+08:00",
+    "asn": "AS36352",
+    "asn_org": "AS-COLOCROSSING",
+    "domains": [
+      "mainhold.duckdns.org",
+      "winnerscorner.gleeze.com"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "phishing",
+      "splithost"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "210.245.60.235",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:03+08:00",
+    "asn": "AS18403",
+    "asn_org": "FPT-VN",
+    "domains": [],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "ransomware",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [ransomware, trojan] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "211.239.150.87",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-17T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:07+08:00",
+    "asn": "AS9952",
+    "asn_org": "HOSTWAY-AS-KR-KR",
+    "domains": [
+      "rationalowl.com"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "212.54.86.171",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:54+08:00",
+    "asn": "AS9158",
+    "asn_org": "TELENOR_DANMARK_AS",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "authbypass",
+      "commandinjection",
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "213.21.252.63",
+    "channel": "B",
+    "threat_score": 96.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "AS210644",
+    "asn_org": "AEZA-AS",
+    "domains": [
+      "mycash.duckdns.org"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Observed 5 hits within 14d, score 96, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "213.226.123.14",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:02+08:00",
+    "asn": "",
+    "asn_org": "",
+    "domains": [],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "trojan"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [trojan] with score 100 | Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "216.107.26.224",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 2,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T09:42:08+08:00",
+    "asn": "",
+    "asn_org": "",
+    "domains": [
+      "m2u4.a2.e2-8.dev"
+    ],
+    "labels": [
+      "cnc",
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [cnc] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "216.158.95.183",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 99.0,
+    "frequency": 4,
+    "first_seen": "2026-10-18T08:00:00+08:00",
+    "last_seen": "2026-10-21T19:43:15+08:00",
+    "asn": "",
+    "asn_org": "",
+    "domains": [],
+    "labels": [
+      "cnc",
+      "malicious-activity"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Matched tag [cnc] with score 100 | Score 100 with 4 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "216.170.126.22",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 4,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:53+08:00",
+    "asn": "AS63052",
+    "asn_org": "AS-CBBC",
+    "domains": [
+      "egbukachidieberedanielsgdmonni.duckdns.org",
+      "irequestyoutopleaseadviseonthepayment.duckdns.org"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "splithost"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 4 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "216.250.14.51",
+    "channel": "C",
+    "threat_score": 100.0,
+    "confidence": 95.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T14:00:02+08:00",
+    "asn": "",
+    "asn_org": "",
+    "domains": [
+      "api.shop.unite-gaming.com",
+      "s3.api.unite-gaming.com",
+      "shop.unite-gaming.com"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing",
+      "splithost"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 100 with 3 hits in 7d, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "217.218.10.45",
+    "channel": "A",
+    "threat_score": 96.0,
+    "confidence": 90.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T02:00:01+08:00",
+    "asn": "",
+    "asn_org": "",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 96",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "218.98.97.7",
+    "channel": "A",
+    "threat_score": 96.0,
+    "confidence": 90.0,
+    "frequency": 2,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:02+08:00",
+    "asn": "",
+    "asn_org": "",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 96",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "218.107.211.31",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 4,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:54+08:00",
+    "asn": "",
+    "asn_org": "",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "authbypass",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 4 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "218.201.39.71",
+    "channel": "A",
+    "threat_score": 94.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:03+08:00",
+    "asn": "",
+    "asn_org": "",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 94",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "218.201.250.120",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T23:00:02+08:00",
+    "asn": "AS9808",
+    "asn_org": "China Mobile",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "221.157.177.124",
+    "channel": "B",
+    "threat_score": 98.0,
+    "confidence": 95.0,
+    "frequency": 5,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-18T20:00:03+08:00",
+    "asn": "",
+    "asn_org": "",
+    "domains": [
+      "tufidaummanagement.sbs"
+    ],
+    "labels": [
+      "malicious-activity",
+      "malware",
+      "phishing"
+    ],
+    "is_today_new": false,
+    "trigger_reason": "Observed 5 hits within 14d, score 98, conf 95",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "223.123.35.126",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:53+08:00",
+    "asn": "",
+    "asn_org": "",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "commandinjection",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "223.123.71.239",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-16T08:00:00+08:00",
+    "last_seen": "2026-10-22T05:00:02+08:00",
+    "asn": "",
+    "asn_org": "",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "authbypass",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "223.123.72.79",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-14T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:53+08:00",
+    "asn": "",
+    "asn_org": "",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "commandinjection",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "223.123.72.121",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-21T11:00:04+08:00",
+    "asn": "",
+    "asn_org": "",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "223.123.72.173",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 4,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:03+08:00",
+    "asn": "",
+    "asn_org": "",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "commandinjection",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 4 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "223.123.73.190",
+    "channel": "C",
+    "threat_score": 99.0,
+    "confidence": 99.0,
+    "frequency": 3,
+    "first_seen": "2026-10-15T08:00:00+08:00",
+    "last_seen": "2026-10-22T08:00:03+08:00",
+    "asn": "",
+    "asn_org": "",
+    "domains": [],
+    "labels": [
+      "accessattempt",
+      "authbypass",
+      "commandinjection",
+      "malicious-activity",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Score 99 with 3 hits in 7d, conf 99",
+    "retired_reason": "",
+    "retired_at": ""
+  },
+  {
+    "entry": "223.243.162.130",
+    "channel": "A",
+    "threat_score": 100.0,
+    "confidence": 90.0,
+    "frequency": 1,
+    "first_seen": "2026-10-21T08:00:00+08:00",
+    "last_seen": "2026-10-21T16:15:54+08:00",
+    "asn": "",
+    "asn_org": "",
+    "domains": [],
+    "labels": [
+      "bruteforce",
+      "malicious-activity",
+      "phishing",
+      "scanner",
+      "suspiciousnetworkactivity"
+    ],
+    "is_today_new": true,
+    "trigger_reason": "Matched tag [bruteforce] with score 100",
+    "retired_reason": "",
+    "retired_at": ""
+  }
+]

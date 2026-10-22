@@ -1,0 +1,132 @@
+{
+  "type": "bundle",
+  "id": "bundle--self-test-0001",
+  "latestTimestamp": 1760500000000,
+  "nextPageToken": null,
+  "objects": [
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--aaaa1111-0000-4000-8000-000000000001",
+      "created": "2026-10-10T02:10:00.000Z",
+      "modified": "2026-10-14T06:30:00.000Z",
+      "valid_from": "2026-10-10T02:10:00.000Z",
+      "valid_until": "2026-11-10T02:10:00.000Z",
+      "pattern": "[ipv4-addr:value = '185.220.101.44']",
+      "pattern_type": "stix",
+      "confidence": 95,
+      "labels": ["malicious-activity", "c2", "cobalt-strike"],
+      "extensions": {
+        "extension-definition--1111aaaa-0000-4000-8000-00000000000a": {
+          "extension_type": "property-extension",
+          "score": 98,
+          "asn": "AS205100 F3 Netze e.V.",
+          "resolving_domains": ["evil-c2.example.net", "beacon.example.org"],
+          "collection_date": "2026-10-14T06:30:00.000Z"
+        }
+      }
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--aaaa1111-0000-4000-8000-000000000002",
+      "created": "2026-10-12T11:00:00.000Z",
+      "modified": "2026-10-14T09:00:00.000Z",
+      "valid_from": "2026-10-12T11:00:00.000Z",
+      "valid_until": "2026-11-12T11:00:00.000Z",
+      "pattern": "[ipv4-addr:value = '45.142.212.17']",
+      "pattern_type": "stix",
+      "confidence": 90,
+      "labels": ["phishing", "credential-harvesting"],
+      "extensions": {
+        "extension-definition--1111aaaa-0000-4000-8000-00000000000a": {
+          "score": 90,
+          "asn": "AS49447 Serverion B.V.",
+          "resolving_domains": ["login-verify.example.com"],
+          "collection_date": "2026-10-14T09:00:00.000Z"
+        }
+      }
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--aaaa1111-0000-4000-8000-000000000003",
+      "created": "2026-10-13T08:00:00.000Z",
+      "modified": "2026-10-14T08:00:00.000Z",
+      "valid_from": "2026-10-13T08:00:00.000Z",
+      "pattern": "[ipv4-addr:value = '203.0.113.9']",
+      "pattern_type": "stix",
+      "confidence": 72,
+      "labels": ["scanner"],
+      "extensions": {
+        "extension-definition--1111aaaa-0000-4000-8000-00000000000a": {
+          "score": 95,
+          "asn": "AS64496 Example Net"
+        }
+      }
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--aaaa1111-0000-4000-8000-000000000004",
+      "created": "2026-10-13T12:00:00.000Z",
+      "modified": "2026-10-14T12:00:00.000Z",
+      "valid_from": "2026-10-13T12:00:00.000Z",
+      "pattern": "[ipv4-addr:value = '198.51.100.23']",
+      "pattern_type": "stix",
+      "confidence": 99,
+      "labels": ["suspicious"],
+      "extensions": {
+        "extension-definition--1111aaaa-0000-4000-8000-00000000000a": {
+          "score": 61,
+          "asn": "AS64497 Example Hosting"
+        }
+      }
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--aaaa1111-0000-4000-8000-000000000005",
+      "created": "2026-10-14T01:00:00.000Z",
+      "modified": "2026-10-14T13:00:00.000Z",
+      "valid_from": "2026-10-14T01:00:00.000Z",
+      "pattern": "[domain-name:value = 'malware-drop.example.ru']",
+      "pattern_type": "stix",
+      "confidence": 97,
+      "labels": ["malware-distribution"],
+      "extensions": {
+        "extension-definition--1111aaaa-0000-4000-8000-00000000000a": {
+          "score": 97
+        }
+      }
+    },
+    {
+      "type": "indicator",
+      "spec_version": "2.1",
+      "id": "indicator--aaaa1111-0000-4000-8000-000000000006",
+      "created": "2026-10-14T03:00:00.000Z",
+      "modified": "2026-10-14T14:20:00.000Z",
+      "valid_from": "2026-10-14T03:00:00.000Z",
+      "valid_until": "2026-11-14T03:00:00.000Z",
+      "pattern": "[ipv4-addr:value = '185.220.101.44']",
+      "pattern_type": "stix",
+      "confidence": 93,
+      "labels": ["tor-exit-node", "c2"],
+      "extensions": {
+        "extension-definition--1111aaaa-0000-4000-8000-00000000000a": {
+          "score": 96,
+          "asn": "AS205100 F3 Netze e.V.",
+          "resolving_domains": ["relay.example.io"],
+          "collection_date": "2026-10-14T14:20:00.000Z"
+        }
+      }
+    },
+    {
+      "type": "identity",
+      "spec_version": "2.1",
+      "id": "identity--bbbb2222-0000-4000-8000-00000000000b",
+      "name": "Luminar",
+      "identity_class": "organization"
+    }
+  ]
+}
